@@ -182,6 +182,17 @@ export default function Home() {
 
   const [timeLeft, setTimeLeft] = useState("08:00:00");
   const [cookieConsent, setCookieConsent] = useState<boolean | null>(null);
+  
+  const [activeStep, setActiveStep] = useState(0);
+  const [isAutoCycle, setIsAutoCycle] = useState(true);
+
+  useEffect(() => {
+    if (!isAutoCycle) return;
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % thirtyDayTimeline.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isAutoCycle]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -832,51 +843,118 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NOVA SEÇÃO: JORNADA 30 DIAS DE RESULTADOS VISÍVEIS */}
+      {/* NOVA SEÇÃO: JORNADA 30 DIAS DE RESULTADOS VISÍVEIS (INTERATIVA E ANIMADA) */}
       <section className="bg-slate-50 py-24 border-b border-slate-200/50">
         <div className="section-shell">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Jornada de Transformação</span>
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Jornada de Resultados</span>
             <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">
               O que Acontece com Seu Gado em Até 30 Dias?
             </h2>
             <p className="mt-4 text-lg font-semibold text-slate-500">
-              Acompanhe o cronograma biológico de evolução visível dos animais após o início da mineralização com Forte Gado Premium.
+              Acompanhe o cronograma biológico de evolução visível dos animais após o início da suplementação mineral com Forte Gado Premium.
             </p>
           </div>
 
-          <div className="relative">
-            {/* Linha de conexão horizontal para desktop */}
-            <div className="absolute top-[38px] left-[5%] right-[5%] h-1 bg-slate-200 hidden lg:block pointer-events-none" />
-
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5 items-start">
+          {/* Seletor de Período Horizontal (Premium & Responsivo) */}
+          <div className="flex flex-col items-center">
+            <div className="w-full max-w-4xl bg-white/80 p-2.5 rounded-3xl border border-slate-200/40 shadow-sm flex overflow-x-auto snap-x justify-start md:justify-center gap-2 pb-3 md:pb-2.5 px-3 hide-scrollbar">
               {thirtyDayTimeline.map((step, index) => (
-                <div key={step.title} className="relative flex flex-col items-center text-center group">
-                  {/* Círculo com o Número da Etapa / Dias */}
-                  <div className="z-10 flex h-20 w-20 items-center justify-center rounded-full bg-white border-4 border-slate-100 shadow-md group-hover:border-[#5E8C31] group-hover:shadow-lg transition-all duration-300">
-                    <span className="text-xs font-black text-[#5E8C31]">{step.days.replace("Dias ", "")}</span>
+                <button
+                  key={step.title}
+                  onClick={() => {
+                    setActiveStep(index);
+                    setIsAutoCycle(false); // Pausa o ciclo automático no clique manual
+                  }}
+                  className={`relative snap-center shrink-0 px-6 py-3.5 rounded-2xl text-xs font-black tracking-wider uppercase transition-all duration-300 overflow-hidden ${
+                    activeStep === index
+                      ? "bg-[#5E8C31] text-white shadow-md shadow-[#5E8C31]/20 scale-105"
+                      : "bg-white text-[#082B63] border border-slate-100 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="relative z-10">{step.days}</span>
+                  {activeStep === index && isAutoCycle && (
+                    <motion.div
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 4.5, ease: "linear" }}
+                      className="absolute bottom-0 left-0 h-1 bg-[#F2B705] rounded-full"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Painel do Conteúdo Ativo (Com animação de transição espetacular) */}
+            <div className="w-full max-w-4xl mt-8">
+              <motion.div
+                key={activeStep}
+                initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="bg-white rounded-3xl border border-slate-200/30 p-8 md:p-12 shadow-[0_20px_50px_rgba(8,43,99,0.04)] flex flex-col md:grid md:grid-cols-[1fr_1.8fr] gap-8 items-center"
+              >
+                {/* Coluna da Esquerda: Grande Indicador de Dias */}
+                <div className="w-full bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-inner min-h-[200px]">
+                  <span className="text-xs font-black uppercase tracking-[0.25em] text-[#5E8C31]">Período</span>
+                  <div className="text-4xl font-black text-[#082B63] mt-2 block leading-none select-none">
+                    {thirtyDayTimeline[activeStep].days}
+                  </div>
+                  <div className="mt-6 flex gap-1.5 text-[#F2B705]">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} size={16} fill="currentColor" />
+                    ))}
+                  </div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-6 block">Forte Gado Premium</span>
+                </div>
+
+                {/* Coluna da Direita: Textos e Efeitos */}
+                <div className="flex flex-col justify-between h-full w-full">
+                  <div>
+                    <span className="text-[10px] font-black uppercase bg-[#5E8C31]/10 text-[#5E8C31] px-3 py-1.5 rounded-full tracking-wider w-fit block mb-4">
+                      Fase {activeStep + 1}
+                    </span>
+                    <h3 className="text-3xl font-black text-[#082B63] leading-none mb-4">
+                      {thirtyDayTimeline[activeStep].title}
+                    </h3>
+                    <p className="text-sm font-semibold text-slate-500 leading-relaxed mb-6">
+                      {thirtyDayTimeline[activeStep].desc}
+                    </p>
                   </div>
 
-                  <div className="mt-6 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md hover:border-[#5E8C31]/20 transition duration-300 w-full flex-1 flex flex-col justify-between min-h-[280px]">
-                    <div>
-                      <h3 className="text-base font-black text-[#082B63] leading-snug group-hover:text-[#5E8C31] transition duration-200">
-                        {step.title}
-                      </h3>
-                      <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
-                        {step.desc}
-                      </p>
-                    </div>
-
-                    <div className="mt-5 pt-4 border-t border-slate-50 flex flex-col items-center gap-1.5 w-full">
-                      {step.points.map((pt) => (
-                        <span key={pt} className="inline-flex items-center gap-1 text-[10px] font-black text-[#082B63] bg-[#082B63]/5 px-2.5 py-1 rounded-full uppercase tracking-wider w-fit">
-                          ✓ {pt}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="border-t border-slate-100 pt-6 flex flex-wrap gap-2.5">
+                    {thirtyDayTimeline[activeStep].points.map((pt, i) => (
+                      <motion.span
+                        key={pt}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="inline-flex items-center gap-1.5 text-[10px] font-black text-[#082B63] bg-[#082B63]/6 px-3.5 py-2 rounded-full uppercase tracking-wider shadow-sm"
+                      >
+                        ✓ {pt}
+                      </motion.span>
+                    ))}
                   </div>
                 </div>
-              ))}
+              </motion.div>
+            </div>
+            
+            {/* Indicador de Pausa/Auto-Play */}
+            <div className="mt-5 text-center flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              {isAutoCycle ? (
+                <>
+                  <span className="inline-block h-2 w-2 rounded-full bg-[#5E8C31] animate-ping" />
+                  <span>Apresentação automática ativa (Toque para pausar)</span>
+                </>
+              ) : (
+                <button
+                  onClick={() => setIsAutoCycle(true)}
+                  className="hover:text-[#5E8C31] transition duration-200"
+                >
+                  ▶ Retomar apresentação automática
+                </button>
+              )}
             </div>
           </div>
         </div>
