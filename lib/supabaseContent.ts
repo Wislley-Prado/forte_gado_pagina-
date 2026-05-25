@@ -10,7 +10,9 @@ export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseKey);
 function mergeContent(content?: Partial<SiteContent>): SiteContent {
   if (!content) return defaultContent;
 
-  const kits = content.kits || defaultContent.kits;
+  const kits = (content.kits && content.kits.length > 0)
+    ? content.kits.map((kit) => ({ ...kit }))
+    : defaultContent.kits;
 
   return {
     ...defaultContent,
@@ -18,10 +20,7 @@ function mergeContent(content?: Partial<SiteContent>): SiteContent {
     colors: { ...defaultContent.colors, ...content.colors },
     hero: { ...defaultContent.hero, ...content.hero },
     product: { ...defaultContent.product, ...content.product },
-    kits: kits.map((kit, index) => ({
-      ...kit,
-      image: kit.image || defaultContent.kits[index]?.image || defaultContent.hero.productImage
-    })),
+    kits,
     videos: content.videos || defaultContent.videos,
     testimonials: content.testimonials || defaultContent.testimonials,
     faqs: content.faqs || defaultContent.faqs,
@@ -62,7 +61,10 @@ export async function loadSupabaseContent(): Promise<SiteContent | null> {
 }
 
 export async function saveSupabaseContent(content: SiteContent): Promise<void> {
-  if (!supabaseUrl || !supabaseKey) return;
+  if (!supabaseUrl || !supabaseKey) {
+    console.warn("Supabase não configurado — salvamento ignorado.");
+    return;
+  }
 
   const response = await fetch(`${supabaseUrl}/rest/v1/site_content?on_conflict=id`, {
     method: "POST",
@@ -75,7 +77,9 @@ export async function saveSupabaseContent(content: SiteContent): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error(`Supabase save failed: ${response.status}`);
+    const body = await response.text().catch(() => "(sem corpo)");
+    console.error(`Supabase save failed: HTTP ${response.status}`, body);
+    throw new Error(`Supabase save failed: ${response.status} — ${body}`);
   }
 }
 

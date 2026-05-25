@@ -58,10 +58,17 @@ export function useSiteContent(readOnly = false) {
 
   useEffect(() => {
     if (ready && !readOnly) {
+      // Salva no localStorage com tratamento robusto de cota excedida
       try {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
       } catch (err) {
-        console.warn("Falha ao salvar no localStorage (limite excedido), mas continuando com o sincronismo:", err);
+        // QuotaExceededError: limpa cache antigo e tenta de novo
+        try {
+          window.localStorage.removeItem(STORAGE_KEY);
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+        } catch {
+          console.warn("localStorage cheio mesmo após limpeza — usando apenas Supabase.", err);
+        }
       }
 
       if (isSupabaseConfigured) {
