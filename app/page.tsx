@@ -856,8 +856,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Seletor de Período Horizontal (Premium & Responsivo) */}
-          <div className="flex flex-col items-center">
+          {/* VISÃO PARA COMPUTADOR (INTERATIVA E ANIMADA COM ABAS AUTOMÁTICAS) */}
+          <div className="hidden md:flex flex-col items-center w-full">
             <div className="w-full max-w-4xl bg-white/80 p-2.5 rounded-3xl border border-slate-200/40 shadow-sm flex overflow-x-auto snap-x justify-start md:justify-center gap-2 pb-3 md:pb-2.5 px-3 hide-scrollbar">
               {thirtyDayTimeline.map((step, index) => (
                 <button
@@ -956,6 +956,46 @@ export default function Home() {
                 </button>
               )}
             </div>
+          </div>
+
+          {/* VISÃO PARA CELULAR (SIMPLES, DIRETA E SCROLL-TRIGGERED - TOTALMENTE INTUITIVA PARA O HOMEM DA ROÇA) */}
+          <div className="block md:hidden space-y-6">
+            {thirtyDayTimeline.map((step, index) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4 }}
+                className="bg-white rounded-3xl border border-slate-200/30 p-6 shadow-sm flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <span className="text-[9px] font-black uppercase bg-[#5E8C31]/10 text-[#5E8C31] px-2.5 py-1 rounded-full tracking-wider">
+                      Fase {index + 1}
+                    </span>
+                    <span className="text-xs font-black text-[#082B63]">{step.days}</span>
+                  </div>
+                  <h3 className="text-xl font-black text-[#082B63] leading-tight mb-2.5">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs font-semibold text-slate-500 leading-relaxed mb-4">
+                    {step.desc}
+                  </p>
+                </div>
+
+                <div className="border-t border-slate-100 pt-4 flex flex-wrap gap-1.5 w-full">
+                  {step.points.map((pt) => (
+                    <span
+                      key={pt}
+                      className="inline-flex items-center gap-1 text-[9px] font-black text-[#082B63] bg-[#082B63]/5 px-2.5 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
+                    >
+                      ✓ {pt}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
