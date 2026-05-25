@@ -111,6 +111,39 @@ const results = [
   { value: "30 dias", label: "para testar com tranquilidade e segurança" }
 ];
 
+const thirtyDayTimeline = [
+  {
+    days: "Dias 1 - 5",
+    title: "Apetite & Hidratação",
+    desc: "Aumento nítido no apetite e atração pelo cocho. Sódio e iodo regulam o equilíbrio hídrico, garantindo hidratação máxima mesmo sob calor intenso.",
+    points: ["Apetite Estimulado", "Equilíbrio Hídrico Ativo"]
+  },
+  {
+    days: "Dias 5 - 10",
+    title: "Digestão & Sanidade",
+    desc: "Melhora drástica na eficiência alimentar e ativação da microbiota ruminal. Menos ocorrência de inchaço, indigestão e distúrbios digestivos.",
+    points: ["Digestão Otimizada", "Bactérias do Rúmen Ativas"]
+  },
+  {
+    days: "Dias 10 - 15",
+    title: "Vigor & Sangue Forte",
+    desc: "Ação direta do ferro e zinco contra anemia. Mucosas mais rosadas, aumento na vitalidade geral e animais visivelmente alertas e enérgicos.",
+    points: ["Redução de Anemia", "Maior Vitalidade e Energia"]
+  },
+  {
+    days: "Dias 15 - 20",
+    title: "Pelagem, Cascos & Imunidade",
+    desc: "Ação combinada de enxofre e zinco melhora a saúde da pele e reduz rachaduras e infecções nos cascos. A pelagem ganha brilho intenso.",
+    points: ["Pelo Liso e Brilhante", "Pele e Cascos Protegidos", "Imunidade Fortalecida"]
+  },
+  {
+    days: "Dias 20 - 30",
+    title: "Carcaça & Reprodução",
+    desc: "Ganho de peso corporal acelerado por meio de síntese proteica eficiente. Ciclos reprodutivos regulares e aumento significativo na concepção.",
+    points: ["Engorda Rápida", "Melhoria Reprodutiva", "Carcaça Robusta"]
+  }
+];
+
 function scrollToKits() {
   document.getElementById("kits")?.scrollIntoView({ behavior: "smooth" });
 }
@@ -446,6 +479,126 @@ export default function Home() {
           </div>
         </section>
       )}
+      {/* SEÇÃO: 8 PILARES DO SUCESSO E RENTABILIDADE */}
+      <section className="bg-white py-24 relative overflow-hidden">
+        <div className="section-shell">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Transformação Completa</span>
+            <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">
+              Os 8 Grandes Pilares do Sucesso do Forte Gado Premium
+            </h2>
+            <p className="mt-4 text-lg font-semibold text-slate-500">
+              Muito mais que mineralização: uma fórmula desenvolvida para impactar positivamente todos os aspectos produtivos e financeiros da sua propriedade.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Pilar 1 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <Beef size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">1. Maior Ganho de Carcaça</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  Nosso produto otimiza a conversão alimentar, resultando em carcaças mais pesadas e de melhor qualidade. Isso significa mais carne para vender e um aumento significativo na sua receita.
+                </p>
+              </div>
+            </div>
+
+            {/* Pilar 2 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <TrendingUp size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">2. Mais Carne, Maior Lucro</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  Cada grama de alimento é convertido de forma mais eficaz em músculo e carne, garantindo um preço premium por animais bem-nutridos e saudáveis. O investimento inicial se traduz rapidamente em lucros maiores.
+                </p>
+              </div>
+            </div>
+
+            {/* Pilar 3 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <Activity size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">3. Melhoria na Produção de Leite</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  O carbonato de cálcio presente no Sal Mineral Forte Gado é essencial para a formação de ossos fortes e a produção de leite de alta qualidade. Bovinos bem nutridos com cálcio produzem mais leite e de melhor qualidade, o que aumenta a rentabilidade da sua produção leiteira.
+                </p>
+              </div>
+            </div>
+
+            {/* Pilar 4 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <Scale size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">4. O Produto se Paga e Sobra</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  A melhoria na eficiência alimentar e no ganho de peso faz com que o Sal Mineral Forte Gado se pague por si só. O retorno financeiro cobre o custo do produto e ainda gera lucro adicional para reinvestimentos ou melhorias na operação.
+                </p>
+              </div>
+            </div>
+
+            {/* Pilar 5 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <BadgeCheck size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">5. Mais Bezerros no Pasto</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  Melhor saúde reprodutiva significa mais bezerros por ciclo reprodutivo, aumentando sua produção e lucro a longo prazo na fazenda.
+                </p>
+              </div>
+            </div>
+
+            {/* Pilar 6 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <HeartPulse size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">6. Aumento da Produtividade</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  Bovinos saudáveis apresentam melhor desempenho, menos doenças e problemas de saúde, reduzindo custos veterinários e maximizando a produtividade diária.
+                </p>
+              </div>
+            </div>
+
+            {/* Pilar 7 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <LockKeyhole size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">7. Melhoria Financeira Real</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  Aumento de produtividade e redução de custos se traduzem em mais dinheiro no bolso, permitindo reinvestimentos na fazenda, melhorias nas instalações ou simplesmente mais segurança financeira para sua família.
+                </p>
+              </div>
+            </div>
+
+            {/* Pilar 8 */}
+            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100/80 hover:shadow-lg hover:border-[#5E8C31]/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="h-12 w-12 rounded-2xl bg-[#5E8C31]/10 text-[#5E8C31] flex items-center justify-center mb-5">
+                  <Award size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[#082B63] leading-snug">8. Orgulho e Satisfação</h3>
+                <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                  Ver seus animais prosperarem e atingir seu máximo potencial proporciona um grande senso de realização e orgulho no trabalho bem-feito na pecuária.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* NOVA DOBRA DE ALTA PERSUASÃO: 10 MOTIVOS + PRAZO PERFEITO + FRETE GRÁTIS */}
       <section className="bg-slate-50 py-24 border-y border-slate-200/50">
@@ -549,6 +702,181 @@ export default function Home() {
                   <ShoppingCart size={18} /> Aproveitar Oferta na Fazenda
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NOVA SEÇÃO: CALCULADORA DE ROI E RETORNO FINANCEIRO CORRIGIDO (R$ 247,90) */}
+      <section className="bg-[#082B63] text-white py-24 border-y border-white/10 relative overflow-hidden">
+        {/* Gradiantes decorativos de fundo */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#5E8C31] filter blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F2B705] filter blur-[120px]" />
+        </div>
+
+        <div className="section-shell relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-sm font-black uppercase tracking-[0.24em] text-[#F2B705]">Retorno sobre o Investimento</span>
+            <h2 className="mt-4 text-balance text-4xl font-black leading-tight sm:text-5xl">
+              Análise de Custo-Benefício: O Investimento que se Paga e Sobra Lucro
+            </h2>
+            <p className="mt-4 text-lg font-semibold text-white/80">
+              Veja em números claros como um custo diário irrisório se transforma em ganho líquido real no bolso do pecuarista.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {/* Card 1: O Custo da Mistura */}
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-sm flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black uppercase tracking-widest text-[#F2B705]">1. CUSTO TOTAL DA MISTURA</span>
+                <h3 className="text-2xl font-black mt-3 text-white">Mistura de Altíssimo Rendimento</h3>
+                <p className="mt-4 text-sm font-medium text-white/70 leading-relaxed">
+                  Misturando o Forte Gado Premium com sal comum (Cloreto de Sódio), você obtém 70 kg de suplemento mineral de alta performance.
+                </p>
+                <ul className="mt-6 space-y-3 border-t border-white/10 pt-6">
+                  <li className="flex justify-between text-sm">
+                    <span className="text-white/60">Forte Gado Premium (20 kg):</span>
+                    <span className="font-black text-white">R$ 247,90</span>
+                  </li>
+                  <li className="flex justify-between text-sm">
+                    <span className="text-white/60">2 Sacos de Sal Comum (50 kg):</span>
+                    <span className="font-black text-white">R$ 50,00</span>
+                  </li>
+                  <li className="flex justify-between text-sm font-black border-t border-white/10 pt-3">
+                    <span className="text-[#F2B705]">Custo para 70 kg de Mistura:</span>
+                    <span className="text-[#F2B705]">R$ 297,90</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8 pt-6 border-t border-white/10 text-center">
+                <div className="text-xs text-white/40 uppercase tracking-widest">Custo por Kg</div>
+                <div className="text-3xl font-black text-white mt-1">R$ 4,25 / kg</div>
+              </div>
+            </div>
+
+            {/* Card 2: Consumo Diário por Cabeça */}
+            <div className="bg-[#5E8C31] rounded-3xl p-8 flex flex-col justify-between shadow-[0_20px_50px_rgba(94,140,49,0.15)] relative">
+              <div className="absolute top-4 right-4 rounded-full bg-white/20 text-white text-[10px] font-black px-3 py-1 uppercase tracking-wider">
+                Consumo Ideal
+              </div>
+              <div>
+                <span className="text-xs font-black uppercase tracking-widest text-white/80">2. CONSUMO E CUSTO DIÁRIO</span>
+                <h3 className="text-2xl font-black mt-3 text-white">Centavos por Cabeça ao Dia</h3>
+                <p className="mt-4 text-sm font-medium text-white/90 leading-relaxed">
+                  O consumo estimado é de apenas 100 gramas por animal ao dia. O desembolso diário para ter um rebanho saudável e em engorda acelerada é menor do que uma ligação telefônica.
+                </p>
+                <div className="mt-8 bg-white/10 border border-white/15 rounded-2xl p-5 text-center">
+                  <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">CUSTO POR ANIMAL/DIA</span>
+                  <span className="text-5xl font-black text-[#F2B705] tracking-tight block mt-1">R$ 0,43</span>
+                  <span className="text-[11px] font-semibold text-white/80 block mt-1">para 100g de consumo diário</span>
+                </div>
+              </div>
+              <div className="mt-8 text-center text-xs font-bold text-white/90">
+                O produto se paga sozinho e sobra muito retorno.
+              </div>
+            </div>
+
+            {/* Card 3: Ganho e Retorno sobre Investimento */}
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-sm flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black uppercase tracking-widest text-[#F2B705]">3. RETORNO SOBRE O INVESTIMENTO</span>
+                <h3 className="text-2xl font-black mt-3 text-white">Ganho Diário Extra de Arroba</h3>
+                <p className="mt-4 text-sm font-medium text-white/70 leading-relaxed">
+                  Ganho estimado de peso de <strong>600g a 1.200g</strong> diários. Com o preço médio da arroba (@) em <strong>R$ 225,65</strong>, a matemática é avassaladora:
+                </p>
+                <ul className="mt-6 space-y-3 border-t border-white/10 pt-6">
+                  <li className="flex justify-between items-center text-sm">
+                    <div>
+                      <span className="font-bold text-white block">Ganho Mínimo (600g):</span>
+                      <span className="text-xs text-white/50">Equivale a 0,04@ por dia</span>
+                    </div>
+                    <span className="font-black text-[#5E8C31] text-base">+ R$ 9,03/dia</span>
+                  </li>
+                  <li className="flex justify-between items-center text-sm border-t border-white/5 pt-3">
+                    <div>
+                      <span className="font-bold text-white block">Ganho Máximo (1.200g):</span>
+                      <span className="text-xs text-white/50">Equivale a 0,08@ por dia</span>
+                    </div>
+                    <span className="font-black text-[#F2B705] text-base">+ R$ 18,05/dia</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-white/50 uppercase tracking-widest block">Lucro Líquido Real</span>
+                  <span className="text-lg font-black text-white">R$ 8,60 a R$ 17,62</span>
+                </div>
+                <span className="text-[10px] font-black uppercase bg-[#F2B705]/15 text-[#F2B705] px-2.5 py-1 rounded">
+                  Até 41x o Retorno!
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-sm">
+            <div className="max-w-xl">
+              <h4 className="text-lg font-black text-white">Simulação para 100 Cabeças de Gado:</h4>
+              <p className="mt-1 text-sm font-semibold text-white/70">
+                Com 100 cabeças mineralizadas, o produtor passa a obter de <strong className="text-[#F2B705]">R$ 860,00 a R$ 1.762,00</strong> de lucro líquido adicional por dia! O valor do suplemento se torna insignificante perto do ganho financeiro obtido.
+              </p>
+            </div>
+            <button
+              onClick={scrollToKits}
+              className="w-full md:w-auto shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F2B705] hover:bg-[#E0A700] px-8 py-4.5 text-sm font-black uppercase tracking-wider text-[#082B63] transition duration-300 hover:-translate-y-0.5 active:scale-95 shadow-lg shadow-[#F2B705]/15"
+            >
+              <ShoppingCart size={18} /> Ver Lotes Promocionais
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* NOVA SEÇÃO: JORNADA 30 DIAS DE RESULTADOS VISÍVEIS */}
+      <section className="bg-slate-50 py-24 border-b border-slate-200/50">
+        <div className="section-shell">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Jornada de Transformação</span>
+            <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">
+              O que Acontece com Seu Gado em Até 30 Dias?
+            </h2>
+            <p className="mt-4 text-lg font-semibold text-slate-500">
+              Acompanhe o cronograma biológico de evolução visível dos animais após o início da mineralização com Forte Gado Premium.
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Linha de conexão horizontal para desktop */}
+            <div className="absolute top-[38px] left-[5%] right-[5%] h-1 bg-slate-200 hidden lg:block pointer-events-none" />
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5 items-start">
+              {thirtyDayTimeline.map((step, index) => (
+                <div key={step.title} className="relative flex flex-col items-center text-center group">
+                  {/* Círculo com o Número da Etapa / Dias */}
+                  <div className="z-10 flex h-20 w-20 items-center justify-center rounded-full bg-white border-4 border-slate-100 shadow-md group-hover:border-[#5E8C31] group-hover:shadow-lg transition-all duration-300">
+                    <span className="text-xs font-black text-[#5E8C31]">{step.days.replace("Dias ", "")}</span>
+                  </div>
+
+                  <div className="mt-6 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md hover:border-[#5E8C31]/20 transition duration-300 w-full flex-1 flex flex-col justify-between min-h-[280px]">
+                    <div>
+                      <h3 className="text-base font-black text-[#082B63] leading-snug group-hover:text-[#5E8C31] transition duration-200">
+                        {step.title}
+                      </h3>
+                      <p className="mt-3 text-xs font-semibold text-slate-500 leading-relaxed">
+                        {step.desc}
+                      </p>
+                    </div>
+
+                    <div className="mt-5 pt-4 border-t border-slate-50 flex flex-col items-center gap-1.5 w-full">
+                      {step.points.map((pt) => (
+                        <span key={pt} className="inline-flex items-center gap-1 text-[10px] font-black text-[#082B63] bg-[#082B63]/5 px-2.5 py-1 rounded-full uppercase tracking-wider w-fit">
+                          ✓ {pt}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -736,9 +1064,9 @@ export default function Home() {
               )}
             </div>
             <div className="p-8 text-white sm:p-12">
-              <h2 className="text-4xl font-black sm:text-5xl">{c.guarantee?.title || "30 DIAS OU SEU DINHEIRO DE VOLTA"}</h2>
+              <h2 className="text-4xl font-black sm:text-5xl">{c.guarantee?.title || "A MELHOR GARANTIA DO MERCADO: SATISFAÇÃO GARANTIDA OU SEU DINHEIRO DE VOLTA"}</h2>
               <p className="mt-5 max-w-3xl text-lg font-semibold leading-8 text-white/82">
-                {c.guarantee?.text || "Você compra com segurança, testa a experiência Fortegado Premium e conta com atendimento para orientar o melhor uso no seu manejo."}
+                {c.guarantee?.text || "Experimente o Sal Mineral Forte Gado sem riscos! Se por qualquer motivo seus animais não se adaptarem ou se você não vir os resultados esperados, você tem 30 dias para devolver o produto. Pague apenas pelo que foi consumido na fazenda durante esse período."}
               </p>
             </div>
           </div>

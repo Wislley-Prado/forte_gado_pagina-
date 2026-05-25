@@ -305,8 +305,8 @@ export const defaultContent: SiteContent = {
     linksCol2: "Seja um Revendedor | #revendedor\nDistribuição Agro | #distribuidor\nTermos de Uso | #termos\nPolíticas de Privacidade | /politicas-de-privacidade"
   },
   guarantee: {
-    title: "30 DIAS OU SEU DINHEIRO DE VOLTA",
-    text: "Você compra com segurança, testa a experiência Fortegado Premium e conta com atendimento para orientar o melhor uso no seu manejo.",
+    title: "A MELHOR GARANTIA DO MERCADO: SATISFAÇÃO GARANTIDA OU SEU DINHEIRO DE VOLTA",
+    text: "Experimente o Sal Mineral Forte Gado sem riscos! Se por qualquer motivo seus animais não se adaptarem ou se você não vir os resultados esperados, você tem 30 dias para devolver o produto. Pague apenas pelo que foi consumido na fazenda durante esse período.",
     image: ""
   },
   integrations: {
