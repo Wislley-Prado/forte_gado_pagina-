@@ -1080,12 +1080,12 @@ export default function Home() {
                     )}
                   </div>
 
-                  <a
-                    href={kit.checkout}
+                  <Link
+                    href={`/kits/${kit.id}`}
                     className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-4 font-black uppercase text-sm tracking-wider text-white transition-all duration-300 ${kit.highlighted ? "bg-[#F2B705] hover:bg-[#E0A700] text-[#082B63] gold-glow" : "bg-[#0A3D91] hover:bg-[#082B63] shadow-md hover:shadow-lg"}`}
                   >
                     {kit.buttonText || "Comprar"} <ChevronRight size={18} />
-                  </a>
+                  </Link>
                 </div>
               </motion.article>
             ))}

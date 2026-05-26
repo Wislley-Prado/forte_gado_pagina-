@@ -12,6 +12,23 @@ export type Kit = {
   buttonText?: string;
   installments?: string;
   paymentPerk?: string;
+  
+  // Custom Sales Page Content
+  customHeadline?: string;
+  customSubheadline?: string;
+  paymentDownPayment?: string;
+  paymentFirstInstallmentDays?: string;
+  paymentInstallmentsDetail?: string;
+  paymentConditionBadge?: string;
+  paymentConditionsList?: string[];
+  bonusTitle?: string;
+  bonusPercentage?: string;
+  bonusExampleText?: string;
+  bonusBenefits?: string[];
+  guaranteeDays?: string;
+  guaranteeDescription?: string;
+  whatYouReceive?: string[];
+  resultsExpected?: string[];
 };
 
 export type Testimonial = {
@@ -148,57 +165,152 @@ export const defaultContent: SiteContent = {
   },
   kits: [
     {
-      id: "inicial",
-      name: "KIT INICIAL",
-      bags: "2 sacos",
-      ideal: "Ideal para teste controlado no lote",
-      price: "R$ 297",
-      economy: "Economia pequena",
-      badge: "ENTRADA PREMIUM",
-      checkout: "#comprar",
-      image: "https://images.unsplash.com/photo-1551298457-c72eced6d366?auto=format&fit=crop&w=900&q=82",
-      installments: "3x de R$ 99,00",
-      paymentPerk: "Sem juros no cartão"
-    },
-    {
-      id: "pecuarista",
+      id: "kit-5",
       name: "KIT PECUARISTA",
       bags: "5 sacos",
-      ideal: "Mais vendido para fazendas em expansão",
-      price: "R$ 697",
-      economy: "Frete grátis + melhor giro",
-      badge: "MAIS VENDIDO",
+      ideal: "Ideal para iniciar e ver os primeiros resultados no lote",
+      price: "R$ 1.490,00",
+      economy: "Frete grátis para sua região",
+      badge: "INICIAL PRODUTOR",
       checkout: "#comprar",
       image: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=900&q=82",
+      installments: "6x de R$ 248,33",
+      paymentPerk: "Parcelamento sem juros",
+      
+      // Custom Sales Page Copy
+      customHeadline: "5 SACOS FORTEGADO PREMIUM",
+      customSubheadline: "O pontapé inicial para a nutrição de alta performance na sua fazenda. Obtenha mais rendimento e lote uniforme.",
+      paymentDownPayment: "R$ 0,00",
+      paymentFirstInstallmentDays: "Imediato",
+      paymentInstallmentsDetail: "6x de R$ 248,33 SEM JUROS",
+      paymentConditionBadge: "CONDIÇÃO ESPECIAL FACILITADA",
+      paymentConditionsList: [
+        "Parcelamento em até 6x sem juros",
+        "Frete Grátis incluso para todo o Brasil",
+        "Garantia estendida de satisfação",
+        "Suporte técnico na primeira dosagem"
+      ],
+      bonusTitle: "BÔNUS PARCEIRO FORTEGADO",
+      bonusPercentage: "3%",
+      bonusExampleText: "Pagando suas parcelas em dia, você ganha 3% de desconto garantido na sua próxima compra de reposição de estoque.",
+      bonusBenefits: [
+        "Economia garantida",
+        "Giro rápido de estoque",
+        "Parceria de confiança"
+      ],
+      guaranteeDays: "30 DIAS",
+      guaranteeDescription: "Satisfação garantida: utilize o produto em um lote teste. Se não notar a evolução no ganho de peso e saúde, devolva o restante e pague apenas o que consumiu.",
+      whatYouReceive: [
+        "5 sacos Fortegado Premium",
+        "Manual prático de suplementação de cocho",
+        "Suporte via WhatsApp com consultor técnico",
+        "Entrega garantida na porteira"
+      ],
+      resultsExpected: [
+        "Melhor consumo diário de minerais",
+        "Lote mais equilibrado no pasto",
+        "Redução de refugo de cocho"
+      ]
+    },
+    {
+      id: "kit-10",
+      name: "KIT PRODUTOR",
+      bags: "10 sacos",
+      ideal: "Excelente custo-benefício para rebanhos em crescimento",
+      price: "R$ 2.790,00",
+      economy: "Economia no frete + suporte prioritário",
+      badge: "MAIS VENDIDO",
+      checkout: "#comprar",
+      image: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=900&q=82",
       highlighted: true,
-      installments: "10x de R$ 69,70",
-      paymentPerk: "Sem juros ou Pix com desconto"
+      installments: "6x de R$ 465,00",
+      paymentPerk: "Até 6x sem juros",
+      
+      // Custom Sales Page Copy
+      customHeadline: "10 SACOS FORTEGADO PREMIUM",
+      customSubheadline: "A escolha favorita dos criadores focados em recria e engorda contínua. Desempenho garantido no cocho.",
+      paymentDownPayment: "R$ 0,00",
+      paymentFirstInstallmentDays: "30 dias",
+      paymentInstallmentsDetail: "6x de R$ 465,00 SEM JUROS",
+      paymentConditionBadge: "MELHOR CUSTO-BENEFÍCIO",
+      paymentConditionsList: [
+        "Primeira parcela para 30 dias",
+        "Parcelamento em até 6x sem juros",
+        "Suporte veterinário personalizado",
+        "Desconto exclusivo no Pix"
+      ],
+      bonusTitle: "BÔNUS PRODUTOR EFICIENTE",
+      bonusPercentage: "4%",
+      bonusExampleText: "Compromisso com o rebanho! Ao pagar suas faturas em dia, você acumula 4% de crédito de bônus direto na conta para o próximo lote.",
+      bonusBenefits: [
+        "Desconto progressivo",
+        "Acompanhamento nutricional completo",
+        "Suplementação planejada"
+      ],
+      guaranteeDays: "30 DIAS",
+      guaranteeDescription: "Experimente com segurança. Damos 30 dias completos de teste. Se não comprovar os resultados, devolvemos o valor do que não foi utilizado sem qualquer burocracia.",
+      whatYouReceive: [
+        "10 sacos Fortegado Premium",
+        "Acompanhamento personalizado com zootecnista",
+        "Plano de manejo mineral customizado",
+        "Entrega agendada e prioritária"
+      ],
+      resultsExpected: [
+        "Aceleração de ganho de peso (GMD)",
+        "Fortalecimento imunológico do lote",
+        "Melhor aproveitamento da pastagem fibrosa"
+      ]
     },
     {
       id: "fazenda",
       name: "KIT FAZENDA PREMIUM",
-      bags: "10 sacos",
-      ideal: "Maior economia para manejo contínuo",
-      price: "R$ 1.297",
-      economy: "Suporte prioritário",
-      badge: "MELHOR CUSTO BENEFÍCIO",
-      checkout: "#comprar",
-      image: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=900&q=82",
-      installments: "12x de R$ 108,08",
-      paymentPerk: "3 meses de carência p/ pagar"
-    },
-    {
-      id: "revenda",
-      name: "KIT REVENDA",
-      bags: "20 sacos",
-      ideal: "Preço especial para distribuidores",
-      price: "R$ 2.397",
-      economy: "Condição comercial exclusiva",
-      badge: "DISTRIBUIDOR",
+      bags: "30 sacos",
+      ideal: "Máxima economia e carência de 90 dias para grandes plantéis",
+      price: "R$ 7.470,00",
+      economy: "Economia extrema + carência de 90 dias",
+      badge: "MELHOR OPÇÃO AGRO",
       checkout: "#comprar",
       image: "https://images.unsplash.com/photo-1596733430284-f7437764b1a9?auto=format&fit=crop&w=900&q=82",
-      installments: "12x de R$ 199,75",
-      paymentPerk: "Faturamento no boleto agro"
+      installments: "6x de R$ 1.245,00",
+      paymentPerk: "Carência de 90 dias",
+      
+      // Custom Sales Page Copy (Exact copy supplied by user!)
+      customHeadline: "30 SACOS FORTEGADO PREMIUM",
+      customSubheadline: "MAIS PESO. MAIS RESULTADO. MAIS LUCRO NO SEU REBANHO. O pecuarista moderno sabe: gado forte não acontece por sorte. A diferença entre prejuízo e produtividade está na nutrição do rebanho. O FORTEGADO PREMIUM foi desenvolvido para produtores que querem: ✔ mais desempenho, ✔ mais ganho de peso, ✔ mais imunidade, ✔ melhor reprodução, ✔ mais rendimento no pasto.",
+      paymentDownPayment: "R$ 0,00",
+      paymentFirstInstallmentDays: "90 dias",
+      paymentInstallmentsDetail: "6x de R$ 1.245,00 SEM JUROS",
+      paymentConditionBadge: "CONDIÇÃO ESPECIAL PARA PECUARISTAS",
+      paymentConditionsList: [
+        "Primeira parcela somente em 90 dias",
+        "Até 6 meses para pagar",
+        "Parcelamento sem juros",
+        "Condição facilitada para produção rural"
+      ],
+      bonusTitle: "BÔNUS PRODUTOR RESPONSÁVEL",
+      bonusPercentage: "5%",
+      bonusExampleText: "Pagou a parcela em dia? GANHE 5% DE BÔNUS NA PRÓXIMA PARCELA. Exemplo: Parcela de R$ 1.245,00. Pagando em dia: recebe R$ 62,25 de bônus/crédito direto.",
+      bonusBenefits: [
+        "Economia real de caixa",
+        "Vantagem contínua para reposição",
+        "Benefício de parceiro de longo prazo"
+      ],
+      guaranteeDays: "30 DIAS",
+      guaranteeDescription: "Você testa o produto no seu rebanho. Se não aprovar os resultados: pode devolver o restante do produto, NÃO precisa pagar o que foi devolvido, paga somente o que foi utilizado. Sem enrolação. Sem burocracia. Porque quem confia no produto, oferece garantia de verdade.",
+      whatYouReceive: [
+        "30 sacos Fortegado Premium",
+        "Suporte prioritário exclusivo",
+        "Entrega programada na fazenda",
+        "Produto premium de alta performance",
+        "Acompanhamento comercial dedicado"
+      ],
+      resultsExpected: [
+        "Melhor aproveitamento alimentar",
+        "Mais rendimento no lote de abate/recria",
+        "Mais desempenho e ganho de peso no pasto",
+        "Redução drástica de perdas nutricionais",
+        "Fortalecimento nutricional do rebanho"
+      ]
     }
   ],
   videos: [

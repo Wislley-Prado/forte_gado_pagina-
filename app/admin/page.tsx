@@ -564,6 +564,86 @@ export default function AdminPage() {
                       <ImageUploadField label="Imagem do Kit (Upload ou Link)" value={kit.image || ""} onChange={(value) => updateKit(index, { image: value })} />
                       <Field label="Descrição Curta (Ideal para...)" value={kit.ideal} onChange={(value) => updateKit(index, { ideal: value })} textarea />
                     </div>
+
+                    {/* Bloco 5: Página de Vendas Dinâmica do Kit */}
+                    <details className="bg-slate-50/50 rounded-2xl p-6 border border-slate-200/60 mt-2">
+                      <summary className="cursor-pointer text-xs font-black text-[#082B63] uppercase tracking-widest flex items-center justify-between pb-2 border-b border-slate-200/50 select-none">
+                        <span className="flex items-center gap-1.5">📢 Configurar Página de Vendas do Kit</span>
+                        <span className="text-slate-400">Clique para abrir/fechar</span>
+                      </summary>
+                      <div className="grid gap-5 pt-4">
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <Field label="Título / Headline Exclusivo" value={kit.customHeadline || ""} onChange={(value) => updateKit(index, { customHeadline: value })} />
+                          <Field label="Selo Simulação Ex (Ex: CONDIÇÃO ESPECIAL PECUARISTA)" value={kit.paymentConditionBadge || ""} onChange={(value) => updateKit(index, { paymentConditionBadge: value })} />
+                        </div>
+                        <Field label="Descrição Persuasiva / Subheadline" value={kit.customSubheadline || ""} onChange={(value) => updateKit(index, { customSubheadline: value })} textarea />
+                        
+                        <div className="grid gap-5 sm:grid-cols-3">
+                          <Field label="Entrada Simulação (Ex: R$ 0,00)" value={kit.paymentDownPayment || ""} onChange={(value) => updateKit(index, { paymentDownPayment: value })} />
+                          <Field label="Primeira Parcela Simulação (Ex: 90 dias)" value={kit.paymentFirstInstallmentDays || ""} onChange={(value) => updateKit(index, { paymentFirstInstallmentDays: value })} />
+                          <Field label="Parcelamento Simulação (Ex: 6x de R$ 1.245,00 SEM JUROS)" value={kit.paymentInstallmentsDetail || ""} onChange={(value) => updateKit(index, { paymentInstallmentsDetail: value })} />
+                        </div>
+
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <label className="block w-full">
+                            <span className="mb-2 block text-xs font-black uppercase tracking-[0.15em] text-[#082B63]/60">Condições de Pagamento (Uma por linha)</span>
+                            <textarea
+                              value={(kit.paymentConditionsList || []).join("\n")}
+                              onChange={(event) => updateKit(index, { paymentConditionsList: event.target.value.split("\n").map(l => l.trim()).filter(Boolean) })}
+                              rows={4}
+                              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#082B63] outline-none transition focus:border-[#0A3D91]"
+                            />
+                          </label>
+                          <label className="block w-full">
+                            <span className="mb-2 block text-xs font-black uppercase tracking-[0.15em] text-[#082B63]/60">O Que Recebe no Kit (Uma por linha)</span>
+                            <textarea
+                              value={(kit.whatYouReceive || []).join("\n")}
+                              onChange={(event) => updateKit(index, { whatYouReceive: event.target.value.split("\n").map(l => l.trim()).filter(Boolean) })}
+                              rows={4}
+                              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#082B63] outline-none transition focus:border-[#0A3D91]"
+                            />
+                          </label>
+                        </div>
+
+                        <div className="grid gap-5 sm:grid-cols-2 border-t border-slate-200/50 pt-5">
+                          <div className="space-y-4">
+                            <h5 className="text-xs font-black text-[#082B63]/70 uppercase tracking-wider">Configuração de Bônus</h5>
+                            <div className="grid gap-4 sm:grid-cols-2">
+                              <Field label="Título Bônus (Ex: BÔNUS PRODUTOR RESPONSÁVEL)" value={kit.bonusTitle || ""} onChange={(value) => updateKit(index, { bonusTitle: value })} />
+                              <Field label="Porcentagem Bônus (Ex: 5%)" value={kit.bonusPercentage || ""} onChange={(value) => updateKit(index, { bonusPercentage: value })} />
+                            </div>
+                            <Field label="Exemplo Bônus (Ex: Parcela R$ 1245 pagando em dia...)" value={kit.bonusExampleText || ""} onChange={(value) => updateKit(index, { bonusExampleText: value })} textarea />
+                            <label className="block w-full">
+                              <span className="mb-2 block text-xs font-black uppercase tracking-[0.15em] text-[#082B63]/60">Vantagens do Bônus (Uma por linha)</span>
+                              <textarea
+                                value={(kit.bonusBenefits || []).join("\n")}
+                                onChange={(event) => updateKit(index, { bonusBenefits: event.target.value.split("\n").map(l => l.trim()).filter(Boolean) })}
+                                rows={3}
+                                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#082B63] outline-none transition focus:border-[#0A3D91]"
+                              />
+                            </label>
+                          </div>
+
+                          <div className="space-y-4">
+                            <h5 className="text-xs font-black text-[#082B63]/70 uppercase tracking-wider">Garantia & Resultados</h5>
+                            <div className="grid gap-4 sm:grid-cols-2">
+                              <Field label="Dias Garantia (Ex: 30 DIAS)" value={kit.guaranteeDays || ""} onChange={(value) => updateKit(index, { guaranteeDays: value })} />
+                            </div>
+                            <Field label="Descrição Garantia Exclusiva" value={kit.guaranteeDescription || ""} onChange={(value) => updateKit(index, { guaranteeDescription: value })} textarea />
+                            <label className="block w-full">
+                              <span className="mb-2 block text-xs font-black uppercase tracking-[0.15em] text-[#082B63]/60">Resultados Esperados (Uma por linha)</span>
+                              <textarea
+                                value={(kit.resultsExpected || []).join("\n")}
+                                onChange={(event) => updateKit(index, { resultsExpected: event.target.value.split("\n").map(l => l.trim()).filter(Boolean) })}
+                                rows={3}
+                                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#082B63] outline-none transition focus:border-[#0A3D91]"
+                              />
+                            </label>
+                          </div>
+                        </div>
+
+                      </div>
+                    </details>
                   </div>
                 </article>
               ))}
