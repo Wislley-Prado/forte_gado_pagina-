@@ -69,7 +69,7 @@ export default function KitSalesPage() {
   const paymentFirstInstallmentDays = kit.paymentFirstInstallmentDays || "Imediato";
   const paymentInstallmentsDetail = kit.paymentInstallmentsDetail || kit.installments || kit.price;
   const paymentConditionBadge = kit.paymentConditionBadge || kit.badge || "OFERTA EXCLUSIVA";
-  const paymentConditionsList = kit.paymentConditionsList && kit.paymentConditionsList.length > 0
+  const paymentConditionsList = Array.isArray(kit.paymentConditionsList) && kit.paymentConditionsList.length > 0
     ? kit.paymentConditionsList
     : [
         "Primeira parcela facilitada",
@@ -81,14 +81,14 @@ export default function KitSalesPage() {
   const bonusTitle = kit.bonusTitle || "BÔNUS PRODUTOR RESPONSÁVEL";
   const bonusPercentage = kit.bonusPercentage || "5%";
   const bonusExampleText = kit.bonusExampleText || "Ganhe descontos especiais efetuando o pagamento da sua parcela em dia!";
-  const bonusBenefits = kit.bonusBenefits && kit.bonusBenefits.length > 0
+  const bonusBenefits = Array.isArray(kit.bonusBenefits) && kit.bonusBenefits.length > 0
     ? kit.bonusBenefits
     : ["Economia de caixa", "Benefício contínuo", "Produtor parceiro"];
 
   const guaranteeDays = kit.guaranteeDays || "30 DIAS";
-  const guaranteeDescription = kit.guaranteeDescription || c.guarantee.text;
+  const guaranteeDescription = kit.guaranteeDescription || c.guarantee?.text || "";
 
-  const whatYouReceive = kit.whatYouReceive && kit.whatYouReceive.length > 0
+  const whatYouReceive = Array.isArray(kit.whatYouReceive) && kit.whatYouReceive.length > 0
     ? kit.whatYouReceive
     : [
         `${kit.bags} do Sal Mineral Fortegado Premium`,
@@ -97,7 +97,7 @@ export default function KitSalesPage() {
         "Acompanhamento técnico qualificado"
       ];
 
-  const resultsExpected = kit.resultsExpected && kit.resultsExpected.length > 0
+  const resultsExpected = Array.isArray(kit.resultsExpected) && kit.resultsExpected.length > 0
     ? kit.resultsExpected
     : [
         "Melhor aproveitamento da fibra pastagem",
