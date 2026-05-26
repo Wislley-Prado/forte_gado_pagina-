@@ -30,6 +30,8 @@ export type Kit = {
   whatYouReceive?: string[];
   resultsExpected?: string[];
   kitWhatsApp?: string;
+  usageInstructions?: string;
+  usageConsumption?: string;
 };
 
 export type Testimonial = {
@@ -211,7 +213,9 @@ export const defaultContent: SiteContent = {
         "Melhor consumo diário de minerais",
         "Lote mais equilibrado no pasto",
         "Redução de refugo de cocho"
-      ]
+      ],
+      usageInstructions: "Misture em sal branco: 1 saco para cada 2 sacos de 25 kilos de sal branco.",
+      usageConsumption: "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais."
     },
     {
       id: "kit-10",
@@ -260,7 +264,9 @@ export const defaultContent: SiteContent = {
         "Aceleração de ganho de peso (GMD)",
         "Fortalecimento imunológico do lote",
         "Melhor aproveitamento da pastagem fibrosa"
-      ]
+      ],
+      usageInstructions: "Misture em sal branco: 1 saco para cada 2 sacos de 25 kilos de sal branco.",
+      usageConsumption: "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais."
     },
     {
       id: "fazenda",
@@ -311,7 +317,9 @@ export const defaultContent: SiteContent = {
         "Mais desempenho e ganho de peso no pasto",
         "Redução drástica de perdas nutricionais",
         "Fortalecimento nutricional do rebanho"
-      ]
+      ],
+      usageInstructions: "Misture em sal branco: 1 saco para cada 2 sacos de 25 kilos de sal branco.",
+      usageConsumption: "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais."
     }
   ],
   videos: [

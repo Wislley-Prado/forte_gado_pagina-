@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import {
   ArrowLeft,
@@ -104,6 +104,10 @@ export default function KitSalesPage() {
         "Mais ganho de peso médio diário (GMD)",
         "Fortalecimento da imunidade do rebanho"
       ];
+
+  const [herdSize, setHerdSize] = useState(100);
+  const usageInstructions = kit.usageInstructions || "Misture em sal branco: 1 saco para cada 2 sacos de 25 kilos de sal branco.";
+  const usageConsumption = kit.usageConsumption || "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais.";
 
   const brandVars = {
     "--premium-blue": c.colors.premiumBlue,
@@ -358,6 +362,139 @@ export default function KitSalesPage() {
                   </li>
                 ))}
               </ul>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Modo de Uso e Calculadora de Rendimento */}
+      <section className="py-24 bg-slate-50 border-b border-slate-100">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="text-center space-y-3 mb-16">
+            <span className="text-sm font-black uppercase tracking-widest text-[#5E8C31]">Guia Nutricional</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-[#082B63] tracking-tight">Modo de Uso & Calculadora de Rendimento</h2>
+            <p className="text-sm font-semibold text-slate-500 max-w-xl mx-auto">Saiba exatamente como misturar o suplemento e simule o tempo de duração do cocho conforme o tamanho do seu lote.</p>
+          </div>
+
+          <div className="grid gap-12 lg:grid-cols-2 items-stretch">
+            
+            {/* Bloco 1: Modo de Uso */}
+            <div className="rounded-3xl bg-white border border-slate-200/60 p-8 sm:p-10 flex flex-col justify-between space-y-8 premium-shadow">
+              <div className="space-y-6">
+                <h3 className="text-2xl font-black tracking-tight text-[#082B63] flex items-center gap-2">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#5E8C31]/10 text-[#5E8C31]">
+                    <TrendingUp size={20} />
+                  </span>
+                  Instruções de Modo de Uso
+                </h3>
+
+                <div className="space-y-6 pt-2">
+                  {/* Proporção */}
+                  <div className="flex gap-4">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#5E8C31]/15 text-[#5E8C31] text-sm font-black">
+                      1
+                    </span>
+                    <div className="space-y-1">
+                      <h4 className="text-base font-black text-[#082B63]">Como misturar o produto</h4>
+                      <p className="text-sm font-semibold text-slate-500 leading-relaxed">
+                        {usageInstructions}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Consumo */}
+                  <div className="flex gap-4">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#5E8C31]/15 text-[#5E8C31] text-sm font-black">
+                      2
+                    </span>
+                    <div className="space-y-1">
+                      <h4 className="text-base font-black text-[#082B63]">Consumo médio diário por animal</h4>
+                      <p className="text-sm font-semibold text-slate-500 leading-relaxed">
+                        {usageConsumption}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Dica */}
+                  <div className="rounded-2xl bg-amber-50 border border-amber-200/40 p-4.5 text-xs font-semibold text-amber-800 flex gap-2.5 items-start">
+                    <span className="text-base">💡</span>
+                    <span><strong>Dica do Veterinário:</strong> Para obter o máximo aproveitamento, mantenha os cochos sempre limpos e protegidos da umidade da chuva. Água de qualidade deve estar sempre disponível próxima ao cocho.</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            {/* Bloco 2: Calculadora Dinâmica */}
+            <div className="rounded-3xl bg-[#082B63] p-8 sm:p-10 text-white premium-shadow border border-[#0A3D91]/30 flex flex-col justify-between space-y-8 relative overflow-hidden">
+              {/* Background Glow */}
+              <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-[#F2B705]/10 blur-3xl pointer-events-none" />
+
+              <div className="space-y-6">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#F2B705] bg-[#F2B705]/10 px-3 py-1.5 rounded-md border border-[#F2B705]/20">
+                    Simulador Agro-Eficácia
+                  </span>
+                  <h3 className="text-2xl font-black mt-4 tracking-tight leading-tight">Rendimento de Tratamento do Kit</h3>
+                </div>
+
+                <div className="space-y-5">
+                  <div className="flex justify-between items-center text-sm font-black uppercase tracking-wider text-slate-200">
+                    <span>Tamanho do seu Rebanho</span>
+                    <span className="text-[#F2B705] text-lg font-black">{herdSize} Cabeças</span>
+                  </div>
+
+                  <input
+                    type="range"
+                    min="10"
+                    max="500"
+                    step="10"
+                    value={herdSize}
+                    onChange={(e) => setHerdSize(parseInt(e.target.value))}
+                    className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#F2B705]"
+                  />
+                  <div className="flex justify-between text-[10px] text-white/50 font-bold uppercase tracking-widest">
+                    <span>10 cabeças</span>
+                    <span>500 cabeças</span>
+                  </div>
+                </div>
+
+                {/* Resultado do Simulador */}
+                <div className="rounded-2xl bg-white/5 border border-white/10 p-6 space-y-4">
+                  <div className="grid grid-cols-2 gap-4 text-center border-b border-white/10 pb-4">
+                    <div className="space-y-0.5">
+                      <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Suplemento no Kit</span>
+                      <div className="text-lg font-black text-white">{parseInt(kit.bags) || 30} Sacos ({(parseInt(kit.bags) || 30) * 25}kg)</div>
+                    </div>
+                    <div className="space-y-0.5 border-l border-white/10">
+                      <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Mineralizado Pronto</span>
+                      <div className="text-lg font-black text-[#F2B705]">{(parseInt(kit.bags) || 30) * 75} kg misturado</div>
+                    </div>
+                  </div>
+
+                  <div className="text-center pt-2 space-y-1">
+                    <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">O cocho estará abastecido por</span>
+                    <div className="text-3xl font-black text-[#F2B705] tracking-tight">
+                      {Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) >= 30 ? (
+                        <>
+                          {Math.floor(Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) / 30)} {Math.floor(Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) / 30) === 1 ? 'Mês' : 'Meses'}{' '}
+                          {Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) % 30 > 0 && (
+                            <>e {Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) % 30} dias</>
+                          )}
+                        </>
+                      ) : (
+                        <>{Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85))} Dias</>
+                      )}
+                    </div>
+                    <p className="text-[11px] font-semibold text-white/60 leading-normal max-w-xs mx-auto">Cálculo baseado em consumo diário médio de 85g da mistura final por animal.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-xs font-black uppercase tracking-widest text-[#F2B705] flex items-center justify-center gap-1.5 bg-[#F2B705]/10 py-3 rounded-xl border border-[#F2B705]/20 text-center text-balance">
+                🌾 Nutrição programada, sem cocho vazio!
+              </div>
             </div>
 
           </div>

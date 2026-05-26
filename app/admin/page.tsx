@@ -637,10 +637,18 @@ export default function AdminPage() {
                                 value={(kit.resultsExpected || []).join("\n")}
                                 onChange={(event) => updateKit(index, { resultsExpected: event.target.value.split("\n").map(l => l.trim()).filter(Boolean) })}
                                 rows={3}
-                                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#082B63] outline-none transition focus:border-[#0A3D91]"
                               />
                             </label>
                           </div>
+
+                          <div className="sm:col-span-2 space-y-4 border-t border-slate-200/50 pt-5">
+                            <h5 className="text-xs font-black text-[#082B63]/70 uppercase tracking-wider">Modo de Uso e Consumo</h5>
+                            <div className="grid gap-5 sm:grid-cols-2">
+                              <Field label="Modo de Uso — Instruções (Ex: Misture em sal branco 1 saco...)" value={kit.usageInstructions || ""} onChange={(value) => updateKit(index, { usageInstructions: value })} textarea />
+                              <Field label="Consumo Estimado (Ex: Média de 70 a 100g por dia...)" value={kit.usageConsumption || ""} onChange={(value) => updateKit(index, { usageConsumption: value })} textarea />
+                            </div>
+                          </div>
+
                         </div>
 
                       </div>
