@@ -16,63 +16,76 @@ export function useSiteContent(readOnly = false) {
     let cancelled = false;
 
     async function load() {
-      // Recupera o cache do LocalStorage caso o usuário já tenha edições salvas localmente
-      const saved = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
-      let localContent: SiteContent | null = null;
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved) as Partial<SiteContent>;
-          localContent = normalizeSiteContent(parsed);
-        } catch {}
-      }
-
-      if (isSupabaseConfigured) {
-        try {
-          const remoteContent = await loadSupabaseContent();
-          if (!cancelled) {
-            // Se o usuário possui edições em cache local, damos prioridade a elas para recuperar dados perdidos
-            if (localContent && Object.keys(localContent.sections || {}).length > 0) {
-              // Mantém as edições locais mas mescla os novos kits estruturados
-              const mergedKits = defaultContent.kits.map(defaultKit => {
-                const existingKit = localContent?.kits?.find(k => k.id === defaultKit.id);
-                return existingKit ? { ...defaultKit, ...existingKit } : defaultKit;
-              });
-
-              setContent({
-                ...localContent,
-                kits: mergedKits
-              });
-              setSource("supabase");
-              setSyncStatus("saved");
-              setReady(true);
-              return;
-            }
-
-            if (remoteContent) {
-              setContent(remoteContent);
-              setSource("supabase");
-              setSyncStatus("saved");
-              setContent(remoteContent);
-              setReady(true);
-              return;
-            }
-          }
-        } catch {
-          if (!cancelled) {
-            setSource("local");
-            setSyncStatus("error");
+      try {
+        // Recupera o cache do LocalStorage caso o usuário já tenha edições salvas localmente
+        const saved = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
+        let localContent: SiteContent | null = null;
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved) as Partial<SiteContent>;
+            localContent = normalizeSiteContent(parsed);
+          } catch (e) {
+            console.warn("Failed to parse local storage cache:", e);
           }
         }
-      }
 
-      if (localContent) {
-        setContent(localContent);
-      } else {
-        setContent(defaultContent);
-      }
-      if (!cancelled) {
-        setReady(true);
-        setSyncStatus(isSupabaseConfigured ? "error" : "idle");
+        if (isSupabaseConfigured) {
+          try {
+            const remoteContent = await loadSupabaseContent();
+            if (!cancelled) {
+              // Se o usuário possui edições em cache local, damos prioridade a elas para recuperar dados perdidos
+              if (localContent && Object.keys(localContent.sections || {}).length > 0) {
+                // Mantém as edições locais mas mescla os novos kits estruturados
+                const mergedKits = defaultContent.kits.map(defaultKit => {
+                  const existingKit = Array.isArray(localContent?.kits)
+                    ? localContent.kits.find(k => k && k.id === defaultKit.id)
+                    : null;
+                  return existingKit ? { ...defaultKit, ...existingKit } : defaultKit;
+                });
+
+                setContent({
+                  ...localContent,
+                  kits: mergedKits
+                });
+                setSource("supabase");
+                setSyncStatus("saved");
+                setReady(true);
+                return;
+              }
+
+              if (remoteContent) {
+                setContent(remoteContent);
+                setSource("supabase");
+                setSyncStatus("saved");
+                setReady(true);
+                return;
+              }
+            }
+          } catch (e) {
+            console.error("Supabase load failed:", e);
+            if (!cancelled) {
+              setSource("local");
+              setSyncStatus("error");
+            }
+          }
+        }
+
+        if (localContent) {
+          setContent(localContent);
+        } else {
+          setContent(defaultContent);
+        }
+        if (!cancelled) {
+          setReady(true);
+          setSyncStatus(isSupabaseConfigured ? "error" : "idle");
+        }
+      } catch (e) {
+        console.error("Critical error inside useSiteContent load hook:", e);
+        if (!cancelled) {
+          setContent(defaultContent);
+          setReady(true);
+          setSyncStatus("error");
+        }
       }
     }
 
