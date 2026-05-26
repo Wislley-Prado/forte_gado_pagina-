@@ -1031,17 +1031,17 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Pure White Image Container (Blends perfectly with white-background images!) */}
-                <div className="relative h-56 bg-white flex items-center justify-center p-6">
+                {/* Modern full-width image container (optimized for square 600x600 images) */}
+                <div className="relative aspect-square w-full bg-slate-50 overflow-hidden border-b border-slate-100/60">
                   {kit.image ? (
                     <img 
                       src={kit.image} 
                       alt={kit.name} 
-                      className="max-h-full max-w-full object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.05)] transition-transform duration-500 hover:scale-110" 
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
                     />
                   ) : (
                     <div className="grid h-full place-items-center text-[#F2B705]">
-                      <PackageCheck size={56} />
+                      <PackageCheck size={64} />
                     </div>
                   )}
                 </div>
