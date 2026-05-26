@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import {
   ArrowLeft,
-  CheckCircle2,
+  BadgeCheck,
   ChevronRight,
   ShieldCheck,
   PackageCheck,
@@ -30,7 +30,7 @@ import { injectTrackingScripts } from "@/lib/tracking";
 
 export default function KitSalesPage() {
   const params = useParams();
-  const id = params.id as string;
+  const id = (params?.id as string) || "";
   const { content: c, ready } = useSiteContent(true);
 
   useEffect(() => {
@@ -338,7 +338,7 @@ export default function KitSalesPage() {
               <ul className="space-y-4">
                 {whatYouReceive.map((item, index) => (
                   <li key={index} className="flex items-start gap-3 border-b border-slate-50 pb-3 last:border-0 last:pb-0">
-                    <CheckCircle2 size={20} className="text-[#0A3D91] shrink-0 mt-0.5" />
+                    <BadgeCheck size={20} className="text-[#0A3D91] shrink-0 mt-0.5" />
                     <span className="text-sm font-semibold text-slate-700">{item}</span>
                   </li>
                 ))}
@@ -357,7 +357,7 @@ export default function KitSalesPage() {
               <ul className="space-y-4">
                 {resultsExpected.map((item, index) => (
                   <li key={index} className="flex items-start gap-3 border-b border-slate-50 pb-3 last:border-0 last:pb-0">
-                    <CheckCircle2 size={20} className="text-[#5E8C31] shrink-0 mt-0.5" />
+                    <BadgeCheck size={20} className="text-[#5E8C31] shrink-0 mt-0.5" />
                     <span className="text-sm font-semibold text-slate-700">{item}</span>
                   </li>
                 ))}
