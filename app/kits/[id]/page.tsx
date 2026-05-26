@@ -113,8 +113,19 @@ export default function KitSalesPage() {
     "--deep-blue": c.colors.deepBlue
   } as CSSProperties;
 
-  // WhatsApp Link Helper
-  const whatsappUrl = c.hero.whatsappLink || `https://wa.me/${c.hero.whatsapp}?text=${encodeURIComponent(`Olá, gostaria de falar com um especialista sobre o ${kit.name} de ${kit.bags}.`)}`;
+  // WhatsApp Link Helper (Opcional por Kit ou fallback Global)
+  let whatsappUrl = c.hero.whatsappLink || `https://wa.me/${c.hero.whatsapp}?text=${encodeURIComponent(`Olá, gostaria de falar com um especialista sobre o ${kit.name} de ${kit.bags}.`)}`;
+
+  if (kit.kitWhatsApp) {
+    const trimmed = kit.kitWhatsApp.trim();
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.includes("wa.me")) {
+      whatsappUrl = trimmed;
+    } else {
+      // Se for apenas o número de telefone, remove caracteres não numéricos e formata
+      const cleanPhone = trimmed.replace(/\D/g, "");
+      whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Olá, gostaria de falar com um especialista sobre o ${kit.name} de ${kit.bags}.`)}`;
+    }
+  }
 
   return (
     <main className="overflow-hidden bg-[var(--ice)] text-[#082B63] min-h-screen" style={brandVars}>

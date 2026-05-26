@@ -572,9 +572,10 @@ export default function AdminPage() {
                         <span className="text-slate-400">Clique para abrir/fechar</span>
                       </summary>
                       <div className="grid gap-5 pt-4">
-                        <div className="grid gap-5 sm:grid-cols-2">
+                        <div className="grid gap-5 sm:grid-cols-3">
                           <Field label="Título / Headline Exclusivo" value={kit.customHeadline || ""} onChange={(value) => updateKit(index, { customHeadline: value })} />
-                          <Field label="Selo Simulação Ex (Ex: CONDIÇÃO ESPECIAL PECUARISTA)" value={kit.paymentConditionBadge || ""} onChange={(value) => updateKit(index, { paymentConditionBadge: value })} />
+                          <Field label="Selo Simulação Ex (Ex: CONDIÇÃO ESPECIAL)" value={kit.paymentConditionBadge || ""} onChange={(value) => updateKit(index, { paymentConditionBadge: value })} />
+                          <Field label="WhatsApp / Link Exclusivo do Kit (Opcional)" value={kit.kitWhatsApp || ""} onChange={(value) => updateKit(index, { kitWhatsApp: value })} />
                         </div>
                         <Field label="Descrição Persuasiva / Subheadline" value={kit.customSubheadline || ""} onChange={(value) => updateKit(index, { customSubheadline: value })} textarea />
                         

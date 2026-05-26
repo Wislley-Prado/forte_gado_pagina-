@@ -29,6 +29,7 @@ export type Kit = {
   guaranteeDescription?: string;
   whatYouReceive?: string[];
   resultsExpected?: string[];
+  kitWhatsApp?: string;
 };
 
 export type Testimonial = {
