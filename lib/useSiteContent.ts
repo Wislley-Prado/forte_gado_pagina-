@@ -33,27 +33,15 @@ export function useSiteContent(readOnly = false) {
           try {
             const remoteContent = await loadSupabaseContent();
             if (!cancelled) {
-              // Se o usuário possui edições em cache local, damos prioridade a elas para recuperar dados perdidos
-              if (localContent && Object.keys(localContent.sections || {}).length > 0) {
-                // Mantém as edições locais mas mescla os novos kits estruturados
-                const mergedKits = defaultContent.kits.map(defaultKit => {
-                  const existingKit = Array.isArray(localContent?.kits)
-                    ? localContent.kits.find(k => k && k.id === defaultKit.id)
-                    : null;
-                  return existingKit ? { ...defaultKit, ...existingKit } : defaultKit;
-                });
-
-                setContent({
-                  ...localContent,
-                  kits: mergedKits
-                });
-                setSource("supabase");
-                setSyncStatus("saved");
-                setReady(true);
-                return;
-              }
-
               if (remoteContent) {
+                // Atualiza o cache local para ficar em sincronia perfeita com o Supabase
+                if (typeof window !== "undefined") {
+                  try {
+                    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(remoteContent));
+                  } catch (err) {
+                    console.warn("Falha ao atualizar o localStorage com dados do Supabase:", err);
+                  }
+                }
                 setContent(remoteContent);
                 setSource("supabase");
                 setSyncStatus("saved");
