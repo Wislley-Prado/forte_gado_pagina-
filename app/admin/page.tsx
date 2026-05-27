@@ -18,7 +18,8 @@ import {
   Video,
   PanelBottom,
   Code2,
-  ShieldCheck
+  ShieldCheck,
+  RefreshCw
 } from "lucide-react";
 import Link from "next/link";
 import { Kit, Testimonial, Faq, ClientVideo } from "@/lib/content";
@@ -168,6 +169,13 @@ function ImageUploadField({
 
 export default function AdminPage() {
   const { content, setContent, reset, ready, source, syncStatus } = useSiteContent();
+
+  const clearCacheAndSync = () => {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem("fortegado-premium-content");
+      window.location.reload();
+    }
+  };
 
   if (!ready) {
     return <div className="grid min-h-screen place-items-center bg-[#F8F9FA] text-xl font-black text-[#082B63]">Carregando painel...</div>;
@@ -324,6 +332,9 @@ export default function AdminPage() {
             <span className={`inline-flex items-center rounded-md px-4 py-3 text-sm font-black ${source === "supabase" && syncStatus !== "error" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
               {source === "supabase" && syncStatus !== "error" ? "Supabase conectado" : "Modo local"}
             </span>
+            <button onClick={clearCacheAndSync} className="inline-flex items-center gap-2 rounded-md bg-amber-500 hover:bg-amber-600 px-4 py-3 font-black text-white transition duration-200 hover:shadow-md">
+              <RefreshCw size={18} /> Limpar Cache do Navegador
+            </button>
             <button onClick={reset} className="inline-flex items-center gap-2 rounded-md bg-slate-100 px-4 py-3 font-black text-[#082B63]">
               <RotateCcw size={18} /> Restaurar
             </button>
