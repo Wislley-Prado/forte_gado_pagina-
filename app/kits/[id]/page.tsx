@@ -131,8 +131,9 @@ export default function KitSalesPage() {
     }
   }
 
-  return (
-    <main className="overflow-hidden bg-[var(--ice)] text-[#082B63] min-h-screen" style={brandVars}>
+  try {
+    return (
+      <main className="overflow-hidden bg-[var(--ice)] text-[#082B63] min-h-screen" style={brandVars}>
       
       {/* Dynamic Header */}
       <header className="sticky top-0 z-30 border-b border-slate-200/60 bg-white/95 backdrop-blur shadow-sm">
@@ -689,6 +690,17 @@ export default function KitSalesPage() {
         </div>
       </footer>
 
-    </main>
-  );
+      </main>
+    );
+  } catch (err: any) {
+    return (
+      <div className="p-8 text-red-600 bg-red-50 min-h-screen font-mono">
+        <h1 className="text-xl font-bold">Erro de Renderização (KitSalesPage):</h1>
+        <p className="mt-2 text-sm">{err?.message || String(err)}</p>
+        <pre className="mt-4 p-4 bg-white border border-red-200 rounded text-xs overflow-auto max-w-full">
+          {err?.stack || "Sem stack trace disponível."}
+        </pre>
+      </div>
+    );
+  }
 }
