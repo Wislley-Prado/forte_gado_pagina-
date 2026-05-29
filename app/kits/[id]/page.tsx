@@ -33,6 +33,7 @@ function InnerKitSalesPage() {
   const params = useParams();
   const id = (params?.id as string) || "";
   const { content: c, ready } = useSiteContent(true);
+  const [herdSize, setHerdSize] = useState(100);
 
   useEffect(() => {
     if (ready && c.integrations) {
@@ -106,7 +107,6 @@ function InnerKitSalesPage() {
         "Fortalecimento da imunidade do rebanho"
       ];
 
-  const [herdSize, setHerdSize] = useState(100);
   const bagsCount = parseInt(kit.bags.replace(/\D/g, "")) || 30;
   const usageInstructions = kit.usageInstructions || "Misture em sal branco: 1 saco para cada 2 sacos de 25 kilos de sal branco.";
   const usageConsumption = kit.usageConsumption || "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais.";
