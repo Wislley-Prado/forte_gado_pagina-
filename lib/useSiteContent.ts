@@ -29,6 +29,17 @@ export function useSiteContent(readOnly = false) {
           }
         }
 
+        // 1. Renderiza imediatamente os dados locais ou padrão (Stale-While-Revalidate)
+        const initialContent = localContent || defaultContent;
+        setContent(initialContent);
+
+        // Se for somente leitura (visitante do site), define 'ready' como true na hora!
+        // Isso remove completamente telas de carregamento travadas para o usuário final.
+        if (readOnly && !cancelled) {
+          setReady(true);
+          setSyncStatus("idle");
+        }
+
         if (isSupabaseConfigured) {
           try {
             const remoteContent = await loadSupabaseContent();
@@ -45,7 +56,9 @@ export function useSiteContent(readOnly = false) {
                 setContent(remoteContent);
                 setSource("supabase");
                 setSyncStatus("saved");
-                setReady(true);
+                if (!readOnly) {
+                  setReady(true);
+                }
                 return;
               }
             }
@@ -58,12 +71,8 @@ export function useSiteContent(readOnly = false) {
           }
         }
 
-        if (localContent) {
-          setContent(localContent);
-        } else {
-          setContent(defaultContent);
-        }
-        if (!cancelled) {
+        // Se não houver Supabase ou se a requisição falhar, libera a renderização no admin
+        if (!readOnly && !cancelled) {
           setReady(true);
           setSyncStatus(isSupabaseConfigured ? "error" : "idle");
         }
