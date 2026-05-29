@@ -27,8 +27,9 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { useSiteContent } from "@/lib/useSiteContent";
 import { injectTrackingScripts } from "@/lib/tracking";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-export default function KitSalesPage() {
+function InnerKitSalesPage() {
   const params = useParams();
   const id = (params?.id as string) || "";
   const { content: c, ready } = useSiteContent(true);
@@ -106,6 +107,7 @@ export default function KitSalesPage() {
       ];
 
   const [herdSize, setHerdSize] = useState(100);
+  const bagsCount = parseInt(kit.bags.replace(/\D/g, "")) || 30;
   const usageInstructions = kit.usageInstructions || "Misture em sal branco: 1 saco para cada 2 sacos de 25 kilos de sal branco.";
   const usageConsumption = kit.usageConsumption || "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais.";
 
@@ -118,7 +120,8 @@ export default function KitSalesPage() {
   } as CSSProperties;
 
   // WhatsApp Link Helper (Opcional por Kit ou fallback Global)
-  let whatsappUrl = c.hero.whatsappLink || `https://wa.me/${c.hero.whatsapp}?text=${encodeURIComponent(`Olá, gostaria de falar com um especialista sobre o ${kit.name} de ${kit.bags}.`)}`;
+  const cleanGlobalWhatsapp = c.hero.whatsapp ? c.hero.whatsapp.replace(/\D/g, "") : "";
+  let whatsappUrl = c.hero.whatsappLink || `https://wa.me/${cleanGlobalWhatsapp}?text=${encodeURIComponent(`Olá, gostaria de falar com um especialista sobre o ${kit.name} de ${kit.bags}.`)}`;
 
   if (kit.kitWhatsApp) {
     const trimmed = kit.kitWhatsApp.trim();
@@ -466,26 +469,26 @@ export default function KitSalesPage() {
                   <div className="grid grid-cols-2 gap-4 text-center border-b border-white/10 pb-4">
                     <div className="space-y-0.5">
                       <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Suplemento no Kit</span>
-                      <div className="text-lg font-black text-white">{parseInt(kit.bags) || 30} Sacos ({(parseInt(kit.bags) || 30) * 25}kg)</div>
+                      <div className="text-lg font-black text-white">{bagsCount} Sacos ({bagsCount * 25}kg)</div>
                     </div>
                     <div className="space-y-0.5 border-l border-white/10">
                       <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Mineralizado Pronto</span>
-                      <div className="text-lg font-black text-[#F2B705]">{(parseInt(kit.bags) || 30) * 75} kg misturado</div>
+                      <div className="text-lg font-black text-[#F2B705]">{bagsCount * 75} kg misturado</div>
                     </div>
                   </div>
 
                   <div className="text-center pt-2 space-y-1">
                     <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">O cocho estará abastecido por</span>
                     <div className="text-3xl font-black text-[#F2B705] tracking-tight">
-                      {Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) >= 30 ? (
+                      {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) >= 30 ? (
                         <>
-                          {Math.floor(Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) / 30)} {Math.floor(Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) / 30) === 1 ? 'Mês' : 'Meses'}{' '}
-                          {Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) % 30 > 0 && (
-                            <>e {Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85)) % 30} dias</>
+                          {Math.floor(Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) / 30)} {Math.floor(Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) / 30) === 1 ? 'Mês' : 'Meses'}{' '}
+                          {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) % 30 > 0 && (
+                            <>e {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) % 30} dias</>
                           )}
                         </>
                       ) : (
-                        <>{Math.floor(((parseInt(kit.bags) || 30) * 75 * 1000) / (herdSize * 85))} Dias</>
+                        <>{Math.floor((bagsCount * 75 * 1000) / (herdSize * 85))} Dias</>
                       )}
                     </div>
                     <p className="text-[11px] font-semibold text-white/60 leading-normal max-w-xs mx-auto">Cálculo baseado em consumo diário médio de 85g da mistura final por animal.</p>
@@ -703,4 +706,12 @@ export default function KitSalesPage() {
       </div>
     );
   }
+}
+
+export default function KitSalesPage() {
+  return (
+    <ErrorBoundary>
+      <InnerKitSalesPage />
+    </ErrorBoundary>
+  );
 }

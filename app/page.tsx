@@ -179,8 +179,9 @@ function getYoutubeEmbedUrl(url: string) {
 export default function Home() {
   const { content } = useSiteContent(true);
   const c = content || defaultContent;
+  const cleanWhatsapp = c.hero.whatsapp ? c.hero.whatsapp.replace(/\D/g, "") : "";
 
-  const [timeLeft, setTimeLeft] = useState("08:00:00");
+  const [timeLeft, setTimeLeft] = useState("");
   const [cookieConsent, setCookieConsent] = useState<boolean | null>(null);
   
   const [activeStep, setActiveStep] = useState(0);
@@ -195,7 +196,7 @@ export default function Home() {
   }, [isAutoCycle]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const updateTime = () => {
       const now = new Date();
       const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
       const diff = endOfDay.getTime() - now.getTime();
@@ -216,7 +217,10 @@ export default function Home() {
       ].join(":");
 
       setTimeLeft(formatted);
-    }, 1000);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -306,7 +310,7 @@ export default function Home() {
                 <ShoppingCart size={21} /> {c.hero.cta}
               </button>
               <a
-                href={c.hero.whatsappLink || `https://wa.me/${c.hero.whatsapp}`}
+                href={c.hero.whatsappLink || `https://wa.me/${cleanWhatsapp}`}
                 className="inline-flex items-center justify-center gap-3 rounded-md border border-white/30 bg-white/10 px-7 py-5 font-black uppercase text-white transition hover:bg-white hover:text-[#082B63]"
               >
                 <MessageCircle size={21} /> {c.hero.whatsappText || "Falar com especialista"}
@@ -344,7 +348,9 @@ export default function Home() {
       <div className="bg-[#082B63] py-3 text-white">
         <div className="section-shell flex flex-col items-center justify-between gap-3 text-center sm:flex-row">
           <span className="font-black uppercase text-[#F2B705]">{c.hero.promo}</span>
-          <span className="inline-flex items-center gap-2 text-sm font-bold"><Clock3 size={16} /> Oferta expira em {timeLeft}</span>
+          {timeLeft && (
+            <span className="inline-flex items-center gap-2 text-sm font-bold"><Clock3 size={16} /> Oferta expira em {timeLeft}</span>
+          )}
         </div>
       </div>
 
