@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   BadgeDollarSign,
   Eye,
@@ -70,58 +70,118 @@ function ImageUploadField({
   value: string;
   onChange: (value: string) => void;
 }) {
+  const [uploading, setUploading] = useState(false);
+
   const upload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    uploadImageToSupabase(file).then((supabaseUrl) => {
-      if (supabaseUrl) {
-        onChange(supabaseUrl);
-      } else {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement("canvas");
-            const MAX_WIDTH = 1200;
-            const MAX_HEIGHT = 1200;
-            let width = img.width;
-            let height = img.height;
+    setUploading(true);
 
-            if (width > height) {
-              if (width > MAX_WIDTH) {
-                height = Math.round((height * MAX_WIDTH) / width);
-                width = MAX_WIDTH;
-              }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 1200;
+        const MAX_HEIGHT = 1200;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width = Math.round((width * MAX_HEIGHT) / height);
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const format = file.type === "image/png" || file.type === "image/webp" ? file.type : "image/jpeg";
+          const quality = format === "image/jpeg" ? 0.82 : undefined;
+
+          // Conversão para Blob para upload direto
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const fileExt = format.split("/").pop() || "jpg";
+              const cleanFileName = file.name.substring(0, file.name.lastIndexOf('.')) || 'image';
+              const compressedFileName = `${cleanFileName}-${Date.now()}.${fileExt}`;
+              const compressedFile = new File([blob], compressedFileName, { type: format });
+
+              uploadImageToSupabase(compressedFile)
+                .then((supabaseUrl) => {
+                  if (supabaseUrl) {
+                    onChange(supabaseUrl);
+                  } else {
+                    // Fallback para base64 se falhar o upload
+                    const compressedBase64 = canvas.toDataURL(format, quality);
+                    onChange(compressedBase64);
+                  }
+                })
+                .catch((err) => {
+                  console.error("Upload error:", err);
+                  const compressedBase64 = canvas.toDataURL(format, quality);
+                  onChange(compressedBase64);
+                })
+                .finally(() => {
+                  setUploading(false);
+                });
             } else {
-              if (height > MAX_HEIGHT) {
-                width = Math.round((width * MAX_HEIGHT) / height);
-                height = MAX_HEIGHT;
-              }
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-              ctx.drawImage(img, 0, 0, width, height);
-              const format = file.type === "image/png" || file.type === "image/webp" ? file.type : "image/jpeg";
-              const quality = format === "image/jpeg" ? 0.82 : undefined;
+              // toBlob falhou, fallback direto para base64
               const compressedBase64 = canvas.toDataURL(format, quality);
               onChange(compressedBase64);
+              setUploading(false);
+            }
+          }, format, quality);
+        } else {
+          // Contexto 2D falhou, upload original
+          uploadImageToSupabase(file)
+            .then((supabaseUrl) => {
+              if (supabaseUrl) {
+                onChange(supabaseUrl);
+              } else {
+                onChange(String(reader.result));
+              }
+            })
+            .catch(() => {
+              onChange(String(reader.result));
+            })
+            .finally(() => {
+              setUploading(false);
+            });
+        }
+      };
+      img.onerror = () => {
+        uploadImageToSupabase(file)
+          .then((supabaseUrl) => {
+            if (supabaseUrl) {
+              onChange(supabaseUrl);
             } else {
               onChange(String(reader.result));
             }
-          };
-          img.onerror = () => {
+          })
+          .catch(() => {
             onChange(String(reader.result));
-          };
-          img.src = String(e.target?.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+          })
+          .finally(() => {
+            setUploading(false);
+          });
+      };
+      img.src = String(e.target?.result);
+    };
+    reader.onerror = () => {
+      setUploading(false);
+    };
+    reader.readAsDataURL(file);
   };
 
   const isBase64 = !!(value && value.startsWith("data:"));
@@ -140,9 +200,17 @@ function ImageUploadField({
             className="flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 font-semibold text-[#082B63] placeholder-slate-400 outline-none transition duration-200 hover:bg-slate-50 focus:border-[#0A3D91] focus:bg-white focus:ring-4 focus:ring-[#0A3D91]/10 focus:shadow-sm"
             placeholder="Cole o link da imagem ou clique em Upload..."
           />
-          <label className="inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-xl bg-[#0A3D91] hover:bg-[#082B63] px-5 py-3 text-sm font-black text-white transition duration-200 shadow-sm hover:shadow-md active:scale-95">
-            <ImageIcon size={17} /> Upload
-            <input type="file" accept="image/*" onChange={upload} className="hidden" />
+          <label className={`inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-xl px-5 py-3 text-sm font-black text-white transition duration-200 shadow-sm hover:shadow-md active:scale-95 ${uploading ? "bg-slate-400 cursor-not-allowed" : "bg-[#0A3D91] hover:bg-[#082B63]"}`}>
+            {uploading ? (
+              <>
+                <RefreshCw size={17} className="animate-spin" /> Enviando...
+              </>
+            ) : (
+              <>
+                <ImageIcon size={17} /> Upload
+              </>
+            )}
+            <input type="file" accept="image/*" onChange={upload} disabled={uploading} className="hidden" />
           </label>
         </div>
       </label>

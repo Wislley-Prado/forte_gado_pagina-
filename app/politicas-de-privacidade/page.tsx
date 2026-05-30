@@ -10,7 +10,6 @@ import {
   Instagram,
   Facebook,
   Youtube,
-  Music,
   Phone,
   Mail,
   MapPin
@@ -18,6 +17,7 @@ import {
 import { useSiteContent } from "@/lib/useSiteContent";
 import { defaultContent } from "@/lib/content";
 import { injectTrackingScripts } from "@/lib/tracking";
+import { TiktokIcon } from "@/components/TiktokIcon";
 
 export default function PoliticasDePrivacidade() {
   const { content } = useSiteContent(true);
@@ -224,7 +224,7 @@ export default function PoliticasDePrivacidade() {
                   [c.footer.instagram, Instagram, "Instagram"],
                   [c.footer.youtube, Youtube, "YouTube"],
                   [c.footer.facebook, Facebook, "Facebook"],
-                  [c.footer.tiktok, Music, "TikTok"]
+                  [c.footer.tiktok, TiktokIcon, "TikTok"]
                 ].map(([url, Icon, label]) => {
                   if (!url) return null;
                   return (

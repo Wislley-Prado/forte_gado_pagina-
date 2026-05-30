@@ -18,7 +18,6 @@ import {
   Instagram,
   Facebook,
   Youtube,
-  Music,
   Scale,
   Sparkles
 } from "lucide-react";
@@ -28,6 +27,7 @@ import Link from "next/link";
 import { useSiteContent } from "@/lib/useSiteContent";
 import { injectTrackingScripts } from "@/lib/tracking";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { TiktokIcon } from "@/components/TiktokIcon";
 
 function InnerKitSalesPage() {
   const params = useParams();
@@ -583,7 +583,7 @@ function InnerKitSalesPage() {
                   [c.footer.instagram, Instagram, "Instagram"],
                   [c.footer.youtube, Youtube, "YouTube"],
                   [c.footer.facebook, Facebook, "Facebook"],
-                  [c.footer.tiktok, Music, "TikTok"]
+                  [c.footer.tiktok, TiktokIcon, "TikTok"]
                 ].map(([url, Icon, label]) => {
                   if (!url) return null;
                   return (

@@ -24,7 +24,6 @@ import {
   Instagram,
   Facebook,
   Youtube,
-  Music,
   Phone,
   Mail,
   MapPin,
@@ -42,6 +41,7 @@ import { defaultContent } from "@/lib/content";
 import { useSiteContent } from "@/lib/useSiteContent";
 import { injectTrackingScripts } from "@/lib/tracking";
 import { CookiesPopup } from "@/components/CookiesPopup";
+import { TiktokIcon } from "@/components/TiktokIcon";
 
 const tenReasons = [
   {
@@ -1252,7 +1252,7 @@ export default function Home() {
                   [c.footer.instagram, Instagram, "Instagram"],
                   [c.footer.youtube, Youtube, "YouTube"],
                   [c.footer.facebook, Facebook, "Facebook"],
-                  [c.footer.tiktok, Music, "TikTok"]
+                  [c.footer.tiktok, TiktokIcon, "TikTok"]
                 ].map(([url, Icon, label]) => {
                   if (!url) return null;
                   return (
