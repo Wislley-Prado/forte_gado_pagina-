@@ -244,6 +244,7 @@ export default function Home() {
   
   const [activeStep, setActiveStep] = useState(0);
   const [isAutoCycle, setIsAutoCycle] = useState(true);
+  const [activeMineral, setActiveMineral] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isAutoCycle) return;
@@ -466,52 +467,103 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            {/* TABELA DE ENRIQUECIMENTO MINERAL DE ALTA PERFORMANCE */}
-            <div className="mt-10 border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-md premium-shadow">
-              <div className="bg-gradient-to-r from-[#082B63] to-[#0A3D91] p-5 text-white flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-[#F2B705]">
-                  <Sparkles size={20} />
-                </div>
-                <div>
-                  <h3 className="text-base font-black uppercase tracking-wider">Mecanismo Único de Performance</h3>
-                  <p className="text-[11px] font-medium text-white/70">Níveis de garantia cientificamente balanceados para o pasto</p>
-                </div>
-              </div>
 
-              <div className="divide-y divide-slate-100 max-h-[380px] overflow-y-auto custom-scrollbar">
-                {c.product.composition.map((item) => {
-                  const key = item.toLowerCase().trim();
-                  const data = mineralData[key] || {
-                    symbol: item.substring(0, 2).toUpperCase(),
-                    color: "from-[#0A3D91] to-[#082B63] text-white border-slate-200",
-                    desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
-                  };
-                  return (
-                    <div 
-                      key={item} 
-                      className="p-4 sm:p-5 flex items-center gap-4 hover:bg-slate-50/80 transition-all duration-200 group"
-                    >
-                      {/* Símbolo do Elemento Estilo Infográfico */}
-                      <div className={`shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-gradient-to-br ${data.color} font-black text-sm tracking-tighter shadow-md border border-white/20 group-hover:scale-105 transition-all duration-300 relative`}>
-                        <span className="relative z-10">{data.symbol}</span>
-                        {/* Glowing effect inside badge */}
-                        <div className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            {/* INTERACTIVE 3D CIRCULAR INFOGRAPHIC WHEEL: MECANISMO ÚNICO DE PERFORMANCE */}
+            {(() => {
+              const selectedMineral = activeMineral || (c.product.composition && c.product.composition[0]) || "";
+              return (
+                <div className="mt-12 relative w-full max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] aspect-square mx-auto my-8 select-none">
+                  
+                  {/* Outer Glowing Background golden ring */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[76%] aspect-square rounded-full border-2 border-[#F2B705]/20 pointer-events-none z-0 shadow-[0_0_50px_rgba(242,183,5,0.05)]" />
+                  
+                  {/* Dashed rotating golden line */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[76%] aspect-square rounded-full border border-dashed border-[#F2B705]/30 animate-[spin_100s_linear_infinite] pointer-events-none z-0" />
+                  
+                  {/* Central Glowing Circle (Interactive Display Card) */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[48%] aspect-square rounded-full bg-gradient-to-br from-[#082B63] to-[#0A3D91] border-4 border-[#F2B705] shadow-[0_0_35px_rgba(242,183,5,0.25)] flex flex-col items-center justify-center p-3 text-center z-10 transition-all duration-500">
+                    {/* Cow silhouette */}
+                    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-[#F2B705] mb-1 filter drop-shadow-[0_2px_5px_rgba(242,183,5,0.3)] animate-pulse">
+                      <path d="M19.5 9c-.5 0-.9-.2-1.2-.5-.5-.5-1.1-.8-1.8-.8h-3c-.6 0-1.1-.3-1.4-.8L11 5H9c-1.1 0-2 .9-2 2v2c0 .6-.4 1-1 1H4.5C3.7 10 3 10.7 3 11.5S3.7 13 4.5 13H5v5c0 1.1.9 2 2 2h1c.6 0 1-.4 1-1v-4h6v4c0 .6.4 1 1 1h1c1.1 0 2-.9 2-2v-5h.5c.8 0 1.5-.7 1.5-1.5S20.3 9 19.5 9z" />
+                    </svg>
+                    
+                    {selectedMineral ? (() => {
+                      const key = selectedMineral.toLowerCase().trim();
+                      const data = mineralData[key] || {
+                        symbol: selectedMineral.substring(0, 2).toUpperCase(),
+                        desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
+                      };
+                      return (
+                        <motion.div
+                          key={selectedMineral}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.25 }}
+                          className="flex flex-col items-center"
+                        >
+                          <span className="text-[8px] font-black uppercase text-[#F2B705] tracking-widest leading-none">
+                            {selectedMineral}
+                          </span>
+                          <span className="text-xl font-black text-white mt-0.5 leading-none select-all">
+                            {data.symbol}
+                          </span>
+                          <p className="text-[8px] sm:text-[9px] font-bold text-white/80 leading-normal mt-1.5 max-w-[120px] sm:max-w-[140px] line-clamp-3 overflow-hidden">
+                            {data.desc}
+                          </p>
+                        </motion.div>
+                      );
+                    })() : (
+                      <div className="flex flex-col items-center">
+                        <span className="text-[9px] font-black uppercase text-[#F2B705] tracking-widest leading-none">
+                          Mecanismo Único
+                        </span>
+                        <span className="text-[9px] font-bold text-white/70 leading-normal mt-2 max-w-[120px]">
+                          Passe o mouse nos minerais para ver seus benefícios.
+                        </span>
                       </div>
-                      
-                      {/* Nome e Descrição do Mineral */}
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-black text-[#082B63] leading-none mb-1 group-hover:text-[#5E8C31] transition-colors duration-200">
+                    )}
+                  </div>
+
+                  {/* Floating Spheres / Circular Elements */}
+                  {c.product.composition.map((item, index) => {
+                    const N = c.product.composition.length;
+                    const radius = 38; // Radius as percentage of container
+                    const angle = (index * 2 * Math.PI) / N - Math.PI / 2;
+                    const left = 50 + radius * Math.cos(angle);
+                    const top = 50 + radius * Math.sin(angle);
+                    
+                    const key = item.toLowerCase().trim();
+                    const data = mineralData[key] || {
+                      symbol: item.substring(0, 2).toUpperCase(),
+                      color: "from-[#0A3D91] to-[#082B63] text-white border-slate-200",
+                      desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
+                    };
+                    
+                    const isSelected = selectedMineral === item;
+
+                    return (
+                      <button
+                        key={item}
+                        type="button"
+                        onMouseEnter={() => setActiveMineral(item)}
+                        onClick={() => setActiveMineral(item)}
+                        style={{ left: `${left}%`, top: `${top}%` }}
+                        className={`absolute -translate-x-1/2 -translate-y-1/2 w-[19%] aspect-square rounded-full bg-gradient-to-br ${data.color} flex flex-col items-center justify-center font-black text-xs sm:text-sm border-2 shadow-lg cursor-pointer transition-all duration-300 ${
+                          isSelected 
+                            ? "scale-115 ring-4 ring-[#F2B705]/50 border-[#F2B705] z-20 shadow-[0_0_20px_rgba(242,183,5,0.4)]" 
+                            : "border-white/20 hover:scale-105 z-0 hover:z-20 hover:shadow-[0_0_15px_rgba(255,255,255,0.15)]"
+                        }`}
+                      >
+                        <span className="leading-none text-[10px] sm:text-xs">{data.symbol}</span>
+                        <span className="text-[6px] sm:text-[7px] font-bold uppercase tracking-widest mt-0.5 opacity-80 leading-none truncate w-full text-center px-1">
                           {item}
-                        </h4>
-                        <p className="text-xs font-semibold text-slate-500 leading-relaxed truncate-2-lines sm:truncate-none">
-                          {data.desc}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </div>
         </section>
       )}
