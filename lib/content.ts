@@ -13,6 +13,20 @@ export type Kit = {
   installments?: string;
   paymentPerk?: string;
   
+  // Card layout customization fields
+  imageBadge?: string;          // Pill abaixo da imagem (ex: "Kit Teste")
+  imageCtaText?: string;        // Texto do botão flutuante sobre a imagem (ex: "Fale com nossa assistente!")
+  imageCtaLink?: string;        // Link do botão flutuante
+  treatmentAnimals?: string;    // Qtd de animais no bloco Trata (ex: "125 animais")
+  treatmentDays?: string;       // Qtd de dias no bloco Trata (ex: "por 30 dias")
+  estimatedProfit?: string;     // Texto do lucro estimado (ex: "R$ 24.525 a R$ 58.350")
+  roiText?: string;             // Texto do ROI (ex: "ROI: 2.455% a 5.843% • Retorno em 3 dias")
+  paymentInstallmentText?: string; // Detalhe parcelas (ex: "10x de R$ 99,88 no cartão sem juros")
+  paymentCashText?: string;        // Detalhe à vista (ex: "ou R$ 998,80 à vista (PIX/Boleto)")
+  features?: string[];          // Lista de características do card (com checkmark verde)
+  buttonSubtext?: string;       // Texto abaixo do botão de compra (ex: "Economia de R$ 249,70 • Melhor custo-benefício")
+  buttonIcon?: string;          // Ícone no botão ("none", "chart", "package", "shopping-cart")
+
   // Custom Sales Page Content
   customHeadline?: string;
   customSubheadline?: string;
@@ -168,27 +182,44 @@ export const defaultContent: SiteContent = {
   },
   kits: [
     {
-      id: "kit-5",
-      name: "KIT PECUARISTA",
-      bags: "5 sacos",
+      id: "kit-teste",
+      name: "Novo Kit",
+      bags: "1 saco de 25kg",
       ideal: "Ideal para iniciar e ver os primeiros resultados no lote",
-      price: "R$ 1.490,00",
-      economy: "Frete grátis para sua região",
-      badge: "INICIAL PRODUTOR",
+      price: "R$ 247,90",
+      economy: "Economia de R$ 24,97 • Ideal para teste",
+      badge: "10% OFF",
+      imageBadge: "Kit Teste",
       checkout: "#comprar",
       image: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=900&q=82",
-      installments: "6x de R$ 248,33",
-      paymentPerk: "Parcelamento sem juros",
+      highlighted: false,
+      buttonText: "Testar sem risco",
+      buttonSubtext: "Economia de R$ 24,97 • Ideal para teste",
+      buttonIcon: "none",
+      installments: "10x de R$ 22,47",
+      paymentPerk: "10x sem juros",
+      treatmentAnimals: "25 animais",
+      treatmentDays: "por 30 dias",
+      estimatedProfit: "R$ 4.905 a R$ 11.670",
+      roiText: "ROI: 2.182% a 5.192%",
+      paymentInstallmentText: "10x de R$ 22,47 no cartão sem juros",
+      paymentCashText: "ou R$ 224,73 à vista (PIX/Boleto)",
+      features: [
+        "Gasto: R$ 0,30/animal/dia",
+        "Frete grátis",
+        "Suporte técnico",
+        "Garantia 30 dias"
+      ],
       
       // Custom Sales Page Copy
-      customHeadline: "5 SACOS FORTEGADO PREMIUM",
+      customHeadline: "1 SACO FORTEGADO PREMIUM",
       customSubheadline: "O pontapé inicial para a nutrição de alta performance na sua fazenda. Obtenha mais rendimento e lote uniforme.",
       paymentDownPayment: "R$ 0,00",
       paymentFirstInstallmentDays: "Imediato",
-      paymentInstallmentsDetail: "6x de R$ 248,33 SEM JUROS",
+      paymentInstallmentsDetail: "10x de R$ 22,47 SEM JUROS",
       paymentConditionBadge: "CONDIÇÃO ESPECIAL FACILITADA",
       paymentConditionsList: [
-        "Parcelamento em até 6x sem juros",
+        "Parcelamento em até 10x sem juros",
         "Frete Grátis incluso para todo o Brasil",
         "Garantia estendida de satisfação",
         "Suporte técnico na primeira dosagem"
@@ -204,7 +235,7 @@ export const defaultContent: SiteContent = {
       guaranteeDays: "30 DIAS",
       guaranteeDescription: "Satisfação garantida: utilize o produto em um lote teste. Se não notar a evolução no ganho de peso e saúde, devolva o restante e pague apenas o que consumiu.",
       whatYouReceive: [
-        "5 sacos Fortegado Premium",
+        "1 saco Fortegado Premium",
         "Manual prático de suplementação de cocho",
         "Suporte via WhatsApp com consultor técnico",
         "Entrega garantida na porteira"
@@ -218,29 +249,45 @@ export const defaultContent: SiteContent = {
       usageConsumption: "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais."
     },
     {
-      id: "kit-10",
-      name: "KIT PRODUTOR",
-      bags: "10 sacos",
-      ideal: "Excelente custo-benefício para rebanhos em crescimento",
-      price: "R$ 2.790,00",
-      economy: "Economia no frete + suporte prioritário",
-      badge: "MAIS VENDIDO",
+      id: "kit-pecuarista",
+      name: "Novo Kit",
+      bags: "5 sacos de 25kg",
+      ideal: "Melhor custo-benefício para iniciar os resultados na fazenda",
+      price: "R$ 998,80",
+      economy: "Economia de R$ 249,70 • Melhor custo-benefício",
+      badge: "MAIS POPULAR • 20% OFF",
+      imageBadge: "Kit Campeão",
       checkout: "#comprar",
       image: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=900&q=82",
       highlighted: true,
-      installments: "6x de R$ 465,00",
-      paymentPerk: "Até 6x sem juros",
+      buttonText: "Lucrar R$ 24.525 a R$ 58.350",
+      buttonSubtext: "Economia de R$ 249,70 • Melhor custo-benefício",
+      buttonIcon: "package",
+      installments: "10x de R$ 99,88",
+      paymentPerk: "Carência de 90 dias",
+      treatmentAnimals: "125 animais",
+      treatmentDays: "por 30 dias",
+      estimatedProfit: "R$ 24.525 a R$ 58.350",
+      roiText: "ROI: 2.455% a 5.843% • Retorno em 3 dias",
+      paymentInstallmentText: "10x de R$ 99,88 no cartão sem juros",
+      paymentCashText: "ou R$ 998,80 à vista (PIX/Boleto)",
+      features: [
+        "Gasto: R$ 0,27/animal/dia",
+        "Frete grátis + seguro",
+        "Suporte prioritário",
+        "Pagamento em 90 dias"
+      ],
       
       // Custom Sales Page Copy
-      customHeadline: "10 SACOS FORTEGADO PREMIUM",
+      customHeadline: "5 SACOS FORTEGADO PREMIUM",
       customSubheadline: "A escolha favorita dos criadores focados em recria e engorda contínua. Desempenho garantido no cocho.",
       paymentDownPayment: "R$ 0,00",
       paymentFirstInstallmentDays: "30 dias",
-      paymentInstallmentsDetail: "6x de R$ 465,00 SEM JUROS",
+      paymentInstallmentsDetail: "10x de R$ 99,88 SEM JUROS",
       paymentConditionBadge: "MELHOR CUSTO-BENEFÍCIO",
       paymentConditionsList: [
         "Primeira parcela para 30 dias",
-        "Parcelamento em até 6x sem juros",
+        "Parcelamento em até 10x sem juros",
         "Suporte veterinário personalizado",
         "Desconto exclusivo no Pix"
       ],
@@ -255,7 +302,7 @@ export const defaultContent: SiteContent = {
       guaranteeDays: "30 DIAS",
       guaranteeDescription: "Experimente com segurança. Damos 30 dias completos de teste. Se não comprovar os resultados, devolvemos o valor do que não foi utilizado sem qualquer burocracia.",
       whatYouReceive: [
-        "10 sacos Fortegado Premium",
+        "5 sacos Fortegado Premium",
         "Acompanhamento personalizado com zootecnista",
         "Plano de manejo mineral customizado",
         "Entrega agendada e prioritária"
@@ -269,24 +316,44 @@ export const defaultContent: SiteContent = {
       usageConsumption: "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais."
     },
     {
-      id: "fazenda",
-      name: "KIT FAZENDA PREMIUM",
-      bags: "30 sacos",
-      ideal: "Máxima economia e carência de 90 dias para grandes plantéis",
-      price: "R$ 7.470,00",
-      economy: "Economia extrema + carência de 90 dias",
-      badge: "MELHOR OPÇÃO AGRO",
+      id: "kit-premium",
+      name: "Para Expandir",
+      bags: "10 sacos de 25kg",
+      ideal: "Excelente custo-benefício e máxima economia para rebanhos maiores",
+      price: "R$ 1.872,75",
+      economy: "Economia de R$ 624,25 • Maior economia",
+      badge: "25% OFF",
+      imageBadge: "Kit Premium",
+      imageCtaText: "Fale com nossa assistente!",
+      imageCtaLink: "https://wa.me/5511999999999",
       checkout: "#comprar",
       image: "https://images.unsplash.com/photo-1596733430284-f7437764b1a9?auto=format&fit=crop&w=900&q=82",
-      installments: "6x de R$ 1.245,00",
+      highlighted: false,
+      buttonText: "Maximizar para R$ 116.700",
+      buttonSubtext: "Economia de R$ 624,25 • Maior economia",
+      buttonIcon: "chart",
+      installments: "10x de R$ 187,28",
       paymentPerk: "Carência de 90 dias",
+      treatmentAnimals: "250 animais",
+      treatmentDays: "por 30 dias",
+      estimatedProfit: "R$ 49.050 a R$ 116.700",
+      roiText: "ROI: 2.619% a 6.230% • Máximo lucro",
+      paymentInstallmentText: "10x de R$ 187,28 no cartão sem juros",
+      paymentCashText: "ou R$ 1.872,75 à vista (PIX/Boleto)",
+      features: [
+        "Gasto: R$ 0,25/animal/dia",
+        "Entrega expressa grátis",
+        "Suporte VIP",
+        "Consultoria zootécnica",
+        "Pagamento em 90 dias"
+      ],
       
-      // Custom Sales Page Copy (Exact copy supplied by user!)
-      customHeadline: "30 SACOS FORTEGADO PREMIUM",
+      // Custom Sales Page Copy
+      customHeadline: "10 SACOS FORTEGADO PREMIUM",
       customSubheadline: "MAIS PESO. MAIS RESULTADO. MAIS LUCRO NO SEU REBANHO. O pecuarista moderno sabe: gado forte não acontece por sorte. A diferença entre prejuízo e produtividade está na nutrição do rebanho. O FORTEGADO PREMIUM foi desenvolvido para produtores que querem: ✔ mais desempenho, ✔ mais ganho de peso, ✔ mais imunidade, ✔ melhor reprodução, ✔ mais rendimento no pasto.",
       paymentDownPayment: "R$ 0,00",
       paymentFirstInstallmentDays: "90 dias",
-      paymentInstallmentsDetail: "6x de R$ 1.245,00 SEM JUROS",
+      paymentInstallmentsDetail: "10x de R$ 187,28 SEM JUROS",
       paymentConditionBadge: "CONDIÇÃO ESPECIAL PARA PECUARISTAS",
       paymentConditionsList: [
         "Primeira parcela somente em 90 dias",
@@ -296,7 +363,7 @@ export const defaultContent: SiteContent = {
       ],
       bonusTitle: "BÔNUS PRODUTOR RESPONSÁVEL",
       bonusPercentage: "5%",
-      bonusExampleText: "Pagou a parcela em dia? GANHE 5% DE BÔNUS NA PRÓXIMA PARCELA. Exemplo: Parcela de R$ 1.245,00. Pagando em dia: recebe R$ 62,25 de bônus/crédito direto.",
+      bonusExampleText: "Pagou a parcela em dia? GANHE 5% DE BÔNUS NA PRÓXIMA PARCELA. Exemplo: Parcela de R$ 1.872,75. Pagando em dia: recebe R$ 93,64 de bônus/crédito direto.",
       bonusBenefits: [
         "Economia real de caixa",
         "Vantagem contínua para reposição",
@@ -305,7 +372,7 @@ export const defaultContent: SiteContent = {
       guaranteeDays: "30 DIAS",
       guaranteeDescription: "Você testa o produto no seu rebanho. Se não aprovar os resultados: pode devolver o restante do produto, NÃO precisa pagar o que foi devolvido, paga somente o que foi utilizado. Sem enrolação. Sem burocracia. Porque quem confia no produto, oferece garantia de verdade.",
       whatYouReceive: [
-        "30 sacos Fortegado Premium",
+        "10 sacos Fortegado Premium",
         "Suporte prioritário exclusivo",
         "Entrega programada na fazenda",
         "Produto premium de alta performance",

@@ -281,16 +281,31 @@ export default function AdminPage() {
         {
           id: `kit-${Date.now()}`,
           name: "NOVO KIT",
-          bags: "1 saco",
+          bags: "1 saco de 25kg",
           ideal: "Descrição do novo pacote",
-          price: "R$ 297",
-          economy: "Economia destacada",
-          badge: "PROMOÇÃO",
+          price: "R$ 297,00",
+          economy: "Economia de R$ 30,00 • Novo Kit",
+          badge: "OFERTA",
+          imageBadge: "Kit Teste",
           checkout: "#comprar",
           image: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=900&q=82",
           buttonText: "Comprar",
-          installments: "12x de R$ 29,70",
-          paymentPerk: "3 meses de carência no prazo"
+          buttonSubtext: "Economia de R$ 30,00 • Novo Kit",
+          buttonIcon: "none",
+          installments: "10x de R$ 29,70",
+          paymentPerk: "10x sem juros",
+          treatmentAnimals: "25 animais",
+          treatmentDays: "por 30 dias",
+          estimatedProfit: "R$ 4.900 a R$ 11.600",
+          roiText: "ROI: 2.180% a 5.190%",
+          paymentInstallmentText: "10x de R$ 29,70 no cartão sem juros",
+          paymentCashText: "ou R$ 297,00 à vista (PIX/Boleto)",
+          features: [
+            "Gasto: R$ 0,30/animal/dia",
+            "Frete grátis",
+            "Suporte técnico",
+            "Garantia 30 dias"
+          ]
         }
       ]
     }));
@@ -608,14 +623,26 @@ export default function AdminPage() {
 
                   {/* Formulário Organizado */}
                   <div className="flex flex-col gap-6">
-                    {/* Bloco 1: Informações de Identificação */}
-                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                      <Field label="Nome do Kit" value={kit.name} onChange={(value) => updateKit(index, { name: value })} />
-                      <Field label="Quantidade (Ex: 5 sacos)" value={kit.bags} onChange={(value) => updateKit(index, { bags: value })} />
+                    {/* Bloco 1: Informações de Identificação e Selos */}
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                      <Field label="Nome do Kit (Título)" value={kit.name} onChange={(value) => updateKit(index, { name: value })} />
+                      <Field label="Quantidade (Ex: 5 sacos de 25kg)" value={kit.bags} onChange={(value) => updateKit(index, { bags: value })} />
+                      <Field label="Selo do Card (Ex: Kit Teste)" value={kit.imageBadge || ""} onChange={(value) => updateKit(index, { imageBadge: value })} />
                       <label className="flex items-center gap-3 rounded-xl bg-slate-50/60 border border-slate-200 hover:bg-slate-50 transition duration-200 p-4 font-black text-sm text-[#082B63] self-end h-[50px] cursor-pointer w-full">
                         <input type="checkbox" checked={Boolean(kit.highlighted)} onChange={(event) => updateKit(index, { highlighted: event.target.checked })} className="h-5 w-5 rounded border-slate-300 text-[#0A3D91] focus:ring-[#0A3D91] transition cursor-pointer" />
                         Destacar como Kit Principal
                       </label>
+                    </div>
+
+                    {/* Bloco 1.5: CTA Sobre a Imagem */}
+                    <div className="bg-slate-50/50 rounded-2xl p-6 border border-slate-200/60 space-y-5">
+                      <h4 className="text-xs font-black text-[#082B63]/60 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-200/50 pb-2">
+                        <span>💬</span> Botão Assistente sobre a Imagem (Opcional)
+                      </h4>
+                      <div className="grid gap-5 sm:grid-cols-2">
+                        <Field label="Texto do Botão na Imagem (Ex: Fale com nossa assistente!)" value={kit.imageCtaText || ""} onChange={(value) => updateKit(index, { imageCtaText: value })} />
+                        <Field label="Link WhatsApp do Botão na Imagem (URL ou número)" value={kit.imageCtaLink || ""} onChange={(value) => updateKit(index, { imageCtaLink: value })} />
+                      </div>
                     </div>
 
                     {/* Bloco 2: Valores, Parcelamentos e Condições (Comercial) */}
@@ -623,25 +650,73 @@ export default function AdminPage() {
                       <h4 className="text-xs font-black text-[#082B63]/60 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-200/50 pb-2">
                         <span>💰</span> Condições Comerciais e Preço
                       </h4>
-                      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                         <Field label="Preço (Ex: R$ 297)" value={kit.price} onChange={(value) => updateKit(index, { price: value })} />
-                        <Field label="Parcelas (Ex: 10x de R$ 30)" value={kit.installments || ""} onChange={(value) => updateKit(index, { installments: value })} />
-                        <Field label="Desconto / Economia (Ex: R$ 50 OFF)" value={kit.economy} onChange={(value) => updateKit(index, { economy: value })} />
+                        <Field label="Texto de Parcelas Card (Ex: 10x de R$ 99,88 no cartão sem juros)" value={kit.paymentInstallmentText || ""} onChange={(value) => updateKit(index, { paymentInstallmentText: value })} />
+                        <Field label="Texto à Vista Card (Ex: ou R$ 998,80 à vista (PIX/Boleto))" value={kit.paymentCashText || ""} onChange={(value) => updateKit(index, { paymentCashText: value })} />
+                        <Field label="Parcelas Simples (Legado) (Ex: 10x de R$ 99)" value={kit.installments || ""} onChange={(value) => updateKit(index, { installments: value })} />
+                        <Field label="Desconto / Economia Card (Ex: R$ 50 OFF)" value={kit.economy} onChange={(value) => updateKit(index, { economy: value })} />
                         <Field label="Prazo / Condição (Ex: 3 meses p/ pagar)" value={kit.paymentPerk || ""} onChange={(value) => updateKit(index, { paymentPerk: value })} />
                       </div>
                     </div>
 
-                    {/* Bloco 3: Botões e Selos */}
-                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                      <Field label="Texto do Botão" value={kit.buttonText || "Comprar"} onChange={(value) => updateKit(index, { buttonText: value })} />
-                      <Field label="Link do Botão (Checkout/URL)" value={kit.checkout} onChange={(value) => updateKit(index, { checkout: value })} />
-                      <Field label="Selo do Kit (Ex: MAIS VENDIDO)" value={kit.badge} onChange={(value) => updateKit(index, { badge: value })} />
+                    {/* Bloco 2.5: Simulador de Tratamento & Lucros (Card) */}
+                    <div className="bg-slate-50/50 rounded-2xl p-6 border border-slate-200/60 space-y-5">
+                      <h4 className="text-xs font-black text-[#082B63]/60 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-200/50 pb-2">
+                        <span>📊</span> Bloco de Simulação de Tratamento & Lucro do Card
+                      </h4>
+                      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                        <Field label="Trata quantos animais? (Ex: 125 animais)" value={kit.treatmentAnimals || ""} onChange={(value) => updateKit(index, { treatmentAnimals: value })} />
+                        <Field label="Trata por quantos dias? (Ex: por 30 dias)" value={kit.treatmentDays || ""} onChange={(value) => updateKit(index, { treatmentDays: value })} />
+                        <Field label="Lucro Estimado (Ex: R$ 24.525 a R$ 58.350)" value={kit.estimatedProfit || ""} onChange={(value) => updateKit(index, { estimatedProfit: value })} />
+                        <Field label="Detalhe do ROI (Ex: ROI: 2.455% a 5.843% • Retorno em 3 dias)" value={kit.roiText || ""} onChange={(value) => updateKit(index, { roiText: value })} />
+                      </div>
                     </div>
 
-                    {/* Bloco 4: Mídia e Descrição (Full Width / Maior Espaço) */}
+                    {/* Bloco 3: Botões e Selos do Topo */}
+                    <div className="bg-slate-50/50 rounded-2xl p-6 border border-slate-200/60 space-y-5">
+                      <h4 className="text-xs font-black text-[#082B63]/60 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-200/50 pb-2">
+                        <span>🔘</span> Botão de Compra e Selo Flutuante
+                      </h4>
+                      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                        <Field label="Texto do Botão Card" value={kit.buttonText || "Comprar"} onChange={(value) => updateKit(index, { buttonText: value })} />
+                        <Field label="Subtexto do Botão Card (Ex: Economia de R$ X)" value={kit.buttonSubtext || ""} onChange={(value) => updateKit(index, { buttonSubtext: value })} />
+                        <label className="block w-full">
+                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.15em] text-[#082B63]/60">Ícone do Botão Card</span>
+                          <select
+                            value={kit.buttonIcon || "none"}
+                            onChange={(event) => updateKit(index, { buttonIcon: event.target.value })}
+                            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#082B63] outline-none transition duration-200 hover:bg-slate-50 focus:border-[#0A3D91]"
+                          >
+                            <option value="none">Nenhum Ícone</option>
+                            <option value="chart">Gráfico de Linha (TrendingUp)</option>
+                            <option value="package">Caixa / Pacote (PackageCheck)</option>
+                            <option value="shopping-cart">Carrinho de Compras (ShoppingCart)</option>
+                          </select>
+                        </label>
+                        <Field label="Selo Flutuante Superior (Ex: 10% OFF)" value={kit.badge} onChange={(value) => updateKit(index, { badge: value })} />
+                      </div>
+                      <div className="grid gap-5">
+                        <Field label="Link de Checkout do Botão" value={kit.checkout} onChange={(value) => updateKit(index, { checkout: value })} />
+                      </div>
+                    </div>
+
+                    {/* Bloco 4: Mídia, Descrição & Benefícios */}
                     <div className="grid gap-6 lg:grid-cols-2 border-t border-slate-100 pt-6">
-                      <ImageUploadField label="Imagem do Kit (Upload ou Link)" value={kit.image || ""} onChange={(value) => updateKit(index, { image: value })} />
-                      <Field label="Descrição Curta (Ideal para...)" value={kit.ideal} onChange={(value) => updateKit(index, { ideal: value })} textarea />
+                      <div className="space-y-6">
+                        <ImageUploadField label="Imagem do Kit (Upload ou Link)" value={kit.image || ""} onChange={(value) => updateKit(index, { image: value })} />
+                        <Field label="Descrição Curta (Ideal para...)" value={kit.ideal} onChange={(value) => updateKit(index, { ideal: value })} textarea />
+                      </div>
+                      <label className="block w-full">
+                        <span className="mb-2 block text-xs font-black uppercase tracking-[0.15em] text-[#082B63]/60">Diferenciais / Itens do Card (Um por linha com checkmark)</span>
+                        <textarea
+                          value={(kit.features || []).join("\n")}
+                          onChange={(event) => updateKit(index, { features: event.target.value.split("\n").map(l => l.trim()).filter(Boolean) })}
+                          rows={6}
+                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-4 font-semibold text-[#082B63] outline-none transition duration-200 hover:bg-slate-50 focus:border-[#0A3D91] focus:bg-white focus:ring-4 focus:ring-[#0A3D91]/10 focus:shadow-sm"
+                          placeholder="Gasto: R$ 0,30/animal/dia&#10;Frete grátis&#10;Suporte técnico&#10;Garantia 30 dias"
+                        />
+                      </label>
                     </div>
 
                     {/* Bloco 5: Página de Vendas Dinâmica do Kit */}

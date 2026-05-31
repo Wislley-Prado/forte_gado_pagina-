@@ -1192,77 +1192,220 @@ export default function Home() {
               ? "grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto"
               : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
           }`}>
-            {c.kits.map((kit) => (
-              <motion.article
-                key={kit.id}
-                whileHover={{ y: -8 }}
-                className={`relative overflow-hidden rounded-2xl border bg-white transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(8,43,99,0.08)] ${kit.highlighted ? "border-[#F2B705] ring-4 ring-[#F2B705]/15 scale-[1.02]" : "border-slate-100"}`}
-              >
-                {/* Floating Badge at the top */}
-                {kit.badge && (
-                  <div className="absolute top-4 left-4 z-10 rounded-full bg-[#F2B705] px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-[#082B63] shadow-md">
-                    {kit.badge}
-                  </div>
-                )}
+            {c.kits.map((kit) => {
+              const isExternalCta = kit.checkout && (kit.checkout.startsWith("http://") || kit.checkout.startsWith("https://"));
+              const isExternalImageCta = kit.imageCtaLink && (kit.imageCtaLink.startsWith("http://") || kit.imageCtaLink.startsWith("https://"));
+              
+              // Resolve correct Whatsapp Link helper
+              const cleanGlobalWhatsapp = c.hero.whatsapp ? c.hero.whatsapp.replace(/\D/g, "") : "";
+              const defaultWhatsappUrl = c.hero.whatsappLink || `https://wa.me/${cleanGlobalWhatsapp}?text=${encodeURIComponent(`Olá, gostaria de falar com um especialista sobre o ${kit.name} de ${kit.bags}.`)}`;
+              const finalImageCtaLink = kit.imageCtaLink || defaultWhatsappUrl;
 
-                {/* Modern full-width image container (optimized for square 600x600 images) */}
-                <div className="relative aspect-square w-full bg-slate-50 overflow-hidden border-b border-slate-100/60">
-                  {kit.image ? (
-                    <img 
-                      src={kit.image} 
-                      alt={kit.name} 
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-                    />
-                  ) : (
-                    <div className="grid h-full place-items-center text-[#F2B705]">
-                      <PackageCheck size={64} />
+              // Render button icon based on selection
+              const renderButtonIcon = () => {
+                switch (kit.buttonIcon) {
+                  case "chart":
+                    return <TrendingUp size={18} className="shrink-0" />;
+                  case "package":
+                    return <PackageCheck size={18} className="shrink-0" />;
+                  case "shopping-cart":
+                    return <ShoppingCart size={18} className="shrink-0" />;
+                  default:
+                    return null;
+                }
+              };
+
+              return (
+                <motion.article
+                  key={kit.id}
+                  whileHover={{ y: -10 }}
+                  className={`relative overflow-hidden rounded-3xl border bg-white transition-all duration-300 ${
+                    kit.highlighted 
+                      ? "border-[#F2B705] ring-8 ring-[#F2B705]/5 scale-[1.03] shadow-[0_20px_50px_rgba(242,183,5,0.15)] z-10" 
+                      : "border-slate-200/80 shadow-[0_4px_25px_rgba(0,0,0,0.02)] hover:border-slate-300 hover:shadow-[0_15px_35px_rgba(8,43,99,0.06)]"
+                  }`}
+                >
+                  {/* Floating Badge at the top */}
+                  {kit.badge && (
+                    <div className={`absolute z-10 ${
+                      kit.highlighted 
+                        ? "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#F2B705] to-[#D99B00] text-[#082B63] px-5 py-2 text-[10px] font-black uppercase tracking-widest shadow-md border border-[#F2B705]/20 whitespace-nowrap" 
+                        : kit.id === "kit-premium"
+                        ? "top-4 right-4 rounded-full bg-[#082B63] px-3.5 py-1.5 text-[9px] font-black uppercase tracking-wider text-white shadow"
+                        : "top-4 right-4 rounded-full bg-white border border-slate-200 px-3.5 py-1.5 text-[9px] font-black uppercase tracking-wider text-slate-700 shadow"
+                    }`}>
+                      {kit.badge}
                     </div>
                   )}
-                </div>
 
-                {/* Card Content with Premium Styling */}
-                <div className="p-6 border-t border-slate-50 bg-slate-50/30">
-                  <div className="min-h-[70px]">
-                    <h3 className="text-xl font-black tracking-tight text-[#082B63] leading-tight">{kit.name}</h3>
-                    <p className="mt-1.5 text-sm font-black text-[#5E8C31] tracking-wide uppercase">{kit.bags}</p>
-                  </div>
-                  
-                  <p className="mt-3 min-h-[50px] text-xs font-semibold leading-relaxed text-slate-500">{kit.ideal}</p>
-                  
-                  <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col justify-end">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Condições de Pagamento</span>
-                    
-                    {kit.installments ? (
-                      <>
-                        <div className="text-3xl font-black tracking-tight text-[#0A3D91] mt-0.5">{kit.installments}</div>
-                        <span className="text-xs text-slate-400 font-semibold mt-1">Ou à vista por {kit.price}</span>
-                      </>
+                  {/* Modern full-width image container (optimized for square 600x600 images) */}
+                  <div className={`relative aspect-square w-full overflow-hidden border-b border-slate-100/60 flex items-center justify-center ${
+                    kit.highlighted ? "bg-[#FCF9F2] p-4 rounded-t-3xl" : "bg-slate-50 p-2"
+                  }`}>
+                    {kit.image ? (
+                      <img 
+                        src={kit.image} 
+                        alt={kit.name} 
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                      />
                     ) : (
-                      <div className="text-3xl font-black tracking-tight text-[#0A3D91] mt-0.5">{kit.price}</div>
-                    )}
-                    
-                    {kit.paymentPerk && (
-                      <div className="text-xs font-bold text-[#5E8C31] mt-2 flex items-center gap-1.5">
-                        <span>💳</span> {kit.paymentPerk}
+                      <div className="grid h-full place-items-center text-[#F2B705]">
+                        <PackageCheck size={64} />
                       </div>
                     )}
 
-                    {kit.economy && (
-                      <div className="mt-2.5 inline-block rounded-md bg-[#F2B705]/15 px-3 py-1.5 text-xs font-black text-[#082B63] w-fit">
-                        🎉 {kit.economy}
-                      </div>
+                    {/* Overlay CTA on Image */}
+                    {kit.imageCtaText && (
+                      isExternalImageCta ? (
+                        <a
+                          href={finalImageCtaLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-[#0A3D91] hover:bg-[#082B63] text-white px-4 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-wider shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
+                        >
+                          <Phone size={12} className="shrink-0" /> {kit.imageCtaText}
+                        </a>
+                      ) : (
+                        <Link
+                          href={finalImageCtaLink}
+                          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-[#0A3D91] hover:bg-[#082B63] text-white px-4 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-wider shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
+                        >
+                          <Phone size={12} className="shrink-0" /> {kit.imageCtaText}
+                        </Link>
+                      )
                     )}
                   </div>
 
-                  <Link
-                    href={`/kits/${kit.id}`}
-                    className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-4 font-black uppercase text-sm tracking-wider text-white transition-all duration-300 ${kit.highlighted ? "bg-[#F2B705] hover:bg-[#E0A700] text-[#082B63] gold-glow" : "bg-[#0A3D91] hover:bg-[#082B63] shadow-md hover:shadow-lg"}`}
-                  >
-                    {kit.buttonText || "Comprar"} <ChevronRight size={18} />
-                  </Link>
-                </div>
-              </motion.article>
-            ))}
+                  {/* Card Content with Premium Styling */}
+                  <div className={`p-6 sm:p-8 bg-white`}>
+                    
+                    {/* Category badge / Pill ("Kit Teste" / "Kit Premium") */}
+                    {kit.imageBadge && (
+                      <div className={`w-fit mx-auto px-3.5 py-1 text-[10px] font-black rounded-full uppercase tracking-widest border mb-3 ${
+                        kit.highlighted 
+                          ? "bg-[#FAF5E6] border-[#F2B705]/20 text-[#D99B00]" 
+                          : "bg-slate-100 border-slate-200 text-slate-500"
+                      }`}>
+                        {kit.imageBadge}
+                      </div>
+                    )}
+
+                    {/* Title and Bags Qty */}
+                    <div className="text-center min-h-[70px] flex flex-col justify-center">
+                      <h3 className={`text-2xl sm:text-3xl font-black tracking-tight leading-tight uppercase ${
+                        kit.highlighted ? "text-[#D99B00]" : "text-[#082B63]"
+                      }`}>
+                        {kit.name}
+                      </h3>
+                      <p className="mt-1.5 text-xs font-black text-slate-400 tracking-wider uppercase leading-none">{kit.bags}</p>
+                    </div>
+
+                    {/* Block Trata */}
+                    {kit.treatmentAnimals && (
+                      <div className={`rounded-2xl p-4 mt-5 text-center flex flex-col justify-center transition duration-300 border ${
+                        kit.highlighted ? "bg-[#FAF5E6] border-[#F2B705]/10" : "bg-[#F0F2F8] border-[#0A3D91]/5"
+                      }`}>
+                        <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Trata</span>
+                        <span className={`text-2xl font-black mt-1 leading-none ${
+                          kit.highlighted ? "text-[#D99B00]" : "text-[#082B63]"
+                        }`}>
+                          {kit.treatmentAnimals}
+                        </span>
+                        <span className="text-[11px] font-semibold text-slate-500 mt-1 leading-none">
+                          {kit.treatmentDays || "por 30 dias"}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Block Lucro Estimado */}
+                    {kit.estimatedProfit && (
+                      <div className="rounded-2xl bg-[#EDF5E7] border border-[#C2DCAC] p-4.5 mt-4 text-center flex flex-col justify-center shadow-sm">
+                        <span className="text-[#4C7327] text-xs sm:text-sm font-black leading-snug">
+                          Lucro estimado: {kit.estimatedProfit}
+                        </span>
+                        {kit.roiText && (
+                          <span className="text-[#4C7327]/80 text-[10px] font-bold mt-1 leading-none">
+                            {kit.roiText}
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Block Formas de Pagamento */}
+                    {(kit.paymentInstallmentText || kit.installments) && (
+                      <div className="rounded-2xl border border-slate-200/80 bg-white p-4.5 mt-4 text-center flex flex-col items-center">
+                        <span className={`inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-[#0A3D91]/80 ${
+                          kit.highlighted ? "text-[#D99B00]/80" : ""
+                        }`}>
+                          💳 Formas de Pagamento
+                        </span>
+                        <span className="text-xs sm:text-sm font-black text-[#D99B00] mt-1.5 leading-snug">
+                          {kit.paymentInstallmentText || `${kit.installments} no cartão sem juros`}
+                        </span>
+                        <span className="text-slate-400 text-[10px] font-semibold mt-1 leading-none">
+                          {kit.paymentCashText || `ou à vista por ${kit.price}`}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Features List with green checkmarks */}
+                    {kit.features && kit.features.length > 0 && (
+                      <ul className="mt-6 space-y-3 border-t border-slate-100 pt-6 text-left">
+                        {kit.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-bold text-slate-700 leading-tight">
+                            <span className="text-emerald-500 font-black select-none shrink-0 text-sm">✓</span>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* CTA purchase button */}
+                    <div className="mt-6">
+                      {isExternalCta ? (
+                        <a
+                          href={kit.checkout}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl py-4.5 font-black uppercase text-sm tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:scale-95 ${
+                            kit.highlighted 
+                              ? "bg-[#F2B705] hover:bg-[#E0A700] text-[#082B63] gold-glow shadow-md hover:shadow-lg" 
+                              : kit.id === "kit-teste"
+                              ? "bg-white hover:bg-slate-50 text-[#082B63] border border-slate-200 hover:border-slate-300 shadow-sm"
+                              : "bg-[#0A3D91] hover:bg-[#082B63] text-white shadow-md hover:shadow-lg"
+                          }`}
+                        >
+                          {renderButtonIcon()}
+                          {kit.buttonText || "Comprar"}
+                        </a>
+                      ) : (
+                        <a
+                          href={kit.checkout || `/kits/${kit.id}`}
+                          className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl py-4.5 font-black uppercase text-sm tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:scale-95 ${
+                            kit.highlighted 
+                              ? "bg-[#F2B705] hover:bg-[#E0A700] text-[#082B63] gold-glow shadow-md hover:shadow-lg" 
+                              : kit.id === "kit-teste"
+                              ? "bg-white hover:bg-slate-50 text-[#082B63] border border-slate-200 hover:border-slate-300 shadow-sm"
+                              : "bg-[#0A3D91] hover:bg-[#082B63] text-white shadow-md hover:shadow-lg"
+                          }`}
+                        >
+                          {renderButtonIcon()}
+                          {kit.buttonText || "Comprar"}
+                        </a>
+                      )}
+                    </div>
+
+                    {/* Subtext economy under button */}
+                    {kit.buttonSubtext && (
+                      <span className="text-center text-[10px] font-bold text-slate-400 mt-2.5 block leading-normal">
+                        {kit.buttonSubtext}
+                      </span>
+                    )}
+
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
         </section>
       )}
