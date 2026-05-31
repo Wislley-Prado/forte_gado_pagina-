@@ -470,15 +470,15 @@ export default function Home() {
                   );
                 } else {
                   return (
-                    /* PREMIUM HORIZONTAL VIDEO CARD WITH GOLD GLOW AND GLASSMORPHISM */
-                    <div className="relative w-full p-5 bg-gradient-to-br from-[#082B63] via-[#0A3D91] to-[#0A3D91]/90 rounded-[2rem] border-2 border-[#F2B705]/50 shadow-[0_24px_50px_rgba(242,183,5,0.15)] overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:border-[#F2B705] hover:shadow-[0_30px_60px_rgba(242,183,5,0.25)] group">
-                      {/* Top decorative gold line */}
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#F2B705] to-transparent opacity-80" />
+                    /* PREMIUM HORIZONTAL VIDEO CARD WITH BLUISH GLASS DESIGN */
+                    <div className="relative w-full p-5 bg-gradient-to-br from-[#082B63]/80 via-[#0A3D91]/60 to-[#082B63]/90 rounded-[2rem] border-2 border-[#0A3D91]/60 backdrop-blur-xl shadow-[0_24px_50px_rgba(8,43,99,0.35)] overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:border-sky-400/50 hover:shadow-[0_30px_60px_rgba(14,165,233,0.15)] group">
+                      {/* Top decorative glass reflection line */}
+                      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-sky-400/30 to-transparent" />
                       
-                      {/* Glowing radial background aura */}
-                      <div className="absolute -inset-10 rounded-full bg-[#F2B705]/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                      {/* Ice-blue glowing radial background aura */}
+                      <div className="absolute -inset-10 rounded-full bg-sky-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                      <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
+                      <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden bg-black/60 shadow-2xl border border-white/5">
                         <iframe
                           src={getYoutubeEmbedUrl(c.product.videoUrl)}
                           title={c.product.title}
@@ -488,16 +488,16 @@ export default function Home() {
                         />
                       </div>
 
-                      {/* Premium card info label */}
+                      {/* Premium glass card info labels */}
                       <div className="relative z-10 mt-4 flex items-center justify-between text-white/90 px-1">
-                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-[#F2B705] bg-[#F2B705]/10 px-3 py-1.5 rounded-full">
+                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-sky-400 bg-sky-500/10 border border-sky-400/20 px-3 py-1.5 rounded-full">
                           <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
                           </span>
                           Vídeo Explicativo
                         </div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-white/50 bg-white/5 px-3 py-1.5 rounded-full">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-sky-300/80 bg-white/5 border border-white/5 px-3 py-1.5 rounded-full">
                           ✦ Tecnologia Forte Gado
                         </span>
                       </div>
