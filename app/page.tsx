@@ -504,7 +504,7 @@ export default function Home() {
             <p className="mt-5 text-lg leading-8 text-slate-600">{c.product.description}</p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 items-stretch">
               {c.product.differentials.map((item) => (
-                <div key={item} className="rounded-2xl border border-[#0A3D91]/10 bg-white p-6 flex flex-col h-full shadow-[0_4px_20px_rgba(0,0,0,0.015)] hover:shadow-md transition duration-300 hover:-translate-y-0.5">
+                <div key={item} className="rounded-2xl border border-[#0A3D91]/10 bg-white p-6 flex flex-col h-full min-h-[145px] shadow-[0_4px_20px_rgba(0,0,0,0.015)] hover:shadow-md transition duration-300 hover:-translate-y-0.5">
                   <Medal className="mb-3.5 text-[#F2B705] shrink-0" size={24} />
                   <p className="font-bold leading-relaxed text-[#082B63] flex-1">{item}</p>
                 </div>
