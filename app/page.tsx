@@ -502,11 +502,11 @@ export default function Home() {
             <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Sobre o produto</span>
             <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">{c.product.title}</h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">{c.product.description}</p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 items-stretch">
               {c.product.differentials.map((item) => (
-                <div key={item} className="rounded-lg border border-[#0A3D91]/10 bg-white p-5">
-                  <Medal className="mb-3 text-[#F2B705]" />
-                  <p className="font-bold leading-6 text-[#082B63]">{item}</p>
+                <div key={item} className="rounded-2xl border border-[#0A3D91]/10 bg-white p-6 flex flex-col h-full shadow-[0_4px_20px_rgba(0,0,0,0.015)] hover:shadow-md transition duration-300 hover:-translate-y-0.5">
+                  <Medal className="mb-3.5 text-[#F2B705] shrink-0" size={24} />
+                  <p className="font-bold leading-relaxed text-[#082B63] flex-1">{item}</p>
                 </div>
               ))}
             </div>
@@ -1225,7 +1225,7 @@ export default function Home() {
                 <motion.article
                   key={kit.id}
                   whileHover={{ y: -10 }}
-                  className={`relative overflow-hidden rounded-3xl border bg-white transition-all duration-300 ${
+                  className={`h-full flex flex-col relative overflow-hidden rounded-3xl border bg-white transition-all duration-300 ${
                     kit.highlighted 
                       ? "border-[#F2B705] ring-8 ring-[#F2B705]/5 scale-[1.03] shadow-[0_20px_50px_rgba(242,183,5,0.15)] z-10" 
                       : "border-slate-200/80 shadow-[0_4px_25px_rgba(0,0,0,0.02)] hover:border-slate-300 hover:shadow-[0_15px_35px_rgba(8,43,99,0.06)]"
@@ -1283,7 +1283,7 @@ export default function Home() {
                   </div>
 
                   {/* Card Content with Premium Styling */}
-                  <div className={`p-6 sm:p-8 bg-white`}>
+                  <div className="p-6 sm:p-8 bg-white flex-1 flex flex-col">
                     
                     {/* Category badge / Pill ("Kit Teste" / "Kit Premium") */}
                     {kit.imageBadge && (
@@ -1367,7 +1367,7 @@ export default function Home() {
                     )}
 
                     {/* CTA purchase button */}
-                    <div className="mt-6">
+                    <div className="mt-auto pt-6">
                       <Link
                         href={`/kits/${kit.id}`}
                         className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl py-4.5 font-black uppercase text-sm tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:scale-95 ${
