@@ -358,9 +358,14 @@ export default function Home() {
           </div>
         </header>
 
-        <div className="section-shell relative grid min-h-[82vh] items-center gap-10 py-12 lg:grid-cols-[1fr_auto]">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-[#F2B705]">
+        <div className="section-shell relative grid min-h-[82vh] items-center gap-10 py-12 grid-cols-1 lg:grid-cols-12">
+          <motion.div 
+            className="lg:col-span-8 w-full flex flex-col justify-center"
+            initial={{ opacity: 0, y: 24 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.7 }}
+          >
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-[#F2B705] w-fit">
               <Sparkles size={17} /> Nutrição mineral premium para pecuária lucrativa
             </div>
             <h1 className="max-w-4xl text-balance text-5xl font-black leading-[0.96] tracking-normal sm:text-7xl lg:text-8xl">
@@ -391,7 +396,7 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="relative hidden lg:flex flex-col items-center justify-center w-[340px] shrink-0"
+            className="relative hidden lg:flex flex-col items-center justify-center lg:col-span-4 w-full max-w-[380px] mx-auto"
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.15 }}
@@ -438,7 +443,8 @@ export default function Home() {
       )}
 
       {c.sections.product && (
-        <section className="section-shell grid items-center gap-12 py-24 lg:grid-cols-[.85fr_1.15fr]">
+        <section className="section-shell grid grid-cols-1 lg:grid-cols-12 items-center gap-12 py-24">
+          <div className="lg:col-span-5 w-full flex justify-center min-w-0">
             {(() => {
               const hasVideo = c.product.videoUrl && getYoutubeEmbedUrl(c.product.videoUrl);
               const isShorts = hasVideo && (c.product.videoUrl.includes("/shorts/") || c.product.videoUrl.includes("shorts"));
@@ -447,7 +453,7 @@ export default function Home() {
                 if (isShorts) {
                   return (
                     /* SMARTPHONE DEVICE FRAME FOR YOUTUBE SHORTS */
-                    <div className="relative mx-auto w-full max-w-[280px] xs:max-w-[310px] aspect-[9/16] rounded-[2.5rem] bg-[#082B63] p-2.5 border-[8px] border-slate-900 shadow-2xl flex flex-col justify-center overflow-hidden premium-shadow transition-transform duration-500 hover:scale-[1.02] border-t-[10px] border-b-[10px]">
+                    <div className="relative mx-auto w-full max-w-[280px] xs:max-w-[320px] md:max-w-[340px] aspect-[9/16] rounded-[2.5rem] bg-[#082B63] p-2.5 border-[8px] border-slate-900 shadow-2xl flex flex-col justify-center overflow-hidden premium-shadow transition-transform duration-500 hover:scale-[1.02] border-t-[10px] border-b-[10px]">
                       {/* Top Camera Notch cutout */}
                       <div className="absolute top-2 h-3 w-16 bg-slate-900 rounded-full z-20 pointer-events-none left-1/2 -translate-x-1/2" />
                       
@@ -498,7 +504,8 @@ export default function Home() {
                 </div>
               );
             })()}
-          <div>
+          </div>
+          <div className="lg:col-span-7 w-full min-w-0">
             <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Sobre o produto</span>
             <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">{c.product.title}</h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">{c.product.description}</p>
@@ -651,10 +658,10 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -15, scale: 0.98 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="bg-white rounded-3xl border border-slate-200/30 p-8 md:p-12 shadow-[0_20px_50px_rgba(8,43,99,0.04)] flex flex-col md:grid md:grid-cols-[1fr_1.8fr] gap-8 items-center"
+                className="bg-white rounded-3xl border border-slate-200/30 p-8 md:p-12 shadow-[0_20px_50px_rgba(8,43,99,0.04)] flex flex-col md:grid md:grid-cols-12 gap-8 items-stretch"
               >
                 {/* Coluna da Esquerda: Grande Indicador de Dias */}
-                <div className="w-full bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-inner min-h-[200px]">
+                <div className="md:col-span-4 w-full bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-inner min-h-[200px]">
                   <span className="text-xs font-black uppercase tracking-[0.25em] text-[#5E8C31]">Período</span>
                   <div className="text-4xl font-black text-[#082B63] mt-2 block leading-none select-none">
                     {thirtyDayTimeline[activeStep].days}
@@ -668,7 +675,7 @@ export default function Home() {
                 </div>
 
                 {/* Coluna da Direita: Textos e Efeitos */}
-                <div className="flex flex-col justify-between h-full w-full">
+                <div className="md:col-span-8 flex flex-col justify-between h-full w-full min-w-0">
                   <div>
                     <span className="text-[10px] font-black uppercase bg-[#5E8C31]/10 text-[#5E8C31] px-3 py-1.5 rounded-full tracking-wider w-fit block mb-4">
                       Fase {activeStep + 1}
@@ -961,9 +968,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_.85fr] items-start">
+          <div className="grid gap-10 grid-cols-1 lg:grid-cols-12 items-start">
             {/* Coluna da Esquerda: Grid dos 10 Motivos */}
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="lg:col-span-7 grid gap-5 sm:grid-cols-2 w-full min-w-0">
               {tenReasons.map((reason, index) => {
                 const IconComponent = reason.icon;
                 return (
@@ -994,7 +1001,7 @@ export default function Home() {
             </div>
 
             {/* Coluna da Direita: Card Comercial Imbatível */}
-            <div className="sticky top-[100px] rounded-3xl overflow-hidden shadow-2xl premium-shadow border border-[#0A3D91]/20 text-white flex flex-col">
+            <div className="lg:col-span-5 sticky top-[100px] rounded-3xl overflow-hidden shadow-2xl premium-shadow border border-[#0A3D91]/20 text-white flex flex-col w-full min-w-0">
               {/* Topo do Card Comercial - Promoção Prazo Perfeito */}
               <div className="bg-gradient-to-br from-[#082B63] to-[#0A3D91] p-8 sm:p-10 text-center relative">
                 <div className="absolute top-4 right-4 rounded-full bg-[#F2B705] text-[#082B63] text-[10px] font-black px-3.5 py-1 uppercase tracking-wider shadow">
@@ -1474,8 +1481,8 @@ export default function Home() {
 
       {c.sections.guarantee && (
         <section className="section-shell py-20">
-          <div className="grid overflow-hidden rounded-xl bg-[#082B63] lg:grid-cols-[.8fr_1.2fr]">
-            <div className="flex items-center justify-center bg-[#F2B705] p-10 text-[#082B63]">
+          <div className="grid overflow-hidden rounded-3xl bg-[#082B63] grid-cols-1 lg:grid-cols-12 items-stretch shadow-2xl premium-shadow">
+            <div className="lg:col-span-5 flex items-center justify-center bg-[#F2B705] p-10 text-[#082B63] w-full min-h-[300px]">
               {c.guarantee?.image ? (
                 <img
                   src={c.guarantee.image}
@@ -1486,8 +1493,8 @@ export default function Home() {
                 <LockKeyhole size={120} strokeWidth={1.4} />
               )}
             </div>
-            <div className="p-8 text-white sm:p-12">
-              <h2 className="text-4xl font-black sm:text-5xl">{c.guarantee?.title || "A MELHOR GARANTIA DO MERCADO: SATISFAÇÃO GARANTIDA OU SEU DINHEIRO DE VOLTA"}</h2>
+            <div className="lg:col-span-7 p-8 text-white sm:p-12 md:p-16 flex flex-col justify-center w-full">
+              <h2 className="text-4xl font-black sm:text-5xl leading-tight">{c.guarantee?.title || "A MELHOR GARANTIA DO MERCADO: SATISFAÇÃO GARANTIDA OU SEU DINHEIRO DE VOLTA"}</h2>
               <p className="mt-5 max-w-3xl text-lg font-semibold leading-8 text-white/82">
                 {c.guarantee?.text || "Experimente o Sal Mineral Forte Gado sem riscos! Se por qualquer motivo seus animais não se adaptarem ou se você não vir os resultados esperados, você tem 30 dias para devolver o produto. Pague apenas pelo que foi consumido na fazenda durante esse período."}
               </p>
