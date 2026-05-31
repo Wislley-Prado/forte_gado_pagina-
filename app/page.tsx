@@ -108,7 +108,7 @@ const benefits = [
 const results = [
   { value: "+18%", label: "potencial de produtividade no manejo mineralizado" },
   { value: "+12%", label: "melhor resposta de ganho em lotes acompanhados" },
-  { value: "30 dias", label: "para testar com tranquilidade e segurança" }
+  { value: "30 dias", label: "ou seu dinheiro de volta com risco zero!" }
 ];
 
 const thirtyDayTimeline = [
