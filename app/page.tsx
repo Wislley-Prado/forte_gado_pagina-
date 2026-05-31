@@ -163,6 +163,12 @@ function getYoutubeEmbedUrl(url: string) {
       const id = parsed.searchParams.get("v");
       return id ? `https://www.youtube.com/embed/${id}` : "";
     }
+    if (parsed.hostname.includes("youtube.com") && parsed.pathname.includes("/shorts/")) {
+      const parts = parsed.pathname.split("/");
+      const index = parts.indexOf("shorts");
+      const id = index !== -1 ? parts[index + 1] : "";
+      return id ? `https://www.youtube.com/embed/${id}` : "";
+    }
     if (parsed.hostname.includes("youtu.be")) {
       const id = parsed.pathname.replace(/^\//, "");
       return id ? `https://www.youtube.com/embed/${id}` : "";
