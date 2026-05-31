@@ -1368,37 +1368,19 @@ export default function Home() {
 
                     {/* CTA purchase button */}
                     <div className="mt-6">
-                      {isExternalCta ? (
-                        <a
-                          href={kit.checkout}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl py-4.5 font-black uppercase text-sm tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:scale-95 ${
-                            kit.highlighted 
-                              ? "bg-[#F2B705] hover:bg-[#E0A700] text-[#082B63] gold-glow shadow-md hover:shadow-lg" 
-                              : kit.id === "kit-teste"
-                              ? "bg-white hover:bg-slate-50 text-[#082B63] border border-slate-200 hover:border-slate-300 shadow-sm"
-                              : "bg-[#0A3D91] hover:bg-[#082B63] text-white shadow-md hover:shadow-lg"
-                          }`}
-                        >
-                          {renderButtonIcon()}
-                          {kit.buttonText || "Comprar"}
-                        </a>
-                      ) : (
-                        <a
-                          href={kit.checkout || `/kits/${kit.id}`}
-                          className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl py-4.5 font-black uppercase text-sm tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:scale-95 ${
-                            kit.highlighted 
-                              ? "bg-[#F2B705] hover:bg-[#E0A700] text-[#082B63] gold-glow shadow-md hover:shadow-lg" 
-                              : kit.id === "kit-teste"
-                              ? "bg-white hover:bg-slate-50 text-[#082B63] border border-slate-200 hover:border-slate-300 shadow-sm"
-                              : "bg-[#0A3D91] hover:bg-[#082B63] text-white shadow-md hover:shadow-lg"
-                          }`}
-                        >
-                          {renderButtonIcon()}
-                          {kit.buttonText || "Comprar"}
-                        </a>
-                      )}
+                      <Link
+                        href={`/kits/${kit.id}`}
+                        className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl py-4.5 font-black uppercase text-sm tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:scale-95 ${
+                          kit.highlighted 
+                            ? "bg-[#F2B705] hover:bg-[#E0A700] text-[#082B63] gold-glow shadow-md hover:shadow-lg" 
+                            : kit.id === "kit-teste"
+                            ? "bg-white hover:bg-slate-50 text-[#082B63] border border-slate-200 hover:border-slate-300 shadow-sm"
+                            : "bg-[#0A3D91] hover:bg-[#082B63] text-white shadow-md hover:shadow-lg"
+                        }`}
+                      >
+                        {renderButtonIcon()}
+                        {kit.buttonText || "Comprar"}
+                      </Link>
                     </div>
 
                     {/* Subtext economy under button */}
