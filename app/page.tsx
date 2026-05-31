@@ -470,9 +470,15 @@ export default function Home() {
                   );
                 } else {
                   return (
-                    /* PREMIUM HORIZONTAL VIDEO CARD */
-                    <div className="w-full p-4 bg-[#082B63] rounded-3xl border-4 border-[#0A3D91] shadow-2xl overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-                      <div className="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg">
+                    /* PREMIUM HORIZONTAL VIDEO CARD WITH GOLD GLOW AND GLASSMORPHISM */
+                    <div className="relative w-full p-5 bg-gradient-to-br from-[#082B63] via-[#0A3D91] to-[#0A3D91]/90 rounded-[2rem] border-2 border-[#F2B705]/50 shadow-[0_24px_50px_rgba(242,183,5,0.15)] overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:border-[#F2B705] hover:shadow-[0_30px_60px_rgba(242,183,5,0.25)] group">
+                      {/* Top decorative gold line */}
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#F2B705] to-transparent opacity-80" />
+                      
+                      {/* Glowing radial background aura */}
+                      <div className="absolute -inset-10 rounded-full bg-[#F2B705]/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                      <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
                         <iframe
                           src={getYoutubeEmbedUrl(c.product.videoUrl)}
                           title={c.product.title}
@@ -480,6 +486,20 @@ export default function Home() {
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
                         />
+                      </div>
+
+                      {/* Premium card info label */}
+                      <div className="relative z-10 mt-4 flex items-center justify-between text-white/90 px-1">
+                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-[#F2B705] bg-[#F2B705]/10 px-3 py-1.5 rounded-full">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                          </span>
+                          Vídeo Explicativo
+                        </div>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-white/50 bg-white/5 px-3 py-1.5 rounded-full">
+                          ✦ Tecnologia Forte Gado
+                        </span>
                       </div>
                     </div>
                   );
@@ -1424,29 +1444,39 @@ export default function Home() {
               {c.videos.map((video) => {
                 const embedUrl = getYoutubeEmbedUrl(video.url);
                 return (
-                  <article key={video.id} className="overflow-hidden rounded-lg border border-white/15 bg-white/10 premium-shadow">
-                    <div className="aspect-video bg-black">
-                      {embedUrl ? (
-                        <iframe
-                          src={embedUrl}
-                          title={video.title}
-                          className="h-full w-full"
-                          loading="lazy"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                        />
-                      ) : (
-                        <div className="grid h-full place-items-center p-6 text-center font-bold text-white/72">
-                          Cadastre uma URL valida do YouTube no painel admin.
-                        </div>
-                      )}
+                  <motion.article 
+                    key={video.id} 
+                    whileHover={{ y: -8, scale: 1.01 }}
+                    className="overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/12 to-white/5 backdrop-blur-md shadow-[0_20px_50px_rgba(8,43,99,0.2)] transition-all duration-300 group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="aspect-video bg-black/40 relative overflow-hidden rounded-t-[2rem] border-b border-white/10">
+                        {embedUrl ? (
+                          <iframe
+                            src={embedUrl}
+                            title={video.title}
+                            className="h-full w-full"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          />
+                        ) : (
+                          <div className="grid h-full place-items-center p-6 text-center font-bold text-white/72">
+                            Cadastre uma URL valida do YouTube no painel admin.
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-8">
+                        <span className="inline-flex rounded-full bg-gradient-to-r from-[#F2B705] to-[#D99B00] px-4.5 py-1.5 text-[10px] font-black uppercase text-[#082B63] tracking-wider shadow-sm">
+                          {video.badge}
+                        </span>
+                        <h3 className="mt-4 text-2xl font-black text-white group-hover:text-[#F2B705] transition duration-200">{video.title}</h3>
+                        <p className="mt-2.5 font-bold text-white/78 flex items-center gap-1.5">
+                          <span className="text-[#F2B705] text-sm font-black">✦</span> {video.client} | <span className="text-white/60 font-semibold">{video.location}</span>
+                        </p>
+                      </div>
                     </div>
-                    <div className="p-6">
-                      <span className="inline-flex rounded-full bg-[#F2B705] px-3 py-2 text-xs font-black uppercase text-[#082B63]">{video.badge}</span>
-                      <h3 className="mt-4 text-2xl font-black">{video.title}</h3>
-                      <p className="mt-2 font-bold text-white/78">{video.client} | {video.location}</p>
-                    </div>
-                  </article>
+                  </motion.article>
                 );
               })}
             </div>
