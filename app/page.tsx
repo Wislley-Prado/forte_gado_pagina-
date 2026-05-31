@@ -433,28 +433,65 @@ export default function Home() {
 
       {c.sections.product && (
         <section className="section-shell grid items-center gap-12 py-24 lg:grid-cols-[.85fr_1.15fr]">
-          <div className="rounded-xl bg-[#082B63] p-6 flex flex-col justify-center min-h-[380px] overflow-hidden premium-shadow">
-            {c.product.videoUrl && getYoutubeEmbedUrl(c.product.videoUrl) ? (
-              <div className="w-full aspect-video rounded-lg overflow-hidden bg-black shadow-lg">
-                <iframe
-                  src={getYoutubeEmbedUrl(c.product.videoUrl)}
-                  title={c.product.title}
-                  className="h-full w-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center">
-                <ProductBag compact imageUrl={c.hero.productImage} />
-                {c.hero.productImage && c.hero.productImage.includes("photo-1625246333195-78d9c38ad449") && (
-                  <div className="relative mt-8 h-48 w-full overflow-hidden rounded-lg border border-white/15">
-                    <img src={c.hero.productImage} alt="Foto de apoio do produto Fortegado" className="h-full w-full object-cover opacity-85" />
+            {(() => {
+              const hasVideo = c.product.videoUrl && getYoutubeEmbedUrl(c.product.videoUrl);
+              const isShorts = hasVideo && (c.product.videoUrl.includes("/shorts/") || c.product.videoUrl.includes("shorts"));
+              
+              if (hasVideo) {
+                if (isShorts) {
+                  return (
+                    /* SMARTPHONE DEVICE FRAME FOR YOUTUBE SHORTS */
+                    <div className="relative mx-auto w-full max-w-[280px] xs:max-w-[310px] aspect-[9/16] rounded-[2.5rem] bg-[#082B63] p-2.5 border-[8px] border-slate-900 shadow-2xl flex flex-col justify-center overflow-hidden premium-shadow transition-transform duration-500 hover:scale-[1.02] border-t-[10px] border-b-[10px]">
+                      {/* Top Camera Notch cutout */}
+                      <div className="absolute top-2 h-3 w-16 bg-slate-900 rounded-full z-20 pointer-events-none left-1/2 -translate-x-1/2" />
+                      
+                      <div className="w-full h-full aspect-[9/16] rounded-[1.8rem] overflow-hidden bg-black shadow-inner relative z-10">
+                        <iframe
+                          src={getYoutubeEmbedUrl(c.product.videoUrl)}
+                          title={c.product.title}
+                          className="h-full w-full border-0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return (
+                    /* PREMIUM HORIZONTAL VIDEO CARD */
+                    <div className="w-full p-4 bg-[#082B63] rounded-3xl border-4 border-[#0A3D91] shadow-2xl overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
+                      <div className="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg">
+                        <iframe
+                          src={getYoutubeEmbedUrl(c.product.videoUrl)}
+                          title={c.product.title}
+                          className="h-full w-full border-0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  );
+                }
+              }
+
+              return (
+                /* PREMIUM FALLBACK IMAGE CARD WITH BACKDROP GLOW */
+                <div className="w-full p-6 sm:p-8 bg-gradient-to-b from-[#082B63] to-[#0A3D91] rounded-3xl border-4 border-[#5E8C31]/20 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden transition-transform duration-500 hover:scale-[1.02] min-h-[380px]">
+                  {/* Radial background glowing aura */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] aspect-square bg-[#F2B705]/10 rounded-full blur-3xl pointer-events-none" />
+                  
+                  <div className="relative z-10 flex flex-col items-center justify-center w-full">
+                    <ProductBag compact imageUrl={c.hero.productImage} />
+                    
+                    {c.hero.productImage && c.hero.productImage.includes("photo-1625246333195-78d9c38ad449") && (
+                      <div className="relative mt-8 h-48 w-full overflow-hidden rounded-lg border border-white/15">
+                        <img src={c.hero.productImage} alt="Foto de apoio do produto Fortegado" className="h-full w-full object-cover opacity-85" />
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            )}
-          </div>
+                </div>
+              );
+            })()}
           <div>
             <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Sobre o produto</span>
             <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">{c.product.title}</h2>
