@@ -468,99 +468,89 @@ export default function Home() {
               ))}
             </div>
 
-            {/* INTERACTIVE 3D CIRCULAR INFOGRAPHIC WHEEL: MECANISMO ÚNICO DE PERFORMANCE */}
+            {/* INTERACTIVE ROW INFOGRAPHIC: MECANISMO ÚNICO DE PERFORMANCE EM LINHA */}
             {(() => {
               const selectedMineral = activeMineral || (c.product.composition && c.product.composition[0]) || "";
               return (
-                <div className="mt-12 relative w-full max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] aspect-square mx-auto my-8 select-none">
-                  
-                  {/* Outer Glowing Background golden ring */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[76%] aspect-square rounded-full border-2 border-[#F2B705]/20 pointer-events-none z-0 shadow-[0_0_50px_rgba(242,183,5,0.05)]" />
-                  
-                  {/* Dashed rotating golden line */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[76%] aspect-square rounded-full border border-dashed border-[#F2B705]/30 animate-[spin_100s_linear_infinite] pointer-events-none z-0" />
-                  
-                  {/* Central Glowing Circle (Interactive Display Card) */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[48%] aspect-square rounded-full bg-gradient-to-br from-[#082B63] to-[#0A3D91] border-4 border-[#F2B705] shadow-[0_0_35px_rgba(242,183,5,0.25)] flex flex-col items-center justify-center p-3 text-center z-10 transition-all duration-500">
-                    {/* Cow silhouette */}
-                    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-[#F2B705] mb-1 filter drop-shadow-[0_2px_5px_rgba(242,183,5,0.3)] animate-pulse">
-                      <path d="M19.5 9c-.5 0-.9-.2-1.2-.5-.5-.5-1.1-.8-1.8-.8h-3c-.6 0-1.1-.3-1.4-.8L11 5H9c-1.1 0-2 .9-2 2v2c0 .6-.4 1-1 1H4.5C3.7 10 3 10.7 3 11.5S3.7 13 4.5 13H5v5c0 1.1.9 2 2 2h1c.6 0 1-.4 1-1v-4h6v4c0 .6.4 1 1 1h1c1.1 0 2-.9 2-2v-5h.5c.8 0 1.5-.7 1.5-1.5S20.3 9 19.5 9z" />
-                    </svg>
+                <div className="mt-8 space-y-6 select-none">
+                  <div className="border-t border-slate-100 pt-6">
+                    <h3 className="text-xs font-black uppercase text-[#082B63]/60 tracking-widest flex items-center gap-1.5 mb-4">
+                      <span>🔬</span> Mecanismo Único de Performance:
+                    </h3>
                     
-                    {selectedMineral ? (() => {
-                      const key = selectedMineral.toLowerCase().trim();
-                      const data = mineralData[key] || {
-                        symbol: selectedMineral.substring(0, 2).toUpperCase(),
-                        desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
-                      };
-                      return (
-                        <motion.div
-                          key={selectedMineral}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.25 }}
-                          className="flex flex-col items-center"
-                        >
-                          <span className="text-[8px] font-black uppercase text-[#F2B705] tracking-widest leading-none">
-                            {selectedMineral}
-                          </span>
-                          <span className="text-xl font-black text-white mt-0.5 leading-none select-all">
-                            {data.symbol}
-                          </span>
-                          <p className="text-[8px] sm:text-[9px] font-bold text-white/80 leading-normal mt-1.5 max-w-[120px] sm:max-w-[140px] line-clamp-3 overflow-hidden">
-                            {data.desc}
-                          </p>
-                        </motion.div>
-                      );
-                    })() : (
-                      <div className="flex flex-col items-center">
-                        <span className="text-[9px] font-black uppercase text-[#F2B705] tracking-widest leading-none">
-                          Mecanismo Único
-                        </span>
-                        <span className="text-[9px] font-bold text-white/70 leading-normal mt-2 max-w-[120px]">
-                          Passe o mouse nos minerais para ver seus benefícios.
-                        </span>
-                      </div>
-                    )}
+                    {/* Horizontal Line of glowing element circles */}
+                    <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                      {c.product.composition.map((item) => {
+                        const key = item.toLowerCase().trim();
+                        const data = mineralData[key] || {
+                          symbol: item.substring(0, 2).toUpperCase(),
+                          color: "from-[#0A3D91] to-[#082B63] text-white border-slate-200",
+                          desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
+                        };
+                        
+                        const isSelected = selectedMineral === item;
+
+                        return (
+                          <button
+                            key={item}
+                            type="button"
+                            onMouseEnter={() => setActiveMineral(item)}
+                            onClick={() => setActiveMineral(item)}
+                            className={`flex flex-col items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br ${data.color} font-black border-2 cursor-pointer transition-all duration-300 ${
+                              isSelected 
+                                ? "scale-110 ring-4 ring-[#F2B705]/40 border-[#F2B705] shadow-[0_0_15px_rgba(242,183,5,0.3)] z-10" 
+                                : "border-white/10 hover:scale-105 opacity-85 hover:opacity-100"
+                            }`}
+                          >
+                            <span className="text-xs sm:text-sm leading-none">{data.symbol}</span>
+                            <span className="text-[6px] sm:text-[7px] font-bold uppercase tracking-widest mt-0.5 opacity-80 leading-none truncate w-full text-center px-0.5">
+                              {item.substring(0, 5)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
 
-                  {/* Floating Spheres / Circular Elements */}
-                  {c.product.composition.map((item, index) => {
-                    const N = c.product.composition.length;
-                    const radius = 38; // Radius as percentage of container
-                    const angle = (index * 2 * Math.PI) / N - Math.PI / 2;
-                    const left = 50 + radius * Math.cos(angle);
-                    const top = 50 + radius * Math.sin(angle);
-                    
-                    const key = item.toLowerCase().trim();
+                  {/* Active Mineral Detail Banner Card (Compact, gold-accented, sits below the line) */}
+                  {selectedMineral && (() => {
+                    const key = selectedMineral.toLowerCase().trim();
                     const data = mineralData[key] || {
-                      symbol: item.substring(0, 2).toUpperCase(),
-                      color: "from-[#0A3D91] to-[#082B63] text-white border-slate-200",
+                      symbol: selectedMineral.substring(0, 2).toUpperCase(),
                       desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
                     };
-                    
-                    const isSelected = selectedMineral === item;
-
                     return (
-                      <button
-                        key={item}
-                        type="button"
-                        onMouseEnter={() => setActiveMineral(item)}
-                        onClick={() => setActiveMineral(item)}
-                        style={{ left: `${left}%`, top: `${top}%` }}
-                        className={`absolute -translate-x-1/2 -translate-y-1/2 w-[19%] aspect-square rounded-full bg-gradient-to-br ${data.color} flex flex-col items-center justify-center font-black text-xs sm:text-sm border-2 shadow-lg cursor-pointer transition-all duration-300 ${
-                          isSelected 
-                            ? "scale-115 ring-4 ring-[#F2B705]/50 border-[#F2B705] z-20 shadow-[0_0_20px_rgba(242,183,5,0.4)]" 
-                            : "border-white/20 hover:scale-105 z-0 hover:z-20 hover:shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-                        }`}
+                      <motion.div
+                        key={selectedMineral}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#082B63] to-[#0A3D91] border-2 border-[#F2B705] p-4 text-white shadow-lg flex items-center gap-4 min-h-[90px]"
                       >
-                        <span className="leading-none text-[10px] sm:text-xs">{data.symbol}</span>
-                        <span className="text-[6px] sm:text-[7px] font-bold uppercase tracking-widest mt-0.5 opacity-80 leading-none truncate w-full text-center px-1">
-                          {item}
-                        </span>
-                      </button>
+                        {/* Golden Cow Silhouette Icon */}
+                        <div className="shrink-0 flex items-center justify-center h-12 w-12 rounded-xl bg-white/10 border border-white/15 text-[#F2B705] shadow-inner">
+                          <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current drop-shadow-[0_2px_5px_rgba(242,183,5,0.2)]">
+                            <path d="M19.5 9c-.5 0-.9-.2-1.2-.5-.5-.5-1.1-.8-1.8-.8h-3c-.6 0-1.1-.3-1.4-.8L11 5H9c-1.1 0-2 .9-2 2v2c0 .6-.4 1-1 1H4.5C3.7 10 3 10.7 3 11.5S3.7 13 4.5 13H5v5c0 1.1.9 2 2 2h1c.6 0 1-.4 1-1v-4h6v4c0 .6.4 1 1 1h1c1.1 0 2-.9 2-2v-5h.5c.8 0 1.5-.7 1.5-1.5S20.3 9 19.5 9z" />
+                          </svg>
+                        </div>
+                        
+                        {/* Text and technical description */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-baseline gap-2">
+                            <h4 className="text-xs sm:text-sm font-black text-[#F2B705] uppercase tracking-wider leading-none">
+                              {selectedMineral}
+                            </h4>
+                            <span className="text-[10px] font-black text-white/50 leading-none bg-white/10 px-1.5 py-0.5 rounded uppercase">
+                              {data.symbol}
+                            </span>
+                          </div>
+                          <p className="text-[10px] sm:text-xs font-semibold text-white/85 leading-normal mt-1.5">
+                            {data.desc}
+                          </p>
+                        </div>
+                      </motion.div>
                     );
-                  })}
+                  })()}
                 </div>
               );
             })()}
