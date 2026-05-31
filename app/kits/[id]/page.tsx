@@ -29,11 +29,86 @@ import { injectTrackingScripts } from "@/lib/tracking";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { TiktokIcon } from "@/components/TiktokIcon";
 
+function HerdRoiSimulator({ bagsCount }: { bagsCount: number }) {
+  const [herdSize, setHerdSize] = useState(100);
+
+  return (
+    <div className="rounded-3xl bg-[#082B63] p-8 sm:p-10 text-white premium-shadow border border-[#0A3D91]/30 flex flex-col justify-between space-y-8 relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-[#F2B705]/10 blur-3xl pointer-events-none" />
+
+      <div className="space-y-6">
+        <div>
+          <span className="text-[10px] font-black uppercase tracking-widest text-[#F2B705] bg-[#F2B705]/10 px-3 py-1.5 rounded-md border border-[#F2B705]/20">
+            Simulador Agro-Eficácia
+          </span>
+          <h3 className="text-2xl font-black mt-4 tracking-tight leading-tight">Rendimento de Tratamento do Kit</h3>
+        </div>
+
+        <div className="space-y-5">
+          <div className="flex justify-between items-center text-sm font-black uppercase tracking-wider text-slate-200">
+            <span>Tamanho do seu Rebanho</span>
+            <span className="text-[#F2B705] text-lg font-black">{herdSize} Cabeças</span>
+          </div>
+
+          <input
+            type="range"
+            min="10"
+            max="500"
+            step="10"
+            value={herdSize}
+            onChange={(e) => setHerdSize(parseInt(e.target.value))}
+            className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#F2B705]"
+          />
+          <div className="flex justify-between text-[10px] text-white/50 font-bold uppercase tracking-widest">
+            <span>10 cabeças</span>
+            <span>500 cabeças</span>
+          </div>
+        </div>
+
+        {/* Resultado do Simulador */}
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-6 space-y-4">
+          <div className="grid grid-cols-2 gap-4 text-center border-b border-white/10 pb-4">
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Suplemento no Kit</span>
+              <div className="text-lg font-black text-white">{bagsCount} Sacos ({bagsCount * 25}kg)</div>
+            </div>
+            <div className="space-y-0.5 border-l border-white/10">
+              <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Mineralizado Pronto</span>
+              <div className="text-lg font-black text-[#F2B705]">{bagsCount * 75} kg misturado</div>
+            </div>
+          </div>
+
+          <div className="text-center pt-2 space-y-1">
+            <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">O cocho estará abastecido por</span>
+            <div className="text-3xl font-black text-[#F2B705] tracking-tight">
+              {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) >= 30 ? (
+                <>
+                  {Math.floor(Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) / 30)} {Math.floor(Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) / 30) === 1 ? 'Mês' : 'Meses'}{' '}
+                  {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) % 30 > 0 && (
+                    <>e {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) % 30} dias</>
+                  )}
+                </>
+              ) : (
+                <>{Math.floor((bagsCount * 75 * 1000) / (herdSize * 85))} Dias</>
+              )}
+            </div>
+            <p className="text-[11px] font-semibold text-white/60 leading-normal max-w-xs mx-auto">Cálculo baseado em consumo diário médio de 85g da mistura final por animal.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-xs font-black uppercase tracking-widest text-[#F2B705] flex items-center justify-center gap-1.5 bg-[#F2B705]/10 py-3 rounded-xl border border-[#F2B705]/20 text-center text-balance">
+        🌾 Nutrição programada, sem cocho vazio!
+      </div>
+    </div>
+  );
+}
+
 function InnerKitSalesPage() {
   const params = useParams();
   const id = (params?.id as string) || "";
   const { content: c, ready } = useSiteContent(true);
-  const [herdSize, setHerdSize] = useState(100);
 
   useEffect(() => {
     if (ready && c.integrations) {
@@ -211,6 +286,8 @@ function InnerKitSalesPage() {
                     src={kit.image}
                     alt={kit.name}
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   {kit.badge && (
                     <div className="absolute top-4 left-4 rounded-full bg-[#0A3D91] px-4 py-1.5 text-xs font-black uppercase tracking-wider text-white shadow-md">
@@ -431,75 +508,7 @@ function InnerKitSalesPage() {
             </div>
 
             {/* Bloco 2: Calculadora Dinâmica */}
-            <div className="rounded-3xl bg-[#082B63] p-8 sm:p-10 text-white premium-shadow border border-[#0A3D91]/30 flex flex-col justify-between space-y-8 relative overflow-hidden">
-              {/* Background Glow */}
-              <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-[#F2B705]/10 blur-3xl pointer-events-none" />
-
-              <div className="space-y-6">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#F2B705] bg-[#F2B705]/10 px-3 py-1.5 rounded-md border border-[#F2B705]/20">
-                    Simulador Agro-Eficácia
-                  </span>
-                  <h3 className="text-2xl font-black mt-4 tracking-tight leading-tight">Rendimento de Tratamento do Kit</h3>
-                </div>
-
-                <div className="space-y-5">
-                  <div className="flex justify-between items-center text-sm font-black uppercase tracking-wider text-slate-200">
-                    <span>Tamanho do seu Rebanho</span>
-                    <span className="text-[#F2B705] text-lg font-black">{herdSize} Cabeças</span>
-                  </div>
-
-                  <input
-                    type="range"
-                    min="10"
-                    max="500"
-                    step="10"
-                    value={herdSize}
-                    onChange={(e) => setHerdSize(parseInt(e.target.value))}
-                    className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#F2B705]"
-                  />
-                  <div className="flex justify-between text-[10px] text-white/50 font-bold uppercase tracking-widest">
-                    <span>10 cabeças</span>
-                    <span>500 cabeças</span>
-                  </div>
-                </div>
-
-                {/* Resultado do Simulador */}
-                <div className="rounded-2xl bg-white/5 border border-white/10 p-6 space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-center border-b border-white/10 pb-4">
-                    <div className="space-y-0.5">
-                      <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Suplemento no Kit</span>
-                      <div className="text-lg font-black text-white">{bagsCount} Sacos ({bagsCount * 25}kg)</div>
-                    </div>
-                    <div className="space-y-0.5 border-l border-white/10">
-                      <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">Mineralizado Pronto</span>
-                      <div className="text-lg font-black text-[#F2B705]">{bagsCount * 75} kg misturado</div>
-                    </div>
-                  </div>
-
-                  <div className="text-center pt-2 space-y-1">
-                    <span className="text-[10px] font-black uppercase text-white/50 tracking-wider">O cocho estará abastecido por</span>
-                    <div className="text-3xl font-black text-[#F2B705] tracking-tight">
-                      {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) >= 30 ? (
-                        <>
-                          {Math.floor(Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) / 30)} {Math.floor(Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) / 30) === 1 ? 'Mês' : 'Meses'}{' '}
-                          {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) % 30 > 0 && (
-                            <>e {Math.floor((bagsCount * 75 * 1000) / (herdSize * 85)) % 30} dias</>
-                          )}
-                        </>
-                      ) : (
-                        <>{Math.floor((bagsCount * 75 * 1000) / (herdSize * 85))} Dias</>
-                      )}
-                    </div>
-                    <p className="text-[11px] font-semibold text-white/60 leading-normal max-w-xs mx-auto">Cálculo baseado em consumo diário médio de 85g da mistura final por animal.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-xs font-black uppercase tracking-widest text-[#F2B705] flex items-center justify-center gap-1.5 bg-[#F2B705]/10 py-3 rounded-xl border border-[#F2B705]/20 text-center text-balance">
-                🌾 Nutrição programada, sem cocho vazio!
-              </div>
-            </div>
+            <HerdRoiSimulator bagsCount={bagsCount} />
 
           </div>
         </div>
@@ -569,7 +578,13 @@ function InnerKitSalesPage() {
             {/* Logo e desc */}
             <div className="space-y-6 lg:col-span-4">
               {c.footer.logo ? (
-                <img src={c.footer.logo} alt="Logo" className="h-10 w-auto object-contain max-w-[140px]" />
+                <img
+                  src={c.footer.logo}
+                  alt="Logo"
+                  className="h-10 w-auto object-contain max-w-[140px]"
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <span className="text-xl font-black tracking-widest text-[#F2B705]">FORTEGADO</span>
               )}
@@ -664,18 +679,18 @@ function InnerKitSalesPage() {
               <ul className="space-y-4 text-sm font-semibold text-white/70">
                 <li className="flex items-start gap-3">
                   <MapPin size={18} className="text-[#F2B705] shrink-0 mt-1" />
-                  <span>{c.footer.address}</span>
+                  <span>{c.footer.address || "Uberaba - MG"}</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone size={18} className="text-[#F2B705] shrink-0" />
-                  <a href={`tel:${c.footer.phone?.replace(/\D/g, '')}`} className="hover:text-[#F2B705] hover:underline transition">
-                    {c.footer.phone}
+                  <a href={`tel:${c.footer.phone ? c.footer.phone.replace(/\D/g, '') : ''}`} className="hover:text-[#F2B705] hover:underline transition">
+                    {c.footer.phone || "(34) 99999-9999"}
                   </a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail size={18} className="text-[#F2B705] shrink-0" />
-                  <a href={`mailto:${c.footer.email}`} className="hover:text-[#F2B705] hover:underline transition">
-                    {c.footer.email}
+                  <a href={`mailto:${c.footer.email || 'contato@fortegado.com.br'}`} className="hover:text-[#F2B705] hover:underline transition">
+                    {c.footer.email || "contato@fortegado.com.br"}
                   </a>
                 </li>
               </ul>

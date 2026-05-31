@@ -305,7 +305,43 @@ export default function AdminPage() {
             "Frete grátis",
             "Suporte técnico",
             "Garantia 30 dias"
-          ]
+          ],
+          // Custom Sales Page Copy
+          customHeadline: "NOVO KIT FORTEGADO PREMIUM",
+          customSubheadline: "O suplemento mineral de alta performance ideal para impulsionar seu lote e maximizar os lucros.",
+          paymentDownPayment: "R$ 0,00",
+          paymentFirstInstallmentDays: "Imediato",
+          paymentInstallmentsDetail: "10x de R$ 29,70 SEM JUROS",
+          paymentConditionBadge: "CONDIÇÃO ESPECIAL FACILITADA",
+          paymentConditionsList: [
+            "Parcelamento em até 10x sem juros",
+            "Frete Grátis incluso para todo o Brasil",
+            "Garantia estendida de satisfação",
+            "Suporte técnico na primeira dosagem"
+          ],
+          bonusTitle: "BÔNUS PARCEIRO FORTEGADO",
+          bonusPercentage: "3%",
+          bonusExampleText: "Pagando suas parcelas em dia, você ganha 3% de desconto garantido na sua próxima compra de reposição de estoque.",
+          bonusBenefits: [
+            "Economia garantida",
+            "Giro rápido de estoque",
+            "Parceria de confiança"
+          ],
+          guaranteeDays: "30 DIAS",
+          guaranteeDescription: "Satisfação garantida: utilize o produto em um lote teste. Se não notar a evolução no ganho de peso e saúde, devolva o restante e pague apenas o que consumiu.",
+          whatYouReceive: [
+            "1 saco Fortegado Premium",
+            "Manual prático de suplementação de cocho",
+            "Suporte via WhatsApp com consultor técnico",
+            "Entrega garantida na porteira"
+          ],
+          resultsExpected: [
+            "Melhor consumo diário de minerais",
+            "Lote mais equilibrado no pasto",
+            "Redução de refugo de cocho"
+          ],
+          usageInstructions: "Misture em sal branco: 1 saco para cada 2 sacos de 25 kilos de sal branco.",
+          usageConsumption: "O consumo médio estimado de cada animal é de 70 a 100 gramas por dia, dependendo da carência de macro e micro minerais."
         }
       ]
     }));
@@ -624,13 +660,14 @@ export default function AdminPage() {
                   {/* Formulário Organizado */}
                   <div className="flex flex-col gap-6">
                     {/* Bloco 1: Informações de Identificação e Selos */}
-                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+                      <Field label="ID Único (Identificador URL)" value={kit.id} onChange={(value) => updateKit(index, { id: value.toLowerCase().replace(/[^a-z0-9-_]/g, "") })} />
                       <Field label="Nome do Kit (Título)" value={kit.name} onChange={(value) => updateKit(index, { name: value })} />
                       <Field label="Quantidade (Ex: 5 sacos de 25kg)" value={kit.bags} onChange={(value) => updateKit(index, { bags: value })} />
                       <Field label="Selo do Card (Ex: Kit Teste)" value={kit.imageBadge || ""} onChange={(value) => updateKit(index, { imageBadge: value })} />
                       <label className="flex items-center gap-3 rounded-xl bg-slate-50/60 border border-slate-200 hover:bg-slate-50 transition duration-200 p-4 font-black text-sm text-[#082B63] self-end h-[50px] cursor-pointer w-full">
                         <input type="checkbox" checked={Boolean(kit.highlighted)} onChange={(event) => updateKit(index, { highlighted: event.target.checked })} className="h-5 w-5 rounded border-slate-300 text-[#0A3D91] focus:ring-[#0A3D91] transition cursor-pointer" />
-                        Destacar como Kit Principal
+                        Destacar como Principal
                       </label>
                     </div>
 
@@ -791,6 +828,7 @@ export default function AdminPage() {
                                 value={(kit.resultsExpected || []).join("\n")}
                                 onChange={(event) => updateKit(index, { resultsExpected: event.target.value.split("\n").map(l => l.trim()).filter(Boolean) })}
                                 rows={3}
+                                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-[#082B63] outline-none transition focus:border-[#0A3D91]"
                               />
                             </label>
                           </div>

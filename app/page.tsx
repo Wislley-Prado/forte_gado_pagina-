@@ -240,25 +240,8 @@ const mineralData: Record<string, { symbol: string; color: string; desc: string 
   }
 };
 
-export default function Home() {
-  const { content } = useSiteContent(true);
-  const c = content || defaultContent;
-  const cleanWhatsapp = c.hero.whatsapp ? c.hero.whatsapp.replace(/\D/g, "") : "";
-
+function PromoCountdown({ promo }: { promo?: string }) {
   const [timeLeft, setTimeLeft] = useState("");
-  const [cookieConsent, setCookieConsent] = useState<boolean | null>(null);
-  
-  const [activeStep, setActiveStep] = useState(0);
-  const [isAutoCycle, setIsAutoCycle] = useState(true);
-  const [activeMineral, setActiveMineral] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!isAutoCycle) return;
-    const interval = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % thirtyDayTimeline.length);
-    }, 4500);
-    return () => clearInterval(interval);
-  }, [isAutoCycle]);
 
   useEffect(() => {
     const updateTime = () => {
@@ -289,6 +272,288 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
+
+  return (
+    <div className="bg-[#082B63] py-3 text-white">
+      <div className="section-shell flex flex-col items-center justify-between gap-3 text-center sm:flex-row">
+        <span className="font-black uppercase text-[#F2B705]">{promo}</span>
+        {timeLeft && (
+          <span className="inline-flex items-center gap-2 text-sm font-bold">
+            <Clock3 size={16} /> Oferta expira em {timeLeft}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CompositionSection({ composition }: { composition: string[] }) {
+  const [activeMineral, setActiveMineral] = useState<string | null>(null);
+  const selectedMineral = activeMineral || (composition && composition[0]) || "";
+
+  return (
+    <div className="mt-8 space-y-6 select-none">
+      <div className="border-t border-slate-100 pt-6">
+        <h3 className="text-xs font-black uppercase text-[#082B63]/60 tracking-widest flex items-center gap-1.5 mb-4">
+          <span>🔬</span> Mecanismo Único de Performance:
+        </h3>
+        
+        {/* Horizontal Line of glowing element circles */}
+        <div className="flex flex-wrap gap-2.5 sm:gap-3">
+          {composition.map((item) => {
+            const key = item.toLowerCase().trim();
+            const data = mineralData[key] || {
+              symbol: item.substring(0, 2).toUpperCase(),
+              color: "from-[#0A3D91] to-[#082B63] text-white border-slate-200",
+              desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
+            };
+            
+            const isSelected = selectedMineral === item;
+
+            return (
+              <button
+                key={item}
+                type="button"
+                onMouseEnter={() => setActiveMineral(item)}
+                onClick={() => setActiveMineral(item)}
+                className={`flex flex-col items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br ${data.color} font-black border-2 cursor-pointer transition-all duration-300 ${
+                  isSelected 
+                    ? "scale-110 ring-4 ring-[#F2B705]/40 border-[#F2B705] shadow-[0_0_15px_rgba(242,183,5,0.3)] z-10" 
+                    : "border-white/10 hover:scale-105 opacity-85 hover:opacity-100"
+                }`}
+              >
+                <span className="text-xs sm:text-sm leading-none">{data.symbol}</span>
+                <span className="text-[6px] sm:text-[7px] font-bold uppercase tracking-widest mt-0.5 opacity-80 leading-none truncate w-full text-center px-0.5">
+                  {item.substring(0, 5)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Active Mineral Detail Banner Card (Compact, gold-accented, sits below the line) */}
+      {selectedMineral && (() => {
+        const key = selectedMineral.toLowerCase().trim();
+        const data = mineralData[key] || {
+          symbol: selectedMineral.substring(0, 2).toUpperCase(),
+          desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
+        };
+        return (
+          <motion.div
+            key={selectedMineral}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#082B63] to-[#0A3D91] border-2 border-[#F2B705] p-4 text-white shadow-lg flex items-center gap-4 min-h-[90px]"
+          >
+            {/* Golden Cow Silhouette Icon */}
+            <div className="shrink-0 flex items-center justify-center h-12 w-12 rounded-xl bg-white/10 border border-white/15 text-[#F2B705] shadow-inner">
+              <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current drop-shadow-[0_2px_5px_rgba(242,183,5,0.2)]">
+                <path d="M19.5 9c-.5 0-.9-.2-1.2-.5-.5-.5-1.1-.8-1.8-.8h-3c-.6 0-1.1-.3-1.4-.8L11 5H9c-1.1 0-2 .9-2 2v2c0 .6-.4 1-1 1H4.5C3.7 10 3 10.7 3 11.5S3.7 13 4.5 13H5v5c0 1.1.9 2 2 2h1c.6 0 1-.4 1-1v-4h6v4c0 .6.4 1 1 1h1c1.1 0 2-.9 2-2v-5h.5c.8 0 1.5-.7 1.5-1.5S20.3 9 19.5 9z" />
+              </svg>
+            </div>
+            
+            {/* Text and technical description */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-baseline gap-2">
+                <h4 className="text-xs sm:text-sm font-black text-[#F2B705] uppercase tracking-wider leading-none">
+                  {selectedMineral}
+                </h4>
+                <span className="text-[10px] font-black text-white/50 leading-none bg-white/10 px-1.5 py-0.5 rounded uppercase">
+                  {data.symbol}
+                </span>
+              </div>
+              <p className="text-[10px] sm:text-xs font-semibold text-white/85 leading-normal mt-1.5">
+                {data.desc}
+              </p>
+            </div>
+          </motion.div>
+        );
+      })()}
+    </div>
+  );
+}
+
+function JornadaSection() {
+  const [activeStep, setActiveStep] = useState(0);
+  const [isAutoCycle, setIsAutoCycle] = useState(true);
+
+  useEffect(() => {
+    if (!isAutoCycle) return;
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % thirtyDayTimeline.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isAutoCycle]);
+
+  return (
+    <section className="bg-slate-50 py-24 border-b border-slate-200/50">
+      <div className="section-shell">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Jornada de Resultados</span>
+          <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">
+            O que Acontece com Seu Gado em Até 30 Dias?
+          </h2>
+          <p className="mt-4 text-lg font-semibold text-slate-500">
+            Acompanhe o cronograma biológico de evolução visível dos animais após o início da suplementação mineral com Forte Gado Premium.
+          </p>
+        </div>
+
+        {/* VISÃO PARA COMPUTADOR (INTERATIVA E ANIMADA COM ABAS AUTOMÁTICAS) */}
+        <div className="hidden md:flex flex-col items-center w-full">
+          <div className="w-full max-w-4xl bg-white/80 p-2.5 rounded-3xl border border-slate-200/40 shadow-sm flex overflow-x-auto snap-x justify-start md:justify-center gap-2 pb-3 md:pb-2.5 px-3 hide-scrollbar">
+            {thirtyDayTimeline.map((step, index) => (
+              <button
+                key={step.title}
+                type="button"
+                onClick={() => {
+                  setActiveStep(index);
+                  setIsAutoCycle(false); // Pausa o ciclo automático no clique manual
+                }}
+                className={`relative snap-center shrink-0 px-6 py-3.5 rounded-2xl text-xs font-black tracking-wider uppercase transition-all duration-300 overflow-hidden ${
+                  activeStep === index
+                    ? "bg-[#5E8C31] text-white shadow-md shadow-[#5E8C31]/20 scale-105"
+                    : "bg-white text-[#082B63] border border-slate-100 hover:bg-slate-50"
+                }`}
+              >
+                <span className="relative z-10">{step.days}</span>
+                {activeStep === index && isAutoCycle && (
+                  <motion.div
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 4.5, ease: "linear" }}
+                    className="absolute bottom-0 left-0 h-1 bg-[#F2B705] rounded-full"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Painel do Conteúdo Ativo (Com animação de transição espetacular) */}
+          <div className="w-full max-w-4xl mt-8">
+            <motion.div
+              key={activeStep}
+              initial={{ opacity: 0, y: 15, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -15, scale: 0.98 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-white rounded-3xl border border-slate-200/30 p-8 md:p-12 shadow-[0_20px_50px_rgba(8,43,99,0.04)] flex flex-col md:grid md:grid-cols-12 gap-8 items-stretch"
+            >
+              {/* Coluna da Esquerda: Grande Indicador de Dias */}
+              <div className="md:col-span-4 w-full bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-inner min-h-[200px]">
+                <span className="text-xs font-black uppercase tracking-[0.25em] text-[#5E8C31]">Período</span>
+                <div className="text-4xl font-black text-[#082B63] mt-2 block leading-none select-none">
+                  {thirtyDayTimeline[activeStep].days}
+                </div>
+                <div className="mt-6 flex gap-1.5 text-[#F2B705]">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} fill="currentColor" />
+                  ))}
+                </div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-6 block">Forte Gado Premium</span>
+              </div>
+
+              {/* Coluna da Direita: Textos e Efeitos */}
+              <div className="md:col-span-8 flex flex-col justify-between h-full w-full min-w-0">
+                <div>
+                  <span className="text-[10px] font-black uppercase bg-[#5E8C31]/10 text-[#5E8C31] px-3 py-1.5 rounded-full tracking-wider w-fit block mb-4">
+                    Fase {activeStep + 1}
+                  </span>
+                  <h3 className="text-3xl font-black text-[#082B63] leading-none mb-4">
+                    {thirtyDayTimeline[activeStep].title}
+                  </h3>
+                  <p className="text-sm font-semibold text-slate-500 leading-relaxed mb-6">
+                    {thirtyDayTimeline[activeStep].desc}
+                  </p>
+                </div>
+
+                <div className="border-t border-slate-100 pt-6 flex flex-wrap gap-2.5">
+                  {thirtyDayTimeline[activeStep].points.map((pt, i) => (
+                    <motion.span
+                      key={pt}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="inline-flex items-center gap-1.5 text-[10px] font-black text-[#082B63] bg-[#082B63]/6 px-3.5 py-2 rounded-full uppercase tracking-wider shadow-sm"
+                    >
+                      ✓ {pt}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+          
+          {/* Indicador de Pausa/Auto-Play */}
+          <div className="mt-5 text-center flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            {isAutoCycle ? (
+              <>
+                <span className="inline-block h-2 w-2 rounded-full bg-[#5E8C31] animate-ping" />
+                <span>Apresentação automática ativa (Toque para pausar)</span>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsAutoCycle(true)}
+                className="hover:text-[#5E8C31] transition duration-200"
+              >
+                ▶ Retomar apresentação automática
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* VISÃO PARA CELULAR (SIMPLES, DIRETA E SCROLL-TRIGGERED - TOTALMENTE INTUITIVA PARA O HOMEM DA ROÇA) */}
+        <div className="block md:hidden space-y-6">
+          {thirtyDayTimeline.map((step, index) => (
+            <motion.div
+              key={step.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4 }}
+              className="bg-white rounded-3xl border border-slate-200/30 p-6 shadow-sm flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                  <span className="text-[9px] font-black uppercase bg-[#5E8C31]/10 text-[#5E8C31] px-2.5 py-1 rounded-full tracking-wider">
+                    Fase {index + 1}
+                  </span>
+                  <span className="text-xs font-black text-[#082B63]">{step.days}</span>
+                </div>
+                <h3 className="text-xl font-black text-[#082B63] leading-tight mb-2.5">
+                  {step.title}
+                </h3>
+                <p className="text-xs font-semibold text-slate-500 leading-relaxed mb-4">
+                  {step.desc}
+                </p>
+              </div>
+
+              <div className="border-t border-slate-100 pt-4 flex flex-wrap gap-1.5 w-full">
+                {step.points.map((pt) => (
+                  <span
+                    key={pt}
+                    className="inline-flex items-center gap-1 text-[9px] font-black text-[#082B63] bg-[#082B63]/5 px-2.5 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
+                  >
+                    ✓ {pt}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function Home() {
+  const { content } = useSiteContent(true);
+  const c = content || defaultContent;
+  const cleanWhatsapp = c.hero.whatsapp ? c.hero.whatsapp.replace(/\D/g, "") : "";
+
+  const [cookieConsent, setCookieConsent] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (c.hero.favicon) {
@@ -341,7 +606,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
       <section className="relative min-h-[92vh] overflow-hidden text-white flex flex-col justify-between">
-        <img src={c.hero.banner} alt="Gado premium em pasto brasileiro" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={c.hero.banner} alt="Gado premium em pasto brasileiro" className="absolute inset-0 h-full w-full object-cover" decoding="async" />
         <div className="absolute inset-0 bg-[#082B63]/78" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#082B63_0%,rgba(8,43,99,.82)_42%,rgba(10,61,145,.3)_100%)]" />
 
@@ -415,14 +680,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="bg-[#082B63] py-3 text-white">
-        <div className="section-shell flex flex-col items-center justify-between gap-3 text-center sm:flex-row">
-          <span className="font-black uppercase text-[#F2B705]">{c.hero.promo}</span>
-          {timeLeft && (
-            <span className="inline-flex items-center gap-2 text-sm font-bold"><Clock3 size={16} /> Oferta expira em {timeLeft}</span>
-          )}
-        </div>
-      </div>
+      <PromoCountdown promo={c.hero.promo} />
 
       {c.sections.benefits && (
         <section className="section-shell -mt-8 relative z-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
@@ -539,251 +797,13 @@ export default function Home() {
             </div>
 
             {/* INTERACTIVE ROW INFOGRAPHIC: MECANISMO ÚNICO DE PERFORMANCE EM LINHA */}
-            {(() => {
-              const selectedMineral = activeMineral || (c.product.composition && c.product.composition[0]) || "";
-              return (
-                <div className="mt-8 space-y-6 select-none">
-                  <div className="border-t border-slate-100 pt-6">
-                    <h3 className="text-xs font-black uppercase text-[#082B63]/60 tracking-widest flex items-center gap-1.5 mb-4">
-                      <span>🔬</span> Mecanismo Único de Performance:
-                    </h3>
-                    
-                    {/* Horizontal Line of glowing element circles */}
-                    <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                      {c.product.composition.map((item) => {
-                        const key = item.toLowerCase().trim();
-                        const data = mineralData[key] || {
-                          symbol: item.substring(0, 2).toUpperCase(),
-                          color: "from-[#0A3D91] to-[#082B63] text-white border-slate-200",
-                          desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
-                        };
-                        
-                        const isSelected = selectedMineral === item;
-
-                        return (
-                          <button
-                            key={item}
-                            type="button"
-                            onMouseEnter={() => setActiveMineral(item)}
-                            onClick={() => setActiveMineral(item)}
-                            className={`flex flex-col items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br ${data.color} font-black border-2 cursor-pointer transition-all duration-300 ${
-                              isSelected 
-                                ? "scale-110 ring-4 ring-[#F2B705]/40 border-[#F2B705] shadow-[0_0_15px_rgba(242,183,5,0.3)] z-10" 
-                                : "border-white/10 hover:scale-105 opacity-85 hover:opacity-100"
-                            }`}
-                          >
-                            <span className="text-xs sm:text-sm leading-none">{data.symbol}</span>
-                            <span className="text-[6px] sm:text-[7px] font-bold uppercase tracking-widest mt-0.5 opacity-80 leading-none truncate w-full text-center px-0.5">
-                              {item.substring(0, 5)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Active Mineral Detail Banner Card (Compact, gold-accented, sits below the line) */}
-                  {selectedMineral && (() => {
-                    const key = selectedMineral.toLowerCase().trim();
-                    const data = mineralData[key] || {
-                      symbol: selectedMineral.substring(0, 2).toUpperCase(),
-                      desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
-                    };
-                    return (
-                      <motion.div
-                        key={selectedMineral}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#082B63] to-[#0A3D91] border-2 border-[#F2B705] p-4 text-white shadow-lg flex items-center gap-4 min-h-[90px]"
-                      >
-                        {/* Golden Cow Silhouette Icon */}
-                        <div className="shrink-0 flex items-center justify-center h-12 w-12 rounded-xl bg-white/10 border border-white/15 text-[#F2B705] shadow-inner">
-                          <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current drop-shadow-[0_2px_5px_rgba(242,183,5,0.2)]">
-                            <path d="M19.5 9c-.5 0-.9-.2-1.2-.5-.5-.5-1.1-.8-1.8-.8h-3c-.6 0-1.1-.3-1.4-.8L11 5H9c-1.1 0-2 .9-2 2v2c0 .6-.4 1-1 1H4.5C3.7 10 3 10.7 3 11.5S3.7 13 4.5 13H5v5c0 1.1.9 2 2 2h1c.6 0 1-.4 1-1v-4h6v4c0 .6.4 1 1 1h1c1.1 0 2-.9 2-2v-5h.5c.8 0 1.5-.7 1.5-1.5S20.3 9 19.5 9z" />
-                          </svg>
-                        </div>
-                        
-                        {/* Text and technical description */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-baseline gap-2">
-                            <h4 className="text-xs sm:text-sm font-black text-[#F2B705] uppercase tracking-wider leading-none">
-                              {selectedMineral}
-                            </h4>
-                            <span className="text-[10px] font-black text-white/50 leading-none bg-white/10 px-1.5 py-0.5 rounded uppercase">
-                              {data.symbol}
-                            </span>
-                          </div>
-                          <p className="text-[10px] sm:text-xs font-semibold text-white/85 leading-normal mt-1.5">
-                            {data.desc}
-                          </p>
-                        </div>
-                      </motion.div>
-                    );
-                  })()}
-                </div>
-              );
-            })()}
+            <CompositionSection composition={c.product.composition} />
           </div>
         </section>
       )}
 
       {/* NOVA SEÇÃO: JORNADA 30 DIAS DE RESULTADOS VISÍVEIS (INTERATIVA E ANIMADA) */}
-      <section className="bg-slate-50 py-24 border-b border-slate-200/50">
-        <div className="section-shell">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-sm font-black uppercase tracking-[0.24em] text-[#5E8C31]">Jornada de Resultados</span>
-            <h2 className="mt-4 text-balance text-4xl font-black leading-tight text-[#082B63] sm:text-5xl">
-              O que Acontece com Seu Gado em Até 30 Dias?
-            </h2>
-            <p className="mt-4 text-lg font-semibold text-slate-500">
-              Acompanhe o cronograma biológico de evolução visível dos animais após o início da suplementação mineral com Forte Gado Premium.
-            </p>
-          </div>
-
-          {/* VISÃO PARA COMPUTADOR (INTERATIVA E ANIMADA COM ABAS AUTOMÁTICAS) */}
-          <div className="hidden md:flex flex-col items-center w-full">
-            <div className="w-full max-w-4xl bg-white/80 p-2.5 rounded-3xl border border-slate-200/40 shadow-sm flex overflow-x-auto snap-x justify-start md:justify-center gap-2 pb-3 md:pb-2.5 px-3 hide-scrollbar">
-              {thirtyDayTimeline.map((step, index) => (
-                <button
-                  key={step.title}
-                  onClick={() => {
-                    setActiveStep(index);
-                    setIsAutoCycle(false); // Pausa o ciclo automático no clique manual
-                  }}
-                  className={`relative snap-center shrink-0 px-6 py-3.5 rounded-2xl text-xs font-black tracking-wider uppercase transition-all duration-300 overflow-hidden ${
-                    activeStep === index
-                      ? "bg-[#5E8C31] text-white shadow-md shadow-[#5E8C31]/20 scale-105"
-                      : "bg-white text-[#082B63] border border-slate-100 hover:bg-slate-50"
-                  }`}
-                >
-                  <span className="relative z-10">{step.days}</span>
-                  {activeStep === index && isAutoCycle && (
-                    <motion.div
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 4.5, ease: "linear" }}
-                      className="absolute bottom-0 left-0 h-1 bg-[#F2B705] rounded-full"
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Painel do Conteúdo Ativo (Com animação de transição espetacular) */}
-            <div className="w-full max-w-4xl mt-8">
-              <motion.div
-                key={activeStep}
-                initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -15, scale: 0.98 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="bg-white rounded-3xl border border-slate-200/30 p-8 md:p-12 shadow-[0_20px_50px_rgba(8,43,99,0.04)] flex flex-col md:grid md:grid-cols-12 gap-8 items-stretch"
-              >
-                {/* Coluna da Esquerda: Grande Indicador de Dias */}
-                <div className="md:col-span-4 w-full bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-inner min-h-[200px]">
-                  <span className="text-xs font-black uppercase tracking-[0.25em] text-[#5E8C31]">Período</span>
-                  <div className="text-4xl font-black text-[#082B63] mt-2 block leading-none select-none">
-                    {thirtyDayTimeline[activeStep].days}
-                  </div>
-                  <div className="mt-6 flex gap-1.5 text-[#F2B705]">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} size={16} fill="currentColor" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-6 block">Forte Gado Premium</span>
-                </div>
-
-                {/* Coluna da Direita: Textos e Efeitos */}
-                <div className="md:col-span-8 flex flex-col justify-between h-full w-full min-w-0">
-                  <div>
-                    <span className="text-[10px] font-black uppercase bg-[#5E8C31]/10 text-[#5E8C31] px-3 py-1.5 rounded-full tracking-wider w-fit block mb-4">
-                      Fase {activeStep + 1}
-                    </span>
-                    <h3 className="text-3xl font-black text-[#082B63] leading-none mb-4">
-                      {thirtyDayTimeline[activeStep].title}
-                    </h3>
-                    <p className="text-sm font-semibold text-slate-500 leading-relaxed mb-6">
-                      {thirtyDayTimeline[activeStep].desc}
-                    </p>
-                  </div>
-
-                  <div className="border-t border-slate-100 pt-6 flex flex-wrap gap-2.5">
-                    {thirtyDayTimeline[activeStep].points.map((pt, i) => (
-                      <motion.span
-                        key={pt}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="inline-flex items-center gap-1.5 text-[10px] font-black text-[#082B63] bg-[#082B63]/6 px-3.5 py-2 rounded-full uppercase tracking-wider shadow-sm"
-                      >
-                        ✓ {pt}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-            
-            {/* Indicador de Pausa/Auto-Play */}
-            <div className="mt-5 text-center flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-              {isAutoCycle ? (
-                <>
-                  <span className="inline-block h-2 w-2 rounded-full bg-[#5E8C31] animate-ping" />
-                  <span>Apresentação automática ativa (Toque para pausar)</span>
-                </>
-              ) : (
-                <button
-                  onClick={() => setIsAutoCycle(true)}
-                  className="hover:text-[#5E8C31] transition duration-200"
-                >
-                  ▶ Retomar apresentação automática
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* VISÃO PARA CELULAR (SIMPLES, DIRETA E SCROLL-TRIGGERED - TOTALMENTE INTUITIVA PARA O HOMEM DA ROÇA) */}
-          <div className="block md:hidden space-y-6">
-            {thirtyDayTimeline.map((step, index) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4 }}
-                className="bg-white rounded-3xl border border-slate-200/30 p-6 shadow-sm flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                    <span className="text-[9px] font-black uppercase bg-[#5E8C31]/10 text-[#5E8C31] px-2.5 py-1 rounded-full tracking-wider">
-                      Fase {index + 1}
-                    </span>
-                    <span className="text-xs font-black text-[#082B63]">{step.days}</span>
-                  </div>
-                  <h3 className="text-xl font-black text-[#082B63] leading-tight mb-2.5">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs font-semibold text-slate-500 leading-relaxed mb-4">
-                    {step.desc}
-                  </p>
-                </div>
-
-                <div className="border-t border-slate-100 pt-4 flex flex-wrap gap-1.5 w-full">
-                  {step.points.map((pt) => (
-                    <span
-                      key={pt}
-                      className="inline-flex items-center gap-1 text-[9px] font-black text-[#082B63] bg-[#082B63]/5 px-2.5 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
-                    >
-                      ✓ {pt}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <JornadaSection />
 
       {c.sections.results && (
         <section className="premium-gradient py-24 text-white">
@@ -809,6 +829,8 @@ export default function Home() {
                       src={c.product.beforeImage} 
                       alt="Antes do Fortegado" 
                       className="h-full w-full object-cover transition duration-500 hover:scale-105" 
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div className="grid h-full place-items-center text-red-300">
@@ -834,6 +856,8 @@ export default function Home() {
                       src={c.product.afterImage} 
                       alt="Depois do Fortegado Premium" 
                       className="h-full w-full object-cover transition duration-500 hover:scale-105" 
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div className="grid h-full place-items-center text-emerald-300">
@@ -1280,6 +1304,8 @@ export default function Home() {
                         src={kit.image} 
                         alt={kit.name} 
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                        loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="grid h-full place-items-center text-[#F2B705]">
@@ -1492,7 +1518,13 @@ export default function Home() {
               {c.testimonials.map((item) => (
                 <article key={item.id} className="min-w-[310px] snap-start rounded-lg border border-slate-200 bg-[#F8F9FA] p-6 premium-shadow sm:min-w-[390px]">
                   <div className="flex items-center gap-4">
-                    <img src={item.image} alt={item.name} className="h-16 w-16 rounded-full object-cover" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-16 w-16 rounded-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <div>
                       <h3 className="font-black text-[#082B63]">{item.name}</h3>
                       <p className="text-sm font-semibold text-slate-500">{item.location}</p>
@@ -1518,6 +1550,8 @@ export default function Home() {
                   src={c.guarantee.image}
                   alt={c.guarantee?.title || "Garantia"}
                   className="max-h-[260px] sm:max-h-[320px] md:max-h-[360px] w-auto object-contain filter drop-shadow-xl transition-all duration-300 hover:scale-[1.03] rounded-2xl"
+                  loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <LockKeyhole size={120} strokeWidth={1.4} />
@@ -1572,7 +1606,13 @@ export default function Home() {
             {/* Coluna 1: Identidade da Marca */}
             <div className="space-y-5">
               {c.footer.logo ? (
-                <img src={c.footer.logo} alt="Logo Fortegado" className="h-12 w-auto object-contain rounded" />
+                <img
+                  src={c.footer.logo}
+                  alt="Logo Fortegado"
+                  className="h-12 w-auto object-contain rounded"
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div className="text-2xl font-black text-white flex items-center gap-2">
                   <span className="text-[#F2B705]">Fortegado</span>
