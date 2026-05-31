@@ -1181,7 +1181,7 @@ export default function Home() {
                 <img
                   src={c.guarantee.image}
                   alt={c.guarantee?.title || "Garantia"}
-                  className="max-h-[160px] w-auto object-contain filter drop-shadow-md rounded-lg"
+                  className="max-h-[260px] sm:max-h-[320px] md:max-h-[360px] w-auto object-contain filter drop-shadow-xl transition-all duration-300 hover:scale-[1.03] rounded-2xl"
                 />
               ) : (
                 <LockKeyhole size={120} strokeWidth={1.4} />
