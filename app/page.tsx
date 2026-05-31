@@ -176,6 +176,64 @@ function getYoutubeEmbedUrl(url: string) {
   return "";
 }
 
+const mineralData: Record<string, { symbol: string; color: string; desc: string }> = {
+  "cálcio": {
+    symbol: "Ca",
+    color: "from-blue-600 to-indigo-700 text-blue-200 border-blue-500/30",
+    desc: "Essencial para ossos fortes, dentes saudáveis e alta produção de leite."
+  },
+  "fósforo": {
+    symbol: "P",
+    color: "from-purple-600 to-fuchsia-700 text-purple-200 border-purple-500/30",
+    desc: "Vital para fertilidade, ganho de peso e metabolismo energético (ATP)."
+  },
+  "sódio": {
+    symbol: "Na",
+    color: "from-sky-600 to-cyan-700 text-sky-200 border-sky-500/30",
+    desc: "Regula o equilíbrio hídrico, melhora o apetite e otimiza a ruminação."
+  },
+  "zinco": {
+    symbol: "Zn",
+    color: "from-teal-600 to-emerald-700 text-teal-200 border-teal-500/30",
+    desc: "Fortalece os cascos contra doenças e melhora a imunidade geral do lote."
+  },
+  "cobre": {
+    symbol: "Cu",
+    color: "from-amber-700 to-orange-800 text-amber-200 border-amber-600/30",
+    desc: "Evita anemia, melhora a pigmentação do pelo e previne falhas reprodutivas."
+  },
+  "selênio": {
+    symbol: "Se",
+    color: "from-emerald-600 to-green-700 text-emerald-200 border-emerald-500/30",
+    desc: "Poderoso antioxidante natural; previne retenção de placenta e doenças."
+  },
+  "cobalto": {
+    symbol: "Co",
+    color: "from-blue-700 to-slate-800 text-blue-200 border-blue-600/30",
+    desc: "Necessário para a síntese ruminal de Vitamina B12 e conversão alimentar."
+  },
+  "manganês": {
+    symbol: "Mn",
+    color: "from-indigo-600 to-purple-800 text-indigo-200 border-indigo-500/30",
+    desc: "Indispensável para a saúde das articulações e regularidade reprodutiva."
+  },
+  "enxofre": {
+    symbol: "S",
+    color: "from-yellow-600 to-amber-700 text-yellow-200 border-yellow-500/30",
+    desc: "Essencial para síntese de proteínas ruminais e aproveitamento da fibra do pasto."
+  },
+  "magnésio": {
+    symbol: "Mg",
+    color: "from-cyan-600 to-blue-700 text-cyan-200 border-cyan-500/30",
+    desc: "Previne a tetania das pastagens, regula funções nervosas e ativa enzimas."
+  },
+  "ferro": {
+    symbol: "Fe",
+    color: "from-slate-700 to-zinc-800 text-slate-200 border-slate-600/30",
+    desc: "Transporta oxigênio no sangue, garantindo mais vigor e energia metabólica."
+  }
+};
+
 export default function Home() {
   const { content } = useSiteContent(true);
   const c = content || defaultContent;
@@ -408,21 +466,52 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="mt-8 flex flex-wrap gap-2">
-              {c.product.composition.map((item) => (
-                <span key={item} className="rounded-full bg-[#0A3D91]/8 px-4 py-2 text-sm font-black text-[#0A3D91]">
-                  {item}
-                </span>
-              ))}
+            {/* TABELA DE ENRIQUECIMENTO MINERAL DE ALTA PERFORMANCE */}
+            <div className="mt-10 border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-md premium-shadow">
+              <div className="bg-gradient-to-r from-[#082B63] to-[#0A3D91] p-5 text-white flex items-center gap-3">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-[#F2B705]">
+                  <Sparkles size={20} />
+                </div>
+                <div>
+                  <h3 className="text-base font-black uppercase tracking-wider">Mecanismo Único de Performance</h3>
+                  <p className="text-[11px] font-medium text-white/70">Níveis de garantia cientificamente balanceados para o pasto</p>
+                </div>
+              </div>
+
+              <div className="divide-y divide-slate-100 max-h-[380px] overflow-y-auto custom-scrollbar">
+                {c.product.composition.map((item) => {
+                  const key = item.toLowerCase().trim();
+                  const data = mineralData[key] || {
+                    symbol: item.substring(0, 2).toUpperCase(),
+                    color: "from-[#0A3D91] to-[#082B63] text-white border-slate-200",
+                    desc: "Nutriente fundamental para o equilíbrio metabólico e a saúde geral do rebanho."
+                  };
+                  return (
+                    <div 
+                      key={item} 
+                      className="p-4 sm:p-5 flex items-center gap-4 hover:bg-slate-50/80 transition-all duration-200 group"
+                    >
+                      {/* Símbolo do Elemento Estilo Infográfico */}
+                      <div className={`shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-gradient-to-br ${data.color} font-black text-sm tracking-tighter shadow-md border border-white/20 group-hover:scale-105 transition-all duration-300 relative`}>
+                        <span className="relative z-10">{data.symbol}</span>
+                        {/* Glowing effect inside badge */}
+                        <div className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                      </div>
+                      
+                      {/* Nome e Descrição do Mineral */}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-black text-[#082B63] leading-none mb-1 group-hover:text-[#5E8C31] transition-colors duration-200">
+                          {item}
+                        </h4>
+                        <p className="text-xs font-semibold text-slate-500 leading-relaxed truncate-2-lines sm:truncate-none">
+                          {data.desc}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            {c.product.videoUrl && (
-              <a
-                href={c.product.videoUrl}
-                className="mt-8 inline-flex items-center gap-3 rounded-md bg-[#082B63] px-6 py-4 font-black uppercase text-white transition hover:bg-[#0A3D91]"
-              >
-                <Wheat size={20} className="text-[#F2B705]" /> Ver apresentação técnica
-              </a>
-            )}
           </div>
         </section>
       )}
